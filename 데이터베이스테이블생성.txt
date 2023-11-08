@@ -1,6 +1,6 @@
 CREATE TABLE USER_ROLE(
     role_id         INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
-    role            VARCHAR(8)      NOT NULL
+    role            VARCHAR(3)      NOT NULL
 );
 
 create TABLE USER(
@@ -56,3 +56,11 @@ CREATE TABLE HOUSE_AMENITIES(
     FOREIGN KEY (amenities_id)  REFERENCES Amenities(amenities_id)
 );
 
+CREATE TABLE RESERVATION(
+    reservation_id      INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
+    reservation_status  VARCHAR(7)      NOT NULL,
+    guests_num          INT             NOT NULL,
+    reservation_date    date            NOT NULL,
+    check_id            date            NOT NULL,
+    check_out           date            NOT NULL,
+)
