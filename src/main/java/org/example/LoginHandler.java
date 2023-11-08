@@ -1,5 +1,10 @@
 package org.example;
 
+import persistence.MyBatisConnectionFactory;
+import persistence.dao.UserDAO;
+import persistence.dto.UserDTO;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class LoginHandler {
@@ -31,6 +36,8 @@ public class LoginHandler {
     }
 
     public int verifyUser(String id, String password) { //id, pw 존재하는지 여부와 type
+
+
         return -1;
     }
 }

@@ -38,7 +38,6 @@ public class GuestHandler {
     }
 
     private void getProfile() {    // 개인정보
-
     }
 
     private void setProfile() {     // 개인정보 설정
