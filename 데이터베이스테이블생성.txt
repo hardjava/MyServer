@@ -1,0 +1,58 @@
+CREATE TABLE USER_ROLE(
+    role_id         INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
+    role            VARCHAR(8)      NOT NULL
+);
+
+create TABLE USER(
+    user_id         INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
+    user_name       VARCHAR(20)     NOT NULL,
+    user_phone      VARCHAR(11)     NOT NULL,
+    user_birth      date            NOT NULL,
+    role_id         INT             NOT NULL,
+    login_id        VARCHAR(21)     NOT NULL,
+    login_pwd       VARCHAR(21)     NOT NULL,
+
+    FOREIGN KEY (role_id) REFERENCES USER_ROLE(role_id)
+);
+
+CREATE TABLE ADMIN(
+    admin_id        INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
+    admin_pwd       VARCHAR(21)     NOT NULL
+);
+
+CREATE TABLE HOUSE(
+    house_id        INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
+    house_name      VARCHAR(21)     NOT NULL,
+    house_address   VARCHAR(52)     NOT NULL,
+    house_introduce VARCHAR(52)     NOT NULL,
+    capacity        INT             NOT NULL,
+    bedroom         INT             NOT NULL,
+    bed             INT             NOT NULL,
+    bathroom        INT             NOT NULL
+);
+
+CREATE TABLE WAITING(
+    waiting_id      INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
+    room_id         INT             NOT NULL
+);
+
+CREATE TABLE APPROVED(
+    approve_id      INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
+    waiting_id      INT             NOT NULL,
+    isApproved      BOOLEAN         NOT NULL,
+
+    FOREIGN KEY (waiting_id) REFERENCES WAITING(waiting_id)
+);
+
+CREATE TABLE Amenities(
+    amenities_id    INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
+    amenities       VARCHAR(10)     NOT NULL
+);
+
+CREATE TABLE HOUSE_AMENITIES(
+    house_id        INT             NOT NULL,
+    amenities_id    INT             NOT NULL,
+    FOREIGN KEY (house_id)      REFERENCES HOUSE(house_id),
+    FOREIGN KEY (amenities_id)  REFERENCES Amenities(amenities_id)
+);
+
