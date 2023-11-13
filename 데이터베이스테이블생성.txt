@@ -1,6 +1,6 @@
 CREATE TABLE USER_ROLE(
     role_id         INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
-    role            VARCHAR(3)      NOT NULL
+    role            VARCHAR(5)      NOT NULL
 );
 
 create TABLE USER(
@@ -13,11 +13,6 @@ create TABLE USER(
     login_pwd       VARCHAR(21)     NOT NULL,
 
     FOREIGN KEY (role_id) REFERENCES USER_ROLE(role_id)
-);
-
-CREATE TABLE ADMIN(
-    admin_id        INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
-    admin_pwd       VARCHAR(21)     NOT NULL
 );
 
 CREATE TABLE HOUSE(
@@ -33,7 +28,9 @@ CREATE TABLE HOUSE(
 
 CREATE TABLE WAITING(
     waiting_id      INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
-    room_id         INT             NOT NULL
+    house_id        INT             NOT NULL,
+
+
 );
 
 CREATE TABLE APPROVED(
