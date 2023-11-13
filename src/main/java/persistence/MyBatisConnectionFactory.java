@@ -3,7 +3,6 @@ package persistence;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import persistence.mapper.LoginMapper;
 import persistence.mapper.UserMapper;
 
 import java.io.FileNotFoundException;
@@ -19,7 +18,7 @@ public class MyBatisConnectionFactory {
             Reader reader = Resources.getResourceAsReader(resource);
             if (sqlSessionFactory == null) {
                 sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader, "development");
-                Class[] mappers = {UserMapper.class, LoginMapper.class}; // -> 메퍼 목록들 넣으면 됨
+                Class[] mappers = {UserMapper.class}; // -> 메퍼 목록들 넣으면 됨
                 for (Class mapper : mappers) {
                     sqlSessionFactory.getConfiguration().addMapper(mapper);
                 }
