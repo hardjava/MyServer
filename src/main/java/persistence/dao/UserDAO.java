@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import persistence.dto.UserDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
@@ -13,10 +14,10 @@ public class UserDAO {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
-    public List<UserDTO> selectAll() {
+    public List<UserDTO> getAll() {
         List<UserDTO> list = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            list = session.selectList("mapper.UserMapper.selectAll");
+            list = session.selectList("mapper.UserMapper.getAll");
         }
         return list;
     }

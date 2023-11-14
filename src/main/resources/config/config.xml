@@ -10,10 +10,13 @@
             <!--  connecting to Local MySql -->
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://34.83.53.73:3306/FusionProject?characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false"/>
-                <property name="username" value="test"/>
-                <property name="password" value="0000"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/AirBnB?characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false"/>
+                <property name="username" value="root"/>
+                <property name="password" value="5514"/>
             </dataSource>
         </environment>
     </environments>
+    <mappers>
+        <mapper resource="sqlmapper/user.xml"/>
+    </mappers>
 </configuration>
