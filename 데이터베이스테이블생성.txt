@@ -1,23 +1,18 @@
 CREATE TABLE USER_ROLE(
     role_id         INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
-    role            VARCHAR(8)      NOT NULL
+    role            VARCHAR(5)      NOT NULL
 );
 
 create TABLE USER(
     user_id         INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
     user_name       VARCHAR(20)     NOT NULL,
     user_phone      VARCHAR(11)     NOT NULL,
-    user_birth      date            NOT NULL,
-    role_id         INT             NOT NULL,
+    user_birthday   date            NOT NULL,
+    role            ENUM('GUEST', 'HOST', 'ADMIN'     NOT NULL,
     login_id        VARCHAR(21)     NOT NULL,
     login_pwd       VARCHAR(21)     NOT NULL,
 
     FOREIGN KEY (role_id) REFERENCES USER_ROLE(role_id)
-);
-
-CREATE TABLE ADMIN(
-    admin_id        INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
-    admin_pwd       VARCHAR(21)     NOT NULL
 );
 
 CREATE TABLE HOUSE(
@@ -33,7 +28,7 @@ CREATE TABLE HOUSE(
 
 CREATE TABLE WAITING(
     waiting_id      INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
-    room_id         INT             NOT NULL
+    house_id        INT             NOT NULL,
 );
 
 CREATE TABLE APPROVED(
@@ -56,3 +51,11 @@ CREATE TABLE HOUSE_AMENITIES(
     FOREIGN KEY (amenities_id)  REFERENCES Amenities(amenities_id)
 );
 
+CREATE TABLE RESERVATION(
+    reservation_id      INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
+    reservation_status  VARCHAR(7)      NOT NULL,
+    guests_num          INT             NOT NULL,
+    reservation_date    date            NOT NULL,
+    check_id            date            NOT NULL,
+    check_out           date            NOT NULL,
+)
