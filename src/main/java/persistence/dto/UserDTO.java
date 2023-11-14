@@ -9,5 +9,5 @@ import lombok.ToString;
 @ToString
 public class UserDTO {
     private int userID, roleID;
-    private String userName, userPhone, userBirth, loginPWD, loginID;
+    private String userName, userPhone, userBirth, loginID, loginPWD;
 }
