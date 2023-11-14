@@ -18,26 +18,40 @@ public class LoginHandler {
         System.out.print("\t\tPassword : ");
         String password = sc.next();
 
-        int userType = verifyUser(id, password);
+        UserDTO userDTO = verifyUser(id, password);
 
-        switch (userType) {
-            case 1:
-                new GuestHandler().run();
-                break;
-            case 2:
-                new HostHandler().run();
-                break;
-            case 3:
-                new AdminHandler().run();
-                break;
-            default:
-                break;
+        if (userDTO == null) {
+            System.out.println("You have entered an incorrect ID or password.\n" +
+                    "Please check what you have entered again.");
+        } else {
+            int userType = userDTO.getRoleID();
+
+            switch (userType) {
+                case 1:
+                    new GuestHandler().run();
+                    break;
+                case 2:
+                    new HostHandler().run();
+                    break;
+                case 3:
+                    new AdminHandler().run();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
-    public int verifyUser(String id, String password) { //id, pw 존재하는지 여부와 type
+    public UserDTO verifyUser(String id, String password) { //id, pw 존재하는지 여부와 type
+        UserDAO userDAO = new UserDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+        List<UserDTO> userDTOS = userDAO.selectAll();
 
+        for (UserDTO userDTO : userDTOS) {
+            if (userDTO.getLoginID().equals(id) && userDTO.getLoginPWD().equals(password)) {
+                return userDTO;
+            }
+        }
 
-        return -1;
+        return null;
     }
 }
