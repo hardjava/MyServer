@@ -17,4 +17,7 @@
         SELECT *
         FROM USER
     </select>
+    <insert id="insertUser">
+        INSERT INTO USER(user_id, user_name, user_phone, user_birthday, role, login_id, login_pwd) VALUE (#{user_id}, #{user_name}, #{user_phone}, #{user_birthday}, #{role}, #{login_id}, #{login_pwd})
+    </insert>
 </mapper>

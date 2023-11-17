@@ -2,8 +2,8 @@ create TABLE USER(
     user_id         INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
     user_name       VARCHAR(20)     NOT NULL,
     user_phone      VARCHAR(11)     NOT NULL,
-    user_birth      date            NOT NULL,
-    role_id         ENUM('GUEST', 'HOST', 'ADMIN')            NOT NULL,
+    user_birthday   date            NOT NULL,
+    role            ENUM('GUEST', 'HOST', 'ADMIN')            NOT NULL,
     login_id        VARCHAR(21)     NOT NULL,
     login_pwd       VARCHAR(21)     NOT NULL
 );
