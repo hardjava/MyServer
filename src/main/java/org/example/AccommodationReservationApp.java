@@ -1,11 +1,12 @@
 package org.example;
 
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class AccommodationReservationApp {
     Scanner sc = new Scanner(System.in);
 
-    public void run() {
+    public void run() throws ParseException {
         for (; ; ) {
             int enter = getCommand();
 
