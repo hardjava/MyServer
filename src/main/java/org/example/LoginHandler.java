@@ -4,7 +4,6 @@ import network.RoleType;
 import persistence.MyBatisConnectionFactory;
 import persistence.dao.UserDAO;
 import persistence.dto.UserDTO;
-import java.util.Objects;
 
 import java.util.List;
 import java.util.Scanner;

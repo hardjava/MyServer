@@ -7,7 +7,6 @@ import persistence.dto.InsertUserDTO;
 import persistence.dto.UserDTO;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Scanner;
 
@@ -57,7 +56,7 @@ public class SignHandler {
         return false;
     }
 
-    public void addUser(RoleType role, String newID, String newPwd, String newName, String newBirthday, String newPhoneNumber) throws ParseException { // return type 고민즁
+    public void addUser(RoleType role, String newID, String newPwd, String newName, String newBirthday, String newPhoneNumber){ // return type 고민즁
         UserDAO userDAO = new UserDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
         InsertUserDTO insertUserDTO = InsertUserDTO.builder()

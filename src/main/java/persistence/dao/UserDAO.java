@@ -15,7 +15,7 @@ public class UserDAO {
     }
 
     public List<UserDTO> getAll() {
-        List<UserDTO> list = null;
+        List<UserDTO> list;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             list = session.selectList("mapper.UserMapper.getAll");
         }

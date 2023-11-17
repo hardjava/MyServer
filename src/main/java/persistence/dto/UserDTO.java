@@ -5,8 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 import network.RoleType;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @ToString
