@@ -5,11 +5,13 @@ import lombok.Setter;
 import lombok.ToString;
 import network.RoleType;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @ToString
 public class UserDTO {
     private int user_id;
-    private String user_name, user_phone, user_birthday, login_id, login_pwd;
+    private String user_name, user_birthday, user_phone, login_id, login_pwd;
     private RoleType role;
 }

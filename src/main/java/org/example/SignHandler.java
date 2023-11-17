@@ -46,8 +46,13 @@ public class SignHandler {
 
     public boolean isIdExist(String newID) {
         UserDAO userDAO = new UserDAO(MyBatisConnectionFactory.getSqlSessionFactory());
-        List<UserDTO> userDTOS = userDAO.selectAll();
+        List<UserDTO> userDTOS = userDAO.getAll();
 
+        for (UserDTO userDTO : userDTOS) {
+            if(userDTO.getLogin_id().equals(newID)){
+                return true;
+            }
+        }
 
         return false;
     }
@@ -65,5 +70,3 @@ public class SignHandler {
         userDAO.insertUser(insertUserDTO);
     }
 }
-
-*/

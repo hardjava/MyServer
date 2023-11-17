@@ -2,9 +2,9 @@ package persistence.dao;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import persistence.dto.InsertUserDTO;
 import persistence.dto.UserDTO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
@@ -20,5 +20,12 @@ public class UserDAO {
             list = session.selectList("mapper.UserMapper.getAll");
         }
         return list;
+    }
+
+    public void insertUser(InsertUserDTO insertUserDTO){
+        try(SqlSession session = sqlSessionFactory.openSession()){
+            session.insert("mapper.UserMapper.insertUser", insertUserDTO);
+            session.commit();
+        }
     }
 }
