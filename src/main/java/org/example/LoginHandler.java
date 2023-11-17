@@ -1,8 +1,10 @@
 package org.example;
 
+import network.RoleType;
 import persistence.MyBatisConnectionFactory;
 import persistence.dao.UserDAO;
 import persistence.dto.UserDTO;
+import java.util.Objects;
 
 import java.util.List;
 import java.util.Scanner;
@@ -24,16 +26,16 @@ public class LoginHandler {
             System.out.println("You have entered an incorrect ID or password.\n" +
                     "Please check what you have entered again.");
         } else {
-            int userType = userDTO.getRoleID();
+            RoleType userType = userDTO.getRole();
 
             switch (userType) {
-                case 1:
+                case GUEST:
                     new GuestHandler().run();
                     break;
-                case 2:
+                case HOST:
                     new HostHandler().run();
                     break;
-                case 3:
+                case ADMIN:
                     new AdminHandler().run();
                     break;
                 default:
@@ -44,14 +46,16 @@ public class LoginHandler {
 
     public UserDTO verifyUser(String id, String password) { //id, pw 존재하는지 여부와 type
         UserDAO userDAO = new UserDAO(MyBatisConnectionFactory.getSqlSessionFactory());
-        List<UserDTO> userDTOS = userDAO.selectAll();
+        List<UserDTO> userDTOS = userDAO.getAll();
 
         for (UserDTO userDTO : userDTOS) {
-            if (userDTO.getLoginID().equals(id) && userDTO.getLoginPWD().equals(password)) {
+            if (userDTO.getLogin_id().equals(id) && userDTO.getLogin_pwd().equals(password)) {
                 return userDTO;
             }
         }
 
         return null;
     }
+
+
 }
