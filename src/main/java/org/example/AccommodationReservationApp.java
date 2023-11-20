@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Scanner;
 
 public class AccommodationReservationApp {
+    /*
     Scanner sc = new Scanner(System.in);
 
     public void run() throws ParseException {
@@ -34,4 +35,6 @@ public class AccommodationReservationApp {
 
         return sc.nextInt();
     }
+
+     */
 }

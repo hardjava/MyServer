@@ -1,9 +1,9 @@
-package persistence.dao;
+package airbnb.persistence.dao;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import persistence.dto.InsertUserDTO;
-import persistence.dto.UserDTO;
+import airbnb.persistence.dto.InsertUserDTO;
+import airbnb.persistence.dto.UserDTO;
 
 import java.util.List;
 

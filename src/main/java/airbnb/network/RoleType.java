@@ -1,4 +1,4 @@
-package network;
+package airbnb.network;
 
 import lombok.Getter;
 

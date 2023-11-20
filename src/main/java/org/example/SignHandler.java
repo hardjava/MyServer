@@ -1,16 +1,17 @@
 package org.example;
 
-import network.RoleType;
-import persistence.MyBatisConnectionFactory;
-import persistence.dao.UserDAO;
-import persistence.dto.InsertUserDTO;
-import persistence.dto.UserDTO;
+import airbnb.network.RoleType;
+import airbnb.persistence.MyBatisConnectionFactory;
+import airbnb.persistence.dao.UserDAO;
+import airbnb.persistence.dto.InsertUserDTO;
+import airbnb.persistence.dto.UserDTO;
 
 import java.text.ParseException;
 import java.util.List;
 import java.util.Scanner;
 
 public class SignHandler {
+    /*
     Scanner sc = new Scanner(System.in);
 
     public void run() throws ParseException {
@@ -68,4 +69,6 @@ public class SignHandler {
                 .role(role).build();
         userDAO.insertUser(insertUserDTO);
     }
+
+     */
 }

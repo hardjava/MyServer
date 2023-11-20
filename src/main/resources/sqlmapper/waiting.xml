@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.UserMapper">
+    <resultMap id="result" type="persistence.dto.WaitingDTO">
+        <result property="waitingId" column="waiting_id"/>
+        <result property="houseId" column="house_id" />
+    </resultMap>
+
+<!--    승인 대기 중인 숙소-->
+    <select id="getAll" resultMap="result">
+        SELECT *
+        FROM WAITING
+    </select>
+</mapper>

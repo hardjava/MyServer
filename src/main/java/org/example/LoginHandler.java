@@ -1,14 +1,15 @@
 package org.example;
 
-import network.RoleType;
-import persistence.MyBatisConnectionFactory;
-import persistence.dao.UserDAO;
-import persistence.dto.UserDTO;
+import airbnb.network.RoleType;
+import airbnb.persistence.MyBatisConnectionFactory;
+import airbnb.persistence.dao.UserDAO;
+import airbnb.persistence.dto.UserDTO;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class LoginHandler {
+    /*
     Scanner sc = new Scanner(System.in);
 
     public void run() {
@@ -43,6 +44,7 @@ public class LoginHandler {
         }
     }
 
+
     public UserDTO verifyUser(String id, String password) { //id, pw 존재하는지 여부와 type
         UserDAO userDAO = new UserDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         List<UserDTO> userDTOS = userDAO.getAll();
@@ -55,6 +57,6 @@ public class LoginHandler {
 
         return null;
     }
-
+*/
 
 }
