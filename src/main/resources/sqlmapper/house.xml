@@ -20,8 +20,8 @@
     </select>
 
     <insert id="insertHouse" parameterType="persistence.dto.HouseDTO">
-        INSERT INTO HOUSE(house_id, house_name, house_address, house_introduce, capacity, bedroom, bathroom)
-        VALUES (#{house_id}, #{house_name}, #{house_address}, #{house_introduce}, #{capacity}, #{bed}, #{bathroom})
+        INSERT INTO HOUSE(house_name, house_address, house_introduce, capacity, bedroom, bathroom)
+        VALUES (#{house_name}, #{house_address}, #{house_introduce}, #{capacity}, #{bed}, #{bathroom})
     </insert>
 
     <select id="getHouseByName" resultType="result">
@@ -30,17 +30,17 @@
         WHERE house_name = #{houseName}
     </select>
 
-<!--    편의 시설을 조건으로 검색한거-->
+    <!--    편의 시설을 조건으로 검색한거-->
     <select id="getHouseByAmenities" parameterType="java.util.List" resultType="result">
         SELECT *
         FROM HOUSE
         WHERE house_id IN (
-            SELECT house_id
-            FROM Amenities
-            WHERE amenities IN
-                <foreach collection="list" item="amenity" open="(" separator="," close=")">
-                    #{amenity}
-                </foreach>
+        SELECT house_id
+        FROM Amenities
+        WHERE amenities IN
+        <foreach collection="list" item="amenity" open="(" separator="," close=")">
+            #{amenity}
+        </foreach>
         )
         AND EXISTS (
         SELECT *
@@ -57,9 +57,21 @@
     <select id="getApprovedHouseNotSetFeePolicy" parameterType="int" resultMap="result">
         SELECT *
         FROM HOUSE
-        WHERE #{houseId} NOT IN (
-            SELECT house_id
-            FROM FEE_POLICY
-            )
+        WHERE #{houseId} NOT IN (SELECT house_id
+                                    FROM FEE_POLICY)
+    </select>
+
+    <select id="getApprovedHouse" resultMap="result">
+        SELECT *
+        FROM HOUSE
+        WHERE house_id IN (SELECT house_id
+                            FROM APPROVED)
+    </select>
+
+    <select id="getNotApprovedHouse" resultMap="result">
+        SELECT *
+        FROM HOUSE
+        WHERE house_id NOT IN (SELECT house_id
+                                FROM APPROVED)
     </select>
 </mapper>

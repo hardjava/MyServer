@@ -22,6 +22,13 @@ public class UserDAO {
         return list;
     }
 
+    public void updateUser(UserDTO updateDTO) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            session.update("mapper.UserMapper.userUpdate", updateDTO);
+            session.commit();
+        }
+    }
+
     public void insertUser(UserDTO insertUserDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             UserDTO userDTO = session.selectOne("mapper.UserMapper.searchId", insertUserDTO.getLoginId());

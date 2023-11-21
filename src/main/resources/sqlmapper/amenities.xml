@@ -26,8 +26,8 @@
     </select>
 
     <insert id="insertAmenities" parameterType="AmenitiesDTO">
-        INSERT INTO AMENITIES(amenities_id, house_id, amenities, type_id)
-        VALUES (#{amenitiesId}, #{houseId}, #{amenities}, #{typeId})
+        INSERT INTO AMENITIES(house_id, amenities, type_id)
+        VALUES (#{houseId}, #{amenities}, #{typeId})
     </insert>
 
     <update id="incrementAmenitiesCount" parameterType="java.util.List">

@@ -10,11 +10,21 @@
         <result property="isApproved" column="isApproved"/>
     </resultMap>
 
-<!--    승인된 숙소-->
+    <!--    승인된 숙소-->
     <select id="getAll" resultMap="result">
         SELECT *
         FROM APPROVED
     </select>
 
+    <select id="getApproved" resultMap="result">
+        SELECT *
+        FROM APPROVED
+        WHERE isApproved = true
+    </select>
 
+    <select id="getNotApproved" resultMap="result">
+        SELECT *
+        FROM APPROVED
+        WHERE isApproved = false
+    </select>
 </mapper>

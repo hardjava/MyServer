@@ -1,6 +1,7 @@
 package airbnb. persistence.dao;
 
 import airbnb.persistence.dto.AmenitiesDTO;
+import airbnb.persistence.dto.HouseDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -23,9 +24,25 @@ public class AmenitiesDAO {
         return list;
     }
 
+    public void insertAmenities(AmenitiesDTO amenitiesDTO) {
+        try(SqlSession session = sqlSessionFactory.openSession()) {
+            session.insert("mapper.AmenitiesMapper.insertAmenities", amenitiesDTO);
+            session.commit();
+        }
+    }
+
     public void incrementAmenitiesCount(List<String> amenities) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             session.selectList("mapper.HouseMapper.incrementAmenitiesCount", amenities);
         }
     }
+
+    public List<AmenitiesDTO> getAmenitiesByMostCount() {
+        List<AmenitiesDTO> list;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.AmenitiesMapper.getAmenitiesByMostCount");
+        }
+        return list;
+    }
+
 }

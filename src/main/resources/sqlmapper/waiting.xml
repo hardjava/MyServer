@@ -14,4 +14,9 @@
         SELECT *
         FROM WAITING
     </select>
+
+    <delete id="deleteWaiting" parameterType="int">
+        DELETE FROM WAITING
+        WHERE waiting_id = #{waitingId}
+    </delete>
 </mapper>
