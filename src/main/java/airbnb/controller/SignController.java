@@ -24,6 +24,5 @@ public class SignController {
             protocol.setObject(eie.getMessage());
             objectOutputStream.writeObject(protocol);
         }
-
     }
 }
