@@ -43,5 +43,19 @@ public class Handler {
         }
     }
 
+    public void receivePersonalInfoEditType(Protocol protocol) throws IOException {
+//        switch (protocol.getProtocolCode()) {
+//            case Protocol.CODE_PERSONAL_INFO_REQUEST:
+//
+//                break;
+//
+//            case Protocol.CODE_PERSONAL_INFO_REQUEST:
+//
+//                break;
+//            default:
+//
+//                break;
+//        }
+    }
 
 }
