@@ -47,7 +47,8 @@
 
 package airbnb.network;
 
-import airbnb.controller.LoginController;
+import airbnb.controller.Handler;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -63,7 +64,6 @@ public class Server {
 
         ObjectInputStream objectInputStream;
         ObjectOutputStream objectOutputStream;
-
         try {
             serverSocket = new ServerSocket(SERVER_PORT);
             System.out.println("Server Running");
@@ -72,6 +72,8 @@ public class Server {
             System.out.println("after socket connect");
             objectInputStream = new ObjectInputStream(socket.getInputStream());
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            Handler handler = new Handler(objectOutputStream, objectInputStream);
+
             while (true) {
                 Protocol protocol = (Protocol) objectInputStream.readObject();
 
@@ -94,20 +96,7 @@ public class Server {
                         break;
 
                     case Protocol.TYPE_LOGIN: // TYPE 이 로그인 요청일 때
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_LOGIN_REQUEST:
-                                System.out.println("로그인 요청 처리");
-                                break;
-                            case Protocol.CODE_LOGIN_ACCEPT:
-                                System.out.println("로그인 승인 처리");
-                                break;
-                            case Protocol.CODE_LOGIN_FAIL:
-                                System.out.println("로그인 실패 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        handler.receiveLoginRequestType(protocol);
                         break;
 
                     case Protocol.TYPE_PERSONAL_INFO_EDIT:

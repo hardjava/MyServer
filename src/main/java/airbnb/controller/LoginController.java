@@ -16,20 +16,19 @@ public class LoginController {
     public void login(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream, Protocol protocol) throws IOException, ClassNotFoundException {
         LoginDTO loginDTO = (LoginDTO) protocol.getObject();
         LoginDAO loginDAO = new LoginDAO(MyBatisConnectionFactory.getSqlSessionFactory());
-        protocol.setProtocolType(Protocol.TYPE2_LOGIN_RESPONSE);
 
         try {
             UserDTO userDTO = loginDAO.login(loginDTO);
-            protocol.setProtocolCode(Protocol.CODE_TYPE2_LOGIN);
+            protocol.setProtocolCode(Protocol.CODE_LOGIN_ACCEPT);
             protocol.setObject(userDTO);
             objectOutputStream.writeObject(protocol);
         } catch (InvalidIdException iie) {
-            protocol.setProtocolCode(Protocol.CODE_ERROR);
+            protocol.setProtocolCode(Protocol.CODE_LOGIN_FAIL);
             protocol.setObject(iie.getMessage());
             objectOutputStream.writeObject(protocol);
 
         } catch (InvalidPwdException ipe) {
-            protocol.setProtocolCode(Protocol.CODE_ERROR);
+            protocol.setProtocolCode(Protocol.CODE_LOGIN_FAIL);
             protocol.setObject(ipe.getMessage());
             objectOutputStream.writeObject(protocol);
 
