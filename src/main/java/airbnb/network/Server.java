@@ -79,20 +79,7 @@ public class Server {
 
                 switch (protocol.getProtocolType()) {
                     case Protocol.TYPE_SIGN_UP:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_SEND_SIGN_UP_INFO:
-                                System.out.println("회원 가입 정보 전송 처리");
-                                break;
-                            case Protocol.CODE_SIGN_UP_SUCCESS:
-                                System.out.println("회원 가입 성공 처리");
-                                break;
-                            case Protocol.CODE_SIGN_UP_FAIL:
-                                System.out.println("회원 가입 실패 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        handler.receiveSignType(protocol);
                         break;
 
                     case Protocol.TYPE_LOGIN: // TYPE 이 로그인 요청일 때

@@ -17,6 +17,7 @@
         </environment>
     </environments>
     <mappers>
+        <mapper resource="sqlmapper/user.xml"/>
         <mapper resource="sqlmapper/login.xml"/>
     </mappers>
 </configuration>

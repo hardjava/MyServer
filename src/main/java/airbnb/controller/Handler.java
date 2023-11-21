@@ -23,8 +23,25 @@ public class Handler {
                 System.out.println("로그인 요청");
                 break;
             default:
-                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
+                System.out.println("알 수 없는 코드: ");
+                // 예외 담아서 보내?
                 break;
         }
     }
+
+    public void receiveSignType(Protocol protocol) {
+        switch (protocol.getProtocolCode()) {
+            case Protocol.CODE_SEND_SIGN_UP_INFO:
+                SignController signController = new SignController();
+                signController.sign(objectOutputStream, objectInputStream, protocol);
+                System.out.println("가입 요청");
+                break;
+            default:
+                System.out.println("알수 없는 코드");
+                // 예외 담아서 보내?
+                break;
+        }
+    }
+
+
 }

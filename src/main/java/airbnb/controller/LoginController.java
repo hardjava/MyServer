@@ -13,7 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class LoginController {
-    public void login(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream, Protocol protocol) throws IOException, ClassNotFoundException {
+    public void login(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream, Protocol protocol) throws IOException {
         LoginDTO loginDTO = (LoginDTO) protocol.getObject();
         LoginDAO loginDAO = new LoginDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 

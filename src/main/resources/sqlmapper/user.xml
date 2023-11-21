@@ -29,7 +29,7 @@
         WHERE user_id = #{loginId}
     </select>
 
-    <select id="getUserByUserId" parameterType="int" resultType="result">
+    <select id="getUserByUserId" parameterType="int" resultMap="result">
         SELECT *
         FROM USER
         WHERE user_id=#{userId}
