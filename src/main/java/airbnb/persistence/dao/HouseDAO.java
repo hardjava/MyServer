@@ -30,6 +30,14 @@ public class HouseDAO {
         }
     }
 
+    public HouseDTO getHouseByName(String name) {
+        HouseDTO houseDTO;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            houseDTO = session.selectOne("mapper.HouseMapper.getHouseByName", name);
+        }
+        return houseDTO;
+    }
+
     // 편의시설 필터링한거 가져오는거 string을 list로 만들어 전달 !
     // 숙소 검색때 쓰면 됨
     public List<HouseDTO> getHouseByAmenities(List<String> amenities) {
@@ -40,6 +48,36 @@ public class HouseDAO {
             AmenitiesDAO amenitiesDAO = new AmenitiesDAO(sqlSessionFactory);
             amenitiesDAO.incrementAmenitiesCount(amenities);
             // 검색 횟수 늘려주는건데 일단 여기 적어놓고 getHouseByAmenities 호출한데서 검색 횟수 증가하는게 맞을 듯함
+        }
+
+        return list;
+    }
+
+    public List<HouseDTO> getApprovedHouseNotSetFeePolicy() {
+        List<HouseDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.HouseMapper.getApprovedHouseNotSetFeePolicy");
+        }
+
+        return list;
+    }
+
+    public List<HouseDTO> getApprovedHouse() {
+        List<HouseDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.HouseMapper.getApprovedHouse");
+        }
+
+        return list;
+    }
+
+    public List<HouseDTO> getNotApprovedHouse() {
+        List<HouseDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.HouseMapper.getNotApprovedHouse");
         }
 
         return list;
