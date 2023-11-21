@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.UserMapper">
+    <resultMap id="result" type="airbnb.persistence.dto.UserDTO">
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userBirthday" column="user_birthday"/>
+        <result property="role" column="role"/>
+        <result property="loginId" column="login_id"/>
+        <result property="loginPwd" column="login_pwd"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="result">
+        SELECT *
+        FROM USER
+    </select>
+
+    <insert id="insertUser">
+        INSERT INTO USER(user_id, user_name, user_phone, user_birthday, role, login_id, login_pwd) VALUE (#{user_id}, #{user_name}, #{user_phone}, #{user_birthday}, #{role}, #{login_id}, #{login_pwd})
+    </insert>
+
+    <select id="getUserByLoginId" resultMap="result">
+        SELECT *
+        FROM USER
+        WHERE user_id = #{loginId}
+    </select>
+
+    <select id="getUserByUserId" parameterType="int" resultType="result">
+        SELECT *
+        FROM USER
+        WHERE user_id=#{userId}
+    </select>
+</mapper>
