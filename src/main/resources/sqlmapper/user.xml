@@ -34,4 +34,11 @@
         FROM USER
         WHERE user_id=#{userId}
     </select>
+
+    <select id="searchId" resultMap="result">
+        SELECT *
+        FROM USER
+        WHERE login_id = #{id}
+    </select>
+
 </mapper>

@@ -29,7 +29,7 @@ public class Handler {
         }
     }
 
-    public void receiveSignType(Protocol protocol) {
+    public void receiveSignType(Protocol protocol) throws IOException {
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_SIGN_UP_INFO:
                 SignController signController = new SignController();

@@ -1,5 +1,6 @@
 package airbnb.persistence.dao;
 
+import airbnb.exception.ExsistIdException;
 import airbnb.persistence.dto.UserDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -23,8 +24,13 @@ public class UserDAO {
 
     public void insertUser(UserDTO insertUserDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            session.insert("mapper.UserMapper.insertUser", insertUserDTO);
-            session.commit();
+            UserDTO userDTO = session.selectOne("mapper.UserMapper.searchId");
+            if (userDTO != null) {
+                session.insert("mapper.UserMapper.insertUser", insertUserDTO);
+                session.commit();
+            } else {
+                throw new ExsistIdException("Exist Id");
+            }
         }
     }
 
