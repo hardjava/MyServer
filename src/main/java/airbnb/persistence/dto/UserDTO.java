@@ -15,16 +15,16 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class UserDTO implements Serializable {
     private int userId;
-    private String userName, userPhoneNumber, loginId, loginPwd;
-    private LocalDate userBirthday;
+    private String userName, userPhone, loginId;
     private RoleType role;
+    private String loginPwd, userBirthday;
 
-    public UserDTO(String userName, String userPhoneNumber, String loginId, String loginPwd, LocalDate userBirthday, RoleType role) {
+    public UserDTO(String userName, String userPhone, String loginId, RoleType role, String loginPwd, String userBirthday) {
         this.userName = userName;
         this.userPhoneNumber = userPhoneNumber;
         this.loginId = loginId;
+        this.role = role;
         this.loginPwd = loginPwd;
         this.userBirthday = userBirthday;
-        this.role = role;
     }
 }

@@ -24,8 +24,8 @@ public class UserDAO {
 
     public void insertUser(UserDTO insertUserDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            UserDTO userDTO = session.selectOne("mapper.UserMapper.searchId");
-            if (userDTO != null) {
+            UserDTO userDTO = session.selectOne("mapper.UserMapper.searchId", insertUserDTO.getLoginId());
+            if (userDTO == null) {
                 session.insert("mapper.UserMapper.insertUser", insertUserDTO);
                 session.commit();
             } else {
