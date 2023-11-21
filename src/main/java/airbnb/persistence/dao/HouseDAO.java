@@ -1,8 +1,8 @@
 package airbnb.persistence.dao;
 
+import airbnb.persistence.dto.HouseDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import airbnb.persistence.dto.HouseDTO;
 
 import java.util.List;
 
@@ -24,17 +24,18 @@ public class HouseDAO {
     }
 
     public void insertHouse(HouseDTO insertHouseDTO) {
-        try(SqlSession session = sqlSessionFactory.openSession()) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             session.insert("mapper.HouseMapper.insertHouse", insertHouseDTO);
             session.commit();
         }
     }
 
     // 편의시설 필터링한거 가져오는거 string을 list로 만들어 전달 !
+    // 숙소 검색때 쓰면 됨
     public List<HouseDTO> getHouseByAmenities(List<String> amenities) {
         List<HouseDTO> list;
 
-        try(SqlSession session = sqlSessionFactory.openSession()) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             list = session.selectList("mapper.HouseMapper.getHouseByAmenities", amenities);
             AmenitiesDAO amenitiesDAO = new AmenitiesDAO(sqlSessionFactory);
             amenitiesDAO.incrementAmenitiesCount(amenities);

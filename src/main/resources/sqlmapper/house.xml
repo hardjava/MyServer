@@ -1,23 +1,65 @@
-<!--<?xml version="1.0" encoding="UTF-8"?>-->
-<!--<!DOCTYPE mapper-->
-<!--        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"-->
-<!--        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--<mapper namespace="mapper.UserMapper">-->
-<!--    <resultMap id="result" type="airbnb.persistence.dto.UserDTO">-->
-<!--        <result property="user_id" column="user_id"/>-->
-<!--        <result property="user_name" column="user_name"/>-->
-<!--        <result property="user_phone" column="user_phone"/>-->
-<!--        <result property="user_birthday" column="user_birthday"/>-->
-<!--        <result property="role" column="role"/>-->
-<!--        <result property="login_id" column="login_id"/>-->
-<!--        <result property="login_pwd" column="login_pwd"/>-->
-<!--    </resultMap>-->
-<!--    <select id="getAll" resultMap="result">-->
-<!--        SELECT *-->
-<!--        FROM USER-->
-<!--    </select>-->
-<!--    <insert id="insertUser">-->
-<!--        INSERT INTO USER(user_id, user_name, user_phone, user_birthday, role, login_id, login_pwd) VALUE (#{user_id}, #{user_name}, #{user_phone}, #{user_birthday}, #{role}, #{login_id}, #{login_pwd})-->
-<!--    </insert>-->
-<!--</mapper>-->
+<mapper namespace="mapper.HouseMapper">
+    <resultMap id="result" type="persistence.dto.HouseDTO">
+        <result property="houseId" column="house_id"/>
+        <result property="houseName" column="house_name"/>
+        <result property="houseAddress" column="house_address"/>
+        <result property="houseIntroduce" column="house_introduce"/>
+        <result property="houseCapacity" column="house_capacity"/>
+        <result property="bedroom" column="bedroom"/>
+        <result property="bathroom" column="bathroom"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="result">
+        SELECT *
+        FROM HOUSE
+    </select>
+
+    <insert id="insertHouse" parameterType="persistence.dto.HouseDTO">
+        INSERT INTO HOUSE(house_id, house_name, house_address, house_introduce, capacity, bedroom, bathroom)
+        VALUES (#{house_id}, #{house_name}, #{house_address}, #{house_introduce}, #{capacity}, #{bed}, #{bathroom})
+    </insert>
+
+    <select id="getHouseByName" resultType="result">
+        SELECT *
+        FROM HOUSE
+        WHERE house_name = #{houseName}
+    </select>
+
+<!--    편의 시설을 조건으로 검색한거-->
+    <select id="getHouseByAmenities" parameterType="java.util.List" resultType="result">
+        SELECT *
+        FROM HOUSE
+        WHERE house_id IN (
+            SELECT house_id
+            FROM Amenities
+            WHERE amenities IN
+                <foreach collection="list" item="amenity" open="(" separator="," close=")">
+                    #{amenity}
+                </foreach>
+        )
+        AND EXISTS (
+        SELECT *
+        FROM Amenities
+        WHERE house_id = HOUSE.house_id
+        AND amenities IN
+        <foreach collection="list" item="amenity" open="(" separator="," close=")">
+            #{amenity}
+        </foreach>
+        )
+    </select>
+
+    <!--    승인됐지만 요금정책 설정안한거 && host가 요금정책 정할거라 house_id 받아서 리턴-->
+    <select id="getApprovedHouseNotSetFeePolicy" parameterType="int" resultMap="result">
+        SELECT *
+        FROM HOUSE
+        WHERE #{houseId} NOT IN (
+            SELECT house_id
+            FROM FEE_POLICY
+            )
+    </select>
+</mapper>

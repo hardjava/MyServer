@@ -6,12 +6,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
 public class UserDTO implements Serializable {
     private int userId;
-    private String userName, userBirthday, userPhoneNumber, loginId, loginPwd;
+    private String userName, userPhoneNumber, loginId, loginPwd;
+    private LocalDateTime userBirthday;
     private RoleType role;
 }
