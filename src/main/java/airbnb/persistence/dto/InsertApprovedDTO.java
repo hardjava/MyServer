@@ -8,6 +8,8 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 
-public class WaitingDTO {
-    private int waitingId, houseId;
+public class InsertApprovedDTO {
+    private int houseId;
+    private boolean isApproved;
+
 }

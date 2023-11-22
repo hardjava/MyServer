@@ -9,14 +9,24 @@
         <result property="houseId" column="house_id" />
     </resultMap>
 
-<!--    승인 대기 중인 숙소-->
+    <resultMap id="insertDTO" type="persistence.dto.InsertWaitingDTO">
+        <result property="houseId" column="house_id" />
+    </resultMap>
+
+<!--    승인 대기 조회-->
     <select id="getAll" resultMap="result">
         SELECT *
         FROM WAITING
     </select>
 
+<!--    숙소 대기 큐 삽입-->
+    <insert id="insertWaiting" parameterType="insertDTO">
+        INSERT INTO WAITING(house_id) VALUES ( #{houseId})
+    </insert>
+
+<!--    숙소 대기 큐 삭제-->
     <delete id="deleteWaiting" parameterType="int">
         DELETE FROM WAITING
-        WHERE waiting_id = #{waitingId}
+        WHERE house_id = #{houseId}
     </delete>
 </mapper>

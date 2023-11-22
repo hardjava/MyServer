@@ -19,6 +19,12 @@
         FROM HOUSE
     </select>
 
+    <select id="getMaxHouseId" resultType="int">
+        SELECT MAX(house_id)
+        FROM HOUSE
+        LIMIT 1
+    </select>
+
     <insert id="insertHouse" parameterType="persistence.dto.HouseDTO">
         INSERT INTO HOUSE(house_name, house_address, house_introduce, capacity, bedroom, bathroom)
         VALUES (#{house_name}, #{house_address}, #{house_introduce}, #{capacity}, #{bed}, #{bathroom})

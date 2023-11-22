@@ -1,6 +1,9 @@
 package airbnb.persistence.dao;
 
 import airbnb.persistence.dto.HouseDTO;
+import airbnb.persistence.dto.InsertHouseDTO;
+import airbnb.persistence.dto.InsertWaitingDTO;
+import airbnb.persistence.dto.WaitingDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -13,6 +16,8 @@ public class HouseDAO {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
+
+    // 관리자 -> 모든 숙소 조회
     public List<HouseDTO> getAll() {
         List<HouseDTO> list;
 
@@ -23,13 +28,18 @@ public class HouseDAO {
         return list;
     }
 
-    public void insertHouse(HouseDTO insertHouseDTO) {
+    // 숙소 등록 -> Waiting 에 넣어줘야함
+    public void insertHouse(InsertHouseDTO insertHouseDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
+            WaitingDAO waitingDAO = new WaitingDAO(sqlSessionFactory);
             session.insert("mapper.HouseMapper.insertHouse", insertHouseDTO);
+            // 숙소 등록하면 숙소 승인 큐에도 넣어줘야 한다.
+            waitingDAO.insertWaitingRecentHouse();
             session.commit();
         }
     }
 
+    // 숙소 이름으로 조회
     public HouseDTO getHouseByName(String name) {
         HouseDTO houseDTO;
         try (SqlSession session = sqlSessionFactory.openSession()) {
@@ -38,8 +48,8 @@ public class HouseDAO {
         return houseDTO;
     }
 
-    // 편의시설 필터링한거 가져오는거 string을 list로 만들어 전달 !
-    // 숙소 검색때 쓰면 됨
+    // 숙소 검색때 쓰면 됨 & 편의시설 조건 숙소 필터링 조회
+    // String List -> 편의시설 목록
     public List<HouseDTO> getHouseByAmenities(List<String> amenities) {
         List<HouseDTO> list;
 
@@ -63,6 +73,7 @@ public class HouseDAO {
         return list;
     }
 
+    // 게스트 -> 승인된 것만 조회 가능
     public List<HouseDTO> getApprovedHouse() {
         List<HouseDTO> list;
 
@@ -73,6 +84,8 @@ public class HouseDAO {
         return list;
     }
 
+    // 호스트 -> 등록한 거에 대한거 승인된지 안된지 확인해야함
+    // 관리자 -> 승인할지말지 선택해야하니 조회해야함
     public List<HouseDTO> getNotApprovedHouse() {
         List<HouseDTO> list;
 
@@ -82,4 +95,6 @@ public class HouseDAO {
 
         return list;
     }
+
+    //
 }

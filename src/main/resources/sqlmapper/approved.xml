@@ -10,21 +10,38 @@
         <result property="isApproved" column="isApproved"/>
     </resultMap>
 
-    <!--    승인된 숙소-->
+<!--    삽입용 타입-->
+    <resultMap id="insertDTO" type="persistence.dto.InsertApprovedDTO">
+        <result property="houseId" column="house_id"/>
+        <result property="isApproved" column="isApproved"/>
+    </resultMap>
+
+    <!--    승인 or 거절된 숙소-->
     <select id="getAll" resultMap="result">
         SELECT *
         FROM APPROVED
     </select>
 
+<!--    승인된 숙소-->
     <select id="getApproved" resultMap="result">
         SELECT *
         FROM APPROVED
         WHERE isApproved = true
     </select>
 
+<!--    거절된 숙소-->
     <select id="getNotApproved" resultMap="result">
         SELECT *
         FROM APPROVED
         WHERE isApproved = false
     </select>
+
+    <insert id="insertApproved" parameterType="insertDTO">
+        INSERT INTO APPROVED(isApproved, house_id) VALUES (#{isApproved}, #{houseId})
+    </insert>
+
+    <delete id="deleteApprovedByHouseId" parameterType="int">
+        DELETE FROM APPROVED
+        WHERE house_id = #{houseId}
+    </delete>
 </mapper>

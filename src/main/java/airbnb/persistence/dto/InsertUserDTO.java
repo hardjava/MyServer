@@ -10,8 +10,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 public class InsertUserDTO {
-    private int userId;
-    private String userName, userPhoneNumber, loginId, loginPwd, userBirthday;
+    private String userName, userPhone, loginId;
     private RoleType role;
-
+    private String loginPwd, userBirthday;
 }
