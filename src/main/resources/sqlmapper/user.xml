@@ -20,7 +20,12 @@
     </select>
 
     <insert id="insertUser">
-        INSERT INTO USER(user_name, user_phone, user_birthday, role, login_id, login_pwd) VALUE (#{userName}, #{userPhone}, #{userBirthday}, #{role}, #{loginId}, #{loginPwd})
+        INSERT INTO USER(user_name, user_phone, user_birthday, role, login_id, login_pwd)
+            VALUE (#{userName},
+                   #{userPhone},
+                   #{userBirthday},
+                   #{role}, #{loginId},
+                   #{loginPwd})
     </insert>
 
     <select id="getUserByLoginId" resultMap="result">
@@ -32,7 +37,7 @@
     <select id="getUserByUserId" parameterType="int" resultMap="result">
         SELECT *
         FROM USER
-        WHERE user_id=#{userId}
+        WHERE user_id = #{userId}
     </select>
 
     <select id="searchId" resultMap="result">
@@ -42,4 +47,21 @@
         LIMIT 1
     </select>
 
+    <update id="updateUserBirthday">
+        UPDATE USER
+        SET user_birthday = #{userBirthday}
+        WHERE user_id = #{userId}
+    </update>
+
+    <update id="updateUserPhone">
+        UPDATE USER
+        SET user_phone = #{userPhone}
+        WHERE user_id = #{userId}
+    </update>
+
+    <update id="updateUserName">
+        UPDATE USER
+        SET user_name = #{userName}
+        WHERE user_id = #{userId}
+    </update>
 </mapper>

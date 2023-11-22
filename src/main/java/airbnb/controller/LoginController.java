@@ -2,6 +2,7 @@ package airbnb.controller;
 
 import airbnb.exception.InvalidIdException;
 import airbnb.exception.InvalidPwdException;
+import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.MyBatisConnectionFactory;
 import airbnb.persistence.dao.LoginDAO;
@@ -9,28 +10,31 @@ import airbnb.persistence.dto.LoginDTO;
 import airbnb.persistence.dto.UserDTO;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class LoginController {
-    public void login(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream, Protocol protocol) throws IOException {
+    Protocol protocol;
+
+    public LoginController(Protocol protocol) {
+        this.protocol = protocol;
+    }
+
+    public void login() throws IOException {
         LoginDTO loginDTO = (LoginDTO) protocol.getObject();
         LoginDAO loginDAO = new LoginDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
         try {
             UserDTO userDTO = loginDAO.login(loginDTO);
-            protocol.setProtocolCode(Protocol.CODE_LOGIN_ACCEPT);
+            protocol.setProtocolCode(Protocol.CODE_SUCCESS);
             protocol.setObject(userDTO);
-            objectOutputStream.writeObject(protocol);
+            MyIOStream.oos.writeObject(protocol);
         } catch (InvalidIdException iie) {
-            protocol.setProtocolCode(Protocol.CODE_LOGIN_FAIL);
+            protocol.setProtocolCode(Protocol.CODE_ERROR);
             protocol.setObject(iie.getMessage());
-            objectOutputStream.writeObject(protocol);
-
+            MyIOStream.oos.writeObject(protocol);
         } catch (InvalidPwdException ipe) {
-            protocol.setProtocolCode(Protocol.CODE_LOGIN_FAIL);
+            protocol.setProtocolCode(Protocol.CODE_ERROR);
             protocol.setObject(ipe.getMessage());
-            objectOutputStream.writeObject(protocol);
+            MyIOStream.oos.writeObject(protocol);
 
         }
     }

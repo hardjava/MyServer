@@ -3,8 +3,6 @@ package airbnb.controller;
 import airbnb.network.Protocol;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class Handler {
     private ObjectOutputStream objectOutputStream;
@@ -145,8 +143,8 @@ public class Handler {
         }
     }
 
-    public void receiveRequestReservation(Protocol protocol) throws IOException {
-        ReauestReservationController reauestReservationController = new ReauestReservationController();
+    public void receiveRequestReservationType(Protocol protocol) throws IOException {
+        RequestReservationController reauestReservationController = new RequestReservationController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_RESERVATION_INFO:
                 reauestReservationController.insertReservation();

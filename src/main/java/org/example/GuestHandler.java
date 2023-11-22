@@ -3,20 +3,6 @@ package org.example;
 import java.util.Scanner;
 
 public class GuestHandler {
-    Scanner sc = new Scanner(System.in);
-
-    public void run() {
-        int enter = getCommand();
-    }
-
-    private int getCommand() {
-        System.out.println("1. 숙소 검색");
-        System.out.println("2. 숙소 목록");
-        System.out.println("3. 마이 페이지");
-        System.out.println("4. 로그아웃");
-
-        return sc.nextInt();
-    }
 
     private void getMyPage() { // 마이페이지 선택 시, 나오는 목록
         System.out.println("개인정보 딸깍");

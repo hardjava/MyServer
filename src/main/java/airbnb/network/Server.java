@@ -25,7 +25,8 @@ public class Server {
             System.out.println("after socket connect");
             objectInputStream = new ObjectInputStream(socket.getInputStream());
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            Handler handler = new Handler(objectOutputStream, objectInputStream);
+            MyIOStream myIOStream = new MyIOStream(objectOutputStream, objectInputStream);
+            Handler handler = new Handler();
 
             while (true) {
                 System.out.println("goood");

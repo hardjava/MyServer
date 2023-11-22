@@ -9,9 +9,6 @@
         <result property="houseId" column="house_id" />
     </resultMap>
 
-    <resultMap id="insertDTO" type="persistence.dto.InsertWaitingDTO">
-        <result property="houseId" column="house_id" />
-    </resultMap>
 
 <!--    승인 대기 조회-->
     <select id="getAll" resultMap="result">
