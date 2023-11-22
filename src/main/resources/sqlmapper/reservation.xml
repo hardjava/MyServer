@@ -6,13 +6,13 @@
 <mapper namespace="mapper.ReservationMapper">
     <resultMap id="result" type="persistence.dto.ReservationDTO">
         <result property="reservationId" column="reservation_id"/>
+        <result property="houseId" column="house_id"/>
+        <result property="userId" column="user_id"/>
         <result property="reservationStatus" column="reservation_status"/>
         <result property="guestNum" column="guest_num"/>
         <result property="reservationDate" column="reservation_date"/>
         <result property="checkIn" column="check_in"/>
         <result property="checkOut" column="check_out"/>
-        <result property="userId" column="user_id"/>
-        <result property="userPwd" column="user_pwd"/>
     </resultMap>
 
     <select id="getAll" resultMap="result">
@@ -20,21 +20,28 @@
         FROM RESERVATION
     </select>
 
-    <insert id="insertHouse" parameterType="persistence.dto.ReservationDTO">
+    <insert id="insertHouse" parameterType="result">
         INSERT INTO RESERVATION(house_id, user_id, reservation_status, guest_num, reservation_date, check_id, check_out)
-        VALUES (#{houseId}, #{userId}, #{reservatioStatus}, #{guestNum}, #{reservationDate}, #{checkIn}, #{checkOut}, #{userId}, #{houseId})
+        VALUES (#{houseId}, #{userId}, #{reservatioStatus}, #{guestNum}, #{reservationDate}, #{checkIn}, #{checkOut})
     </insert>
 
-    <select id="getHouseByName" resultType="persistence.dto.ReservationDTO">
-        SELECT *
-        FROM HOUSE
-        WHERE house_name = #{houseName}
-    </select>
-
 <!--    유저 id 예약 현황 조회-->
-    <select id="getReservationByUserId" resultMap="result">
+    <select id="getReservationByUserId" resultMap="result" parameterType="int">
         SELECT *
         FROM RESERVATION
         WHERE user_id = #{userId}
+    </select>
+
+    <select id="getReservationByHouseId" resultMap="result" parameterType="int">
+        SELECT *
+        FROM RESERVATION
+        WHERE house_id = #{houseId}
+    </select>
+    
+    <select id="getCompletedStayReservationByUserId" resultMap="result" parameterType="int">
+        SELECT house_name, check_in, check_out
+        FROM HOUSE, RESERVATION
+        WHERE RESERVATION.house_id = HOUSE.house_id
+          AND RESERVATION.user_id = #{userId}
     </select>
 </mapper>

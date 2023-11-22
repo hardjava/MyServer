@@ -2,7 +2,6 @@ package airbnb.persistence.dao;
 
 
 import airbnb.persistence.dto.ApprovedDTO;
-import airbnb.persistence.dto.InsertApprovedDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -15,7 +14,7 @@ public class ApprovedDAO {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
-    public void insertApproved(InsertApprovedDTO insertApprovedDTO) {
+    public void insertApproved(ApprovedDTO insertApprovedDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             session.insert("mapper.ApprovedMapper.insertApproved", insertApprovedDTO);
             session.commit();

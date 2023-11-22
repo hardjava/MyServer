@@ -22,4 +22,6 @@ public class StayedHouseController {
             MyIOStream.oos.writeObject(returnProtocol);
         }
     }
+
+    // ---------------------- please test!!!!!!!!!!!!
 }

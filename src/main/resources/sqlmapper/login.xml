@@ -13,6 +13,7 @@
         <result property="loginPwd" column="login_pwd"/>
         <result property="role" column="role"/>
     </resultMap>
+
     <select id="login" resultMap="result">
         SELECT *
         FROM USER

@@ -1,6 +1,5 @@
 package airbnb.persistence.dao;
 
-import airbnb.persistence.dto.InsertWaitingDTO;
 import airbnb.persistence.dto.WaitingDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -19,24 +18,25 @@ public class WaitingDAO {
     public List<WaitingDTO> getAll() {
         List<WaitingDTO> list;
 
-        try(SqlSession session = sqlSessionFactory.openSession()) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             list = session.selectList("mapper.WaitingMapper.getAll");
         }
         return list;
     }
 
-    // 숙소 대기 큐 삽입
-    public void insertWaiting(InsertWaitingDTO insertWaitingDTO) {
+    // 대기 큐에 삽입
+    public void insertWaiting(WaitingDTO insertWaitingDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             session.insert("mapper.WaitingMapper.insertWaiting", insertWaitingDTO);
             session.commit();
         }
     }
 
+    // 최근 등록한 숙소를 승인 대기 큐에 추
     public void insertWaitingRecentHouse() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             int houseId = session.selectOne("mapper.HouseMapper.getMaxHouseId");
-            session.insert("mapper.WaitingMapper.insertWaiting", new InsertWaitingDTO(houseId));
+            session.insert("mapper.WaitingMapper.insertWaiting", new WaitingDTO(houseId));
             session.commit();
         }
     }

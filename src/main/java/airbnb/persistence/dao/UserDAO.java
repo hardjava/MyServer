@@ -1,6 +1,12 @@
 package airbnb.persistence.dao;
 
 import airbnb.exception.ExsistIdException;
+import airbnb.exception.WrongBirthdayException;
+import airbnb.exception.WrongPhoneNumberException;
+import airbnb.exception.WrongUserNameException;
+import airbnb.persistence.dto.ModifyBirthdayDTO;
+import airbnb.persistence.dto.ModifyPhoneNumberDTO;
+import airbnb.persistence.dto.ModifyUserNameDTO;
 import airbnb.persistence.dto.UserDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -48,5 +54,38 @@ public class UserDAO {
             userDTO = session.selectOne("mapper.UserMapper.getUserByUserId", userId);
         }
         return userDTO;
+    }
+
+    public void updateUserBirthday(ModifyBirthdayDTO modifyBirthdayDTO) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            int i = session.update("mapper.UserMapper.updateUserBirthday", modifyBirthdayDTO);
+            if (i == 0) {
+                new WrongBirthdayException("Wrong Birthday");
+            } else {
+                session.commit();
+            }
+        }
+    }
+
+    public void updateUserPhone(ModifyPhoneNumberDTO modifyPhoneNumberDTO) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            int i = session.update("mapper.UserMapper.updateUserPhone", modifyPhoneNumberDTO);
+            if (i == 0) {
+                new WrongPhoneNumberException("Wrong Phone Number");
+            } else {
+                session.commit();
+            }
+        }
+    }
+
+    public void updateUserName(ModifyUserNameDTO modifyUserNameDTO) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            int i = session.update("mapper.UserMapper.updateUserName", modifyUserNameDTO);
+            if (i == 0) {
+                new WrongUserNameException("Wrong User Name");
+            } else {
+                session.commit();
+            }
+        }
     }
 }

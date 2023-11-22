@@ -17,8 +17,8 @@
     </select>
 
 <!--    숙소 대기 큐 삽입-->
-    <insert id="insertWaiting" parameterType="insertDTO">
-        INSERT INTO WAITING(house_id) VALUES ( #{houseId})
+    <insert id="insertWaiting" parameterType="result">
+        INSERT INTO WAITING(house_id) VALUES (#{houseId})
     </insert>
 
 <!--    숙소 대기 큐 삭제-->

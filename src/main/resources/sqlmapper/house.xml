@@ -29,6 +29,12 @@
         INSERT INTO HOUSE(house_name, house_address, house_introduce, capacity, bedroom, bathroom)
         VALUES (#{house_name}, #{house_address}, #{house_introduce}, #{capacity}, #{bed}, #{bathroom})
     </insert>
+    
+    <select id="getHouseByHostId" resultMap="result">
+        SELECT *
+        FROM HOUSE
+        WHERE house_id = #{houseId}
+    </select>
 
     <select id="getHouseByName" resultType="result">
         SELECT *
@@ -37,6 +43,7 @@
     </select>
 
     <!--    편의 시설을 조건으로 검색한거-->
+    <!--    트스테 필요-->
     <select id="getHouseByAmenities" parameterType="java.util.List" resultType="result">
         SELECT *
         FROM HOUSE
