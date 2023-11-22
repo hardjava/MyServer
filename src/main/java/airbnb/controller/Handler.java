@@ -5,19 +5,15 @@ import airbnb.network.Protocol;
 import java.io.IOException;
 
 public class Handler {
-    private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
 
-    public Handler(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
-        this.objectOutputStream = objectOutputStream;
-        this.objectInputStream = objectInputStream;
-    }
+
+
 
     public void receiveLoginRequestType(Protocol protocol) throws IOException, ClassNotFoundException { // 로그인 request 를 받았을 때 실행
-        LoginController loginController = new LoginController();
+        LoginController loginController = new LoginController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_LOGIN_REQUEST:
-                loginController.login(objectOutputStream, objectInputStream, protocol);
+                loginController.login();
                 System.out.println("로그인 요청");
                 break;
             default:
@@ -28,11 +24,11 @@ public class Handler {
     }
 
     public void receiveSignType(Protocol protocol) throws IOException {
-        SignController signController = new SignController();
+        SignController signController = new SignController(protocol);
 
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_SIGN_UP_INFO:
-                signController.sign(objectOutputStream, objectInputStream, protocol);
+                signController.sign();
                 System.out.println("가입 요청");
                 break;
             default:
@@ -43,16 +39,19 @@ public class Handler {
     }
 
     public void receivePersonalInfoEditType(Protocol protocol) throws IOException {
-        PersonalInfoEditController personalInfoEditController = new PersonalInfoEditController();
+        PersonalInfoEditController personalInfoEditController = new PersonalInfoEditController( protocol);
         switch (protocol.getProtocolCode()) {
-            case Protocol.CODE_PERSONAL_INFO_REQUEST:
-                personalInfoEditController.sendUserInfo();
-                System.out.println("유저 정보 요청");
+            case Protocol.CODE_SEND_MODIFY_NAME_INFO:
+                personalInfoEditController.modifyUserNameInfo();
+                System.out.println("유저 이름 변경");
                 break;
-
-            case Protocol.CODE_SEND_MODIFY_PERSONAL_INFO:
-                personalInfoEditController.modifyUserInfo();
-                System.out.println("유저 정보 변경");
+            case Protocol.CODE_SEND_MODIFY_PHONENUMBER_INFO:
+                personalInfoEditController.modifyUserPhoneNumberInfo();
+                System.out.println("유저 핸드폰 번호 변경");
+                break;
+            case Protocol.CODE_SEND_MODIFY_BIRTHDAY_INFO:
+                personalInfoEditController.modifyUserBirthdayInfo();
+                System.out.println("유저 생일 변경");
                 break;
             default:
 
@@ -60,8 +59,8 @@ public class Handler {
         }
     }
 
-    public void receiveSearchReservation(Protocol protocol) throws IOException {
-        SearchReservationController searchReservationController = new SearchReservationController();
+    public void receiveSearchReservationType(Protocol protocol) throws IOException {
+        SearchGuestReservationController searchReservationController = new SearchGuestReservationController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_MY_RESERVATION_REQUEST:
                 searchReservationController.sendReservationList();
@@ -74,8 +73,8 @@ public class Handler {
         }
     }
 
-    public void receiveWrittenReview(Protocol protocol) throws IOException {
-        WrittenReviewController writtenReviewController = new WrittenReviewController();
+    public void receiveWrittenReviewType(Protocol protocol) throws IOException {
+        WrittenReviewController writtenReviewController = new WrittenReviewController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_WRITTEN_REVIEW_REQUEST:
                 writtenReviewController.sendWrittenReviewList();
@@ -91,8 +90,8 @@ public class Handler {
         }
     }
 
-    public void receiveStayedHouse(Protocol protocol) throws IOException {
-        StayedHouseController stayedHouseController = new StayedHouseController();
+    public void receiveStayedHouseType(Protocol protocol) throws IOException {
+        StayedHouseController stayedHouseController = new StayedHouseController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_STAYED_HOUSE_LIST_REQUEST:
                 stayedHouseController.sendStayedHouseList();
@@ -104,8 +103,8 @@ public class Handler {
         }
     }
 
-    public void receiveSendReview(Protocol protocol) throws IOException {
-        SendReviewController sendReviewController = new SendReviewController();
+    public void receiveSendReviewType(Protocol protocol) throws IOException {
+        SendReviewController sendReviewController = new SendReviewController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_REVIEW:
                 sendReviewController.insertReview();
@@ -117,8 +116,8 @@ public class Handler {
         }
     }
 
-    public void receiveSearchAllHouse(Protocol protocol) throws IOException {
-        SearchAllHouseController searchAllHouseController = new SearchAllHouseController();
+    public void receiveSearchAllHouseType(Protocol protocol) throws IOException {
+        SearchAllHouseController searchAllHouseController = new SearchAllHouseController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEARCH_ALL_HOUSE_REQUEST:
                 searchAllHouseController.sendAllHouseList();
@@ -130,8 +129,8 @@ public class Handler {
         }
     }
 
-    public void receiveSelectHouseViewDetail(Protocol protocol) throws IOException {
-        SelectHouseViewDetailController selectHouseViewDetailController = new SelectHouseViewDetailController();
+    public void receiveSelectHouseViewDetailType(Protocol protocol) throws IOException {
+        SelectHouseViewDetailController selectHouseViewDetailController = new SelectHouseViewDetailController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SELECT_HOUSE_INFO_REQUEST:
                 selectHouseViewDetailController.sendHouseDetailInfo();
@@ -148,6 +147,19 @@ public class Handler {
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_RESERVATION_INFO:
                 reauestReservationController.insertReservation();
+                break;
+
+            default:
+
+                break;
+        }
+    }
+
+    public void receiveFilterType(Protocol protocol) throws IOException {
+        FilterController filterController = new FilterController();
+        switch (protocol.getProtocolCode()) {
+            case Protocol.CODE_SEND_SELECT_FILTER:
+                filterController.sendFilteredHouseList();
                 break;
 
             default:
@@ -299,12 +311,6 @@ public class Handler {
                 break;
 
             case Protocol.CODE_SEND_APPROVAL_OR_REJECT_INFORMATION:
-                break;
-
-            case Protocol.CODE_REQUEST_REJECTED_ACCOMMODATION_LIST:
-                break;
-
-            case Protocol.CODE_SEND_REJECTED_ACCOMMODATION_LIST:
                 break;
 
             default:

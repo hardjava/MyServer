@@ -21,8 +21,17 @@ public class PersonalInfoEditController {
         this.protocol = protocol;
     }
 
-
-
+    public void modifyUserNameInfo() throws IOException {//유저이름을 수정하는 메소드
+        ModifyUserNameDTO modifyUserNameDTO = (ModifyUserNameDTO) protocol.getObject();
+        UserDAO userDAO = new UserDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+        try {
+            userDAO.updateUserName(modifyUserNameDTO);
+            returnProtocol = new Protocol(Protocol.TYPE_PERSONAL_INFO_EDIT, Protocol.CODE_SUCCESS);
+            MyIOStream.oos.writeObject(returnProtocol);
+        } catch (WrongUserNameException une) {
+            returnProtocol = new Protocol(Protocol.TYPE_PERSONAL_INFO_EDIT, Protocol.CODE_ERROR, une.getMessage());
+            MyIOStream.oos.writeObject(returnProtocol);
+        }
     }
 
     public void modifyUserPhoneNumberInfo() throws IOException {//유저전화번호를 수정하는 메소드

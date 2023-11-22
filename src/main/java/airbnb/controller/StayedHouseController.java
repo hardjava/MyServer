@@ -1,4 +1,13 @@
 package airbnb.controller;
+import airbnb.network.MyIOStream;
+import airbnb.network.Protocol;
+import airbnb.persistence.MyBatisConnectionFactory;
+import airbnb.persistence.dao.ReservationDAO;
+import airbnb.persistence.dto.CompletedStayDTO;
+import airbnb.persistence.dto.UserDTO;
+
+import java.io.IOException;
+import java.util.List;
 
 public class StayedHouseController {
 

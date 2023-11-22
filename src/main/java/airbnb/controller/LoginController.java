@@ -22,6 +22,7 @@ public class LoginController {
         LoginDTO loginDTO = (LoginDTO) protocol.getObject();
         LoginDAO loginDAO = new LoginDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
+
         try {
             UserDTO userDTO = loginDAO.login(loginDTO);
             protocol.setProtocolCode(Protocol.CODE_SUCCESS);

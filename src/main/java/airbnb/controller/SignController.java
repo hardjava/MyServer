@@ -1,6 +1,7 @@
 package airbnb.controller;
 
 import airbnb.exception.ExsistIdException;
+import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.MyBatisConnectionFactory;
 import airbnb.persistence.dao.UserDAO;
@@ -11,18 +12,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class SignController {
-    public void sign(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream, Protocol protocol) throws IOException {
+
+    Protocol protocol;
+    public SignController(Protocol protocol) {
+        this.protocol = protocol;
+    }
+    public void sign() throws IOException {
         UserDTO userDTO = (UserDTO) protocol.getObject();
         UserDAO userDAO = new UserDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         //회원가입
         try {
             userDAO.insertUser(userDTO);
-            protocol.setProtocolCode(Protocol.CODE_SIGN_UP_SUCCESS); // 회원가입 성공
-            objectOutputStream.writeObject(protocol);
+            protocol.setProtocolCode(Protocol.CODE_SUCCESS); // 회원가입 성공
+          MyIOStream.oos.writeObject(protocol);
         } catch (ExsistIdException eie) {
             protocol.setProtocolCode(Protocol.CODE_ERROR);
             protocol.setObject(eie.getMessage());
-            objectOutputStream.writeObject(protocol);
+            MyIOStream.oos.writeObject(protocol);
         }
     }
 }

@@ -42,131 +42,48 @@ public class Server {
                         break;
 
                     case Protocol.TYPE_PERSONAL_INFO_EDIT:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_PERSONAL_INFO_REQUEST:
-                                System.out.println("개인 정보 요청 처리");
-                                break;
-                            case Protocol.CODE_SEND_PERSONAL_INFO:
-                                System.out.println("개인 정보 전송 처리");
-                                break;
-                            case Protocol.CODE_SEND_MODIFY_PERSONAL_INFO:
-                                System.out.println("개인 정보 수정 요청 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        handler.receivePersonalInfoEditType(protocol);
                         break;
 
                     case Protocol.TYPE_SEARCH_RESERVATION:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_MY_RESERVATION_REQUEST:
-                                System.out.println("예약 조회 요청 처리");
-                                break;
-                            case Protocol.CODE_SEND_RESERVATION:
-                                System.out.println("예약 정보 전송 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        handler.receiveSearchReservationType(protocol);
                         break;
 
                     case Protocol.TYPE_WRITTEN_REVIEW:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_WRITTEN_REVIEW_REQUEST:
-                                System.out.println("리뷰 작성 요청 처리");
-                                break;
-                            case Protocol.CODE_SEND_REVIEW_INFO:
-                                System.out.println("리뷰 정보 전송 처리");
-                                break;
-                            case Protocol.CODE_SEND_MODIFY_REVIEW:
-                                System.out.println("리뷰 수정 요청 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        handler.receiveWrittenReviewType(protocol);
                         break;
 
                     case Protocol.TYPE_STAYED_HOUSE:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_STAYED_HOUSE_LIST_REQUEST:
-                                System.out.println("숙박한 집 목록 요청 처리");
-                                break;
-                            case Protocol.CODE_SEND_STAYED_HOUSE_LIST:
-                                System.out.println("숙박한 집 목록 전송 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        handler.receiveStayedHouseType(protocol);
                         break;
                     case Protocol.TYPE_SEND_REVIEW:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_SEND_REVIEW:
-                                System.out.println("리뷰 전송 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        handler.receiveSendReviewType(protocol);
                         break;
 
                     case Protocol.TYPE_SEARCH_ALL_HOUSE:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_SEARCH_ALL_HOUSE_REQUEST:
-                                System.out.println("모든 집 검색 요청 처리");
-                                break;
-                            case Protocol.CODE_SEND_ALL_HOUSE:
-                                System.out.println("모든 집 정보 전송 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        handler.receiveSearchAllHouseType(protocol);
                         break;
 
                     case Protocol.TYPE_SELECT_HOUSE_VIEW_DETAIL:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_SELECT_HOUSE_INFO_REQUEST:
-                                System.out.println("집 상세 정보 조회 요청 처리");
-                                break;
-                            case Protocol.CODE_SEND_SELECT_HOUSE_INFO:
-                                System.out.println("선택한 집의 상세 정보 전송 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        handler.receiveSelectHouseViewDetailType(protocol);
                         break;
+
                     case Protocol.TYPE_REQUEST_RESERVATION:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_SEND_RESERVATION_INFO:
-                                System.out.println("예약 정보 전송 처리");
-                                break;
-                            case Protocol.CODE_RESERVATION_SUCCESS:
-                                System.out.println("예약 성공 처리");
-                                break;
-                            case Protocol.CODE_RESERVATION_FAIL:
-                                System.out.println("예약 실패 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
-                        //=================================== 여기까지 게스트
+                        handler.receiveRequestReservationType(protocol);
                         break;
+                    case Protocol.TYPE_FILTER:
+                        handler.receiveFilterType(protocol);
+                        //=================================== 여기까지 게스트
 
                     case Protocol.TYPE_HOUSE_REGISTRATION:
                         switch (protocol.getProtocolCode()) {
                             case Protocol.CODE_SEND_REGISTRATION_HOUSE_INFO:
                                 System.out.println("숙박 시설 등록 정보 전송 처리");
                                 break;
-                            case Protocol.CODE_REGISTRATION_SUCCESS:
+                            case Protocol.CODE_SUCCESS:
                                 System.out.println("숙박 시설 등록 성공 처리");
                                 break;
-                            case Protocol.CODE_REGISTRATION_FAIL:
+                            case Protocol.CODE_ERROR:
                                 System.out.println("숙박 시설 등록 실패 처리");
                                 break;
                             default:
