@@ -16,9 +16,9 @@ public class Handler {
     }
 
     public void receiveLoginRequestType(Protocol protocol) throws IOException, ClassNotFoundException { // 로그인 request 를 받았을 때 실행
+        LoginController loginController = new LoginController();
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_LOGIN_REQUEST:
-                LoginController loginController = new LoginController();
                 loginController.login(objectOutputStream, objectInputStream, protocol);
                 System.out.println("로그인 요청");
                 break;
@@ -30,9 +30,10 @@ public class Handler {
     }
 
     public void receiveSignType(Protocol protocol) throws IOException {
+        SignController signController = new SignController();
+
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_SIGN_UP_INFO:
-                SignController signController = new SignController();
                 signController.sign(objectOutputStream, objectInputStream, protocol);
                 System.out.println("가입 요청");
                 break;
@@ -44,23 +45,28 @@ public class Handler {
     }
 
     public void receivePersonalInfoEditType(Protocol protocol) throws IOException {
+        PersonalInfoEditController personalInfoEditController = new PersonalInfoEditController();
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_PERSONAL_INFO_REQUEST:
-
+                personalInfoEditController.sendUserInfo();
+                System.out.println("유저 정보 요청");
                 break;
 
             case Protocol.CODE_SEND_MODIFY_PERSONAL_INFO:
-
+                personalInfoEditController.modifyUserInfo();
+                System.out.println("유저 정보 변경");
                 break;
             default:
 
                 break;
         }
     }
+
     public void receiveSearchReservation(Protocol protocol) throws IOException {
+        SearchReservationController searchReservationController = new SearchReservationController();
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_MY_RESERVATION_REQUEST:
-
+                searchReservationController.sendReservationList();
                 break;
 
 
@@ -71,13 +77,15 @@ public class Handler {
     }
 
     public void receiveWrittenReview(Protocol protocol) throws IOException {
+        WrittenReviewController writtenReviewController = new WrittenReviewController();
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_WRITTEN_REVIEW_REQUEST:
+                writtenReviewController.sendWrittenReviewList();
 
                 break;
 
             case Protocol.CODE_SEND_MODIFY_REVIEW:
-
+                writtenReviewController.modifyReview();
                 break;
             default:
 
@@ -86,9 +94,10 @@ public class Handler {
     }
 
     public void receiveStayedHouse(Protocol protocol) throws IOException {
+        StayedHouseController stayedHouseController = new StayedHouseController();
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_STAYED_HOUSE_LIST_REQUEST:
-
+                stayedHouseController.sendStayedHouseList();
                 break;
 
             default:
@@ -98,9 +107,10 @@ public class Handler {
     }
 
     public void receiveSendReview(Protocol protocol) throws IOException {
+        SendReviewController sendReviewController = new SendReviewController();
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_REVIEW:
-
+                sendReviewController.insertReview();
                 break;
 
             default:
@@ -110,9 +120,10 @@ public class Handler {
     }
 
     public void receiveSearchAllHouse(Protocol protocol) throws IOException {
+        SearchAllHouseController searchAllHouseController = new SearchAllHouseController();
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEARCH_ALL_HOUSE_REQUEST:
-
+                searchAllHouseController.sendAllHouseList();
                 break;
 
             default:
@@ -122,9 +133,10 @@ public class Handler {
     }
 
     public void receiveSelectHouseViewDetail(Protocol protocol) throws IOException {
+        SelectHouseViewDetailController selectHouseViewDetailController = new SelectHouseViewDetailController();
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SELECT_HOUSE_INFO_REQUEST:
-
+                selectHouseViewDetailController.sendHouseDetailInfo();
                 break;
 
             default:
@@ -134,9 +146,10 @@ public class Handler {
     }
 
     public void receiveRequestReservation(Protocol protocol) throws IOException {
+        ReauestReservationController reauestReservationController = new ReauestReservationController();
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_RESERVATION_INFO:
-
+                reauestReservationController.insertReservation();
                 break;
 
             default:
@@ -145,7 +158,9 @@ public class Handler {
         }
     }
 
+    //===============================게스트=======================================
     public void receiveHouseRegistration(Protocol protocol) throws IOException {
+
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_REGISTRATION_HOUSE_INFO:
 
@@ -179,7 +194,6 @@ public class Handler {
                 break;
 
 
-
             default:
 
                 break;
@@ -195,6 +209,7 @@ public class Handler {
                 break;
         }
     }
+
     public void receiveSetDiscountPolicyOnConsecutiveNights(Protocol protocol) throws IOException {
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_DISCOUNT_POLICY_ON_CONSECUTIVE_NIGHTS:
@@ -223,6 +238,7 @@ public class Handler {
                 break;
         }
     }
+
     public void receiveMyHouseInfoEdit(Protocol protocol) throws IOException {
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_EDITED_HOUSE_INFO:
@@ -238,7 +254,6 @@ public class Handler {
 
     public void receiveViewHouseReservation(Protocol protocol) throws IOException {
         switch (protocol.getProtocolCode()) {
-
 
 
             default:
@@ -276,8 +291,6 @@ public class Handler {
                 break;
         }
     }
-
-
 
 
     //================================================관리자================================================

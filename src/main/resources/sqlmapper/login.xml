@@ -8,7 +8,7 @@
         <result property="userId" column="user_id"/>
         <result property="userName" column="user_name"/>
         <result property="userBirthday" column="user_birthday"/>
-        <result property="userPhoneNumber" column="user_phone"/>
+        <result property="userPhone" column="user_phone"/>
         <result property="loginId" column="login_id"/>
         <result property="loginPwd" column="login_pwd"/>
         <result property="role" column="role"/>
