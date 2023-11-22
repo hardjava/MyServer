@@ -311,4 +311,12 @@ public class Handler {
                 break;
         }
     }
+
+    public void receiveMonthlyReservationStatusForAccommodation(Protocol protocol) throws IOException {
+
+    }
+
+    public void receiveMonthlyToTalRevenueForAccommodation(Protocol protocol) throws IOException {
+
+    }
 }

@@ -303,10 +303,10 @@ public class Server {
                             case Protocol.CODE_SEND_APPROVAL_OR_REJECT_INFORMATION:
                                 System.out.println("승인 또는 거절 정보 전송 처리");
                                 break;
-                            case Protocol.CODE_SEND_APPROVAL_OR_REJECT_INFORMATION_SUCCESS:
+                            case Protocol.CODE_SUCCESS:
                                 System.out.println("승인 또는 거절 정보 전송 성공 처리");
                                 break;
-                            case Protocol.CODE_SEND_APPROVAL_OR_REJECT_INFORMATION_FAIL:
+                            case Protocol.CODE_ERROR:
                                 System.out.println("승인 또는 거절 정보 전송 실패 처리");
                                 break;
                             case Protocol.CODE_REQUEST_REJECTED_ACCOMMODATION_LIST:

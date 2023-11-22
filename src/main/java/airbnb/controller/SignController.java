@@ -20,7 +20,7 @@ public class SignController {
             protocol.setProtocolCode(Protocol.CODE_SIGN_UP_SUCCESS); // 회원가입 성공
             objectOutputStream.writeObject(protocol);
         } catch (ExsistIdException eie) {
-            protocol.setProtocolCode(Protocol.CODE_SIGN_UP_FAIL);
+            protocol.setProtocolCode(Protocol.CODE_ERROR);
             protocol.setObject(eie.getMessage());
             objectOutputStream.writeObject(protocol);
         }
