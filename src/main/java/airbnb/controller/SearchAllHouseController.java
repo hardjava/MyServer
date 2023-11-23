@@ -28,3 +28,4 @@ public class SearchAllHouseController {
         MyIOStream.oos.writeObject(returnProtocol);
     }
 }
+

@@ -1,6 +1,7 @@
 package airbnb.network;
 
 import airbnb.controller.Handler;
+import airbnb.controller.ViewAccommodationRegistrationListController;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -211,6 +212,8 @@ public class Server {
                     case Protocol.TYPE_VIEW_ACCOMMODATION_REGISTRATION_LIST:
                         switch (protocol.getProtocolCode()) {
                             case Protocol.CODE_REQUEST_ACCOMMODATION_REGISTRATION_LIST:
+                                ViewAccommodationRegistrationListController viewAccommodationRegistrationListController = new ViewAccommodationRegistrationListController(protocol);
+                                viewAccommodationRegistrationListController.sendAccommodationRegistrationList();
                                 System.out.println("숙박 등록 목록 요청 처리");
                                 break;
                             case Protocol.CODE_SEND_ACCOMMODATION_REGISTRATION_LIST:
