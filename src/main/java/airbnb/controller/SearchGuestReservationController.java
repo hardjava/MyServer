@@ -30,10 +30,10 @@ public class SearchGuestReservationController {
 
         try{
             list = reservationDAO.getBeforeStayReservationByUserId(userDTO.getUserId());
-            returnProtocol = new Protocol(Protocol.CODE_SEND_RESERVATION, Protocol.CODE_SUCCESS, list);
+            returnProtocol = new Protocol(Protocol.TYPE_SEARCH_RESERVATION, Protocol.CODE_SUCCESS, list);
             MyIOStream.oos.writeObject(returnProtocol);
         } catch (IOException e) {
-            returnProtocol = new Protocol(Protocol.CODE_SEND_RESERVATION, Protocol.CODE_ERROR, e.getMessage());
+            returnProtocol = new Protocol(Protocol.TYPE_SEARCH_RESERVATION, Protocol.CODE_ERROR, e.getMessage());
             MyIOStream.oos.writeObject(returnProtocol);
         }   // 예외 바꿔줘야함
     }
@@ -44,10 +44,10 @@ public class SearchGuestReservationController {
 
         try {
             reservationDAO.deleteByReservationId(reservationDTO);
-            returnProtocol = new Protocol(Protocol.CODE_SUCCESS);
+            returnProtocol = new Protocol(Protocol.TYPE_SEARCH_RESERVATION, Protocol.CODE_SUCCESS);
             MyIOStream.oos.writeObject(returnProtocol);
         } catch (ImpossibleCancelException e) {
-            returnProtocol = new Protocol(Protocol.CODE_ERROR);
+            returnProtocol = new Protocol(Protocol.TYPE_SEARCH_RESERVATION, Protocol.CODE_ERROR);
             returnProtocol.setObject(e.getMessage());
             MyIOStream.oos.writeObject(returnProtocol);
         }

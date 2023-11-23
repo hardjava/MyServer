@@ -9,12 +9,19 @@
         <result property="reservationId" column="reservation_id"/>
         <result property="star" column="star"/>
         <result property="review" column="review"/>
+        <result property="houseId" column="house_id"/>
     </resultMap>
 
     <insert id="insert">
         INSERT INTO REVIEW(reservation_id, star, review)
         VALUES (#{reservationId}, #{star}, #{review})
     </insert>
+
+    <select id="getReviewByHouseId" parameterType="int" resultMap="result">
+        SELECT *
+        FROM REVIEW
+        WHERE house_id = #{houseId}
+    </select>
 
     <select id="getReviewByReservationId" parameterType="int" resultMap="result">
         SELECT *

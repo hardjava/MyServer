@@ -24,6 +24,16 @@ public class AmenitiesDAO {
         return list;
     }
 
+    public List<AmenitiesDTO> getAmenitiesByHouseId(int houseId) {
+        List<AmenitiesDTO> list;
+
+        try(SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.AmenitiesMapper.getAmenitiesByHouseId", houseId);
+        }
+
+        return list;
+    }
+
     public void insertAmenities(AmenitiesDTO amenitiesDTO) {
         try(SqlSession session = sqlSessionFactory.openSession()) {
             session.insert("mapper.AmenitiesMapper.insertAmenities", amenitiesDTO);

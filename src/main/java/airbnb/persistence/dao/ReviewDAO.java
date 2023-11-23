@@ -4,6 +4,7 @@ import airbnb.exception.ExsistIdException;
 import airbnb.persistence.dto.ReviewDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import java.util.List;
 
 public class ReviewDAO {
     private final SqlSessionFactory sqlSessionFactory;
@@ -21,5 +22,15 @@ public class ReviewDAO {
                 throw new ExsistIdException("Already exist !");
             }
         }
+    }
+
+    public List<ReviewDTO> getReviewByHouseId(int houseId) {
+        List<ReviewDTO> list;
+
+        try(SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.ReviewMapper.getReviewByHouseId", houseId);
+        }
+
+        return list;
     }
 }

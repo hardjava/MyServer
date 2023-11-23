@@ -15,7 +15,6 @@ CREATE TABLE HOUSE(
     house_introduce VARCHAR(52)     NOT NULL,
     capacity        INT             NOT NULL,
     bedroom         INT             NOT NULL,
-    bed             INT             NOT NULL,
     bathroom        INT             NOT NULL
 );
 

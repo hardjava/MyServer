@@ -45,11 +45,11 @@
     </select>
 
     <insert id="insertHouse">
-        INSERT INTO RESERVATION(house_id, user_id, reservation_status, guest_num, reservation_date, check_id, check_out)
-        VALUES (#{houseId}, #{userId}, #{reservatioStatus}, #{guestNum}, #{reservationDate}, #{checkIn}, #{checkOut})
+        INSERT INTO RESERVATION(house_id, user_id, reservation_status, guest_num, reservation_date, check_in, check_out)
+        VALUES (#{houseId}, #{userId}, #{reservationStatus}, #{guestNum}, #{reservationDate}, #{checkIn}, #{checkOut})
     </insert>
 
-<!--    유저 id 예약 현황 조회-->
+    <!-- 유저 id 예약 현황 조회 -->
     <select id="getReservationByUserId" resultMap="result" parameterType="int">
         SELECT *
         FROM RESERVATION
@@ -67,12 +67,11 @@
         WHERE reservation_id = #{reservationId}
     </delete>
 
-
     <select id="hasReview" resultType="java.lang.Boolean" parameterType="int">
         SELECT EXISTS(
             SELECT 1 FROM REVIEW
             WHERE reservation_id = #{reservationId}
-        ) AS hasReview;
+        ) AS hasReview
     </select>
 
 </mapper>

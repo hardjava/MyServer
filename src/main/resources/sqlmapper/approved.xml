@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.ApprovedMapper">
-    <resultMap id="result" type="persistence.dto.ApprovedDTO">
+    <resultMap id="result" type="airbnb.persistence.dto.ApprovedDTO">
         <result property="approvedId" column="approved_id"/>
         <result property="houseId" column="house_id"/>
         <result property="isApproved" column="isApproved"/>

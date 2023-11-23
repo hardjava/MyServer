@@ -24,10 +24,12 @@ public class StayedHouseController {
         UserDTO userDTO = (UserDTO)protocol.getObject();
         try{
             list = reservationDAO.getCompletedStayReservationByUserId(userDTO.getUserId());
-            returnProtocol = new Protocol(Protocol.CODE_SEND_STAYED_HOUSE_LIST, Protocol.CODE_SUCCESS, list);
+            returnProtocol = new Protocol(Protocol.TYPE_STAYED_HOUSE, Protocol.CODE_SUCCESS);
+            returnProtocol.setObject(list);
             MyIOStream.oos.writeObject(returnProtocol);
         } catch (IOException e) {
-            returnProtocol = new Protocol(Protocol.CODE_SEND_STAYED_HOUSE_LIST, Protocol.CODE_ERROR, e.getMessage());
+            returnProtocol = new Protocol(Protocol.TYPE_STAYED_HOUSE, Protocol.CODE_ERROR);
+            returnProtocol.setObject(e.getMessage());
             MyIOStream.oos.writeObject(returnProtocol);
         }
     }

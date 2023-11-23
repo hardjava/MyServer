@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class SendReviewController {
     Protocol protocol;
-
+    Protocol returnProtocol;
     public SendReviewController(Protocol protocol) {
         this.protocol = protocol;
     }
@@ -22,10 +22,10 @@ public class SendReviewController {
 
         try {
             reviewDAO.insertReview(reviewDTO);
-            protocol.setProtocolCode(Protocol.CODE_SUCCESS);
+            returnProtocol = new Protocol(Protocol.TYPE_SEND_REVIEW, Protocol.CODE_SUCCESS);
             MyIOStream.oos.writeObject(protocol);
         } catch (ExsistIdException e) {
-            protocol.setProtocolCode(Protocol.CODE_ERROR);
+            returnProtocol = new Protocol(Protocol.TYPE_SEND_REVIEW, Protocol.CODE_ERROR);
             protocol.setObject(e.getMessage());
             MyIOStream.oos.writeObject(protocol);
         }

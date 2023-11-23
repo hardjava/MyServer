@@ -21,4 +21,9 @@ public class FeePolicyDTO implements Serializable {
         this.weekday = weekday;
         this.weekend = weekend;
     }
+
+    public FeePolicyDTO(int weekday, int weekend) {
+        this.weekday = weekday;
+        this.weekend = weekend;
+    }
 }
