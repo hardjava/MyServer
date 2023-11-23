@@ -5,12 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @Setter
 @Getter
 @ToString
 @Builder
 
-public class FeePolicyDTO {
+public class FeePolicyDTO implements Serializable {
     private int feeId, houseId, weekday, weekend;
 
     public FeePolicyDTO(int feeId, int houseId, int weekday, int weekend) {

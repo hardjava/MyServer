@@ -132,7 +132,7 @@ public class Handler {
         SelectHouseViewDetailController selectHouseViewDetailController = new SelectHouseViewDetailController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SELECT_HOUSE_INFO_REQUEST:
-                selectHouseViewDetailController.sendHouseDetailInfo();
+                selectHouseViewDetailController.sendMoreHouseInfo();
                 break;
 
             default:

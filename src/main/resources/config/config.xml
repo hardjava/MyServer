@@ -21,5 +21,7 @@
         <mapper resource="sqlmapper/login.xml"/>
         <mapper resource="sqlmapper/reservation.xml"/>
         <mapper resource="sqlmapper/review.xml"/>
+        <mapper resource="sqlmapper/house.xml"/>
+        <mapper resource="sqlmapper/amenities.xml"/>
     </mappers>
 </configuration>

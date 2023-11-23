@@ -9,7 +9,7 @@
         <result property="houseName" column="house_name"/>
         <result property="houseAddress" column="house_address"/>
         <result property="houseIntroduce" column="house_introduce"/>
-        <result property="houseCapacity" column="house_capacity"/>
+        <result property="capacity" column="capacity"/>
         <result property="bedroom" column="bedroom"/>
         <result property="bathroom" column="bathroom"/>
     </resultMap>

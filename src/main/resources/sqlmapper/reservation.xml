@@ -6,13 +6,13 @@
 <mapper namespace="mapper.ReservationMapper">
     <resultMap id="result" type="airbnb.persistence.dto.ReservationDTO">
         <result property="reservationId" column="reservation_id"/>
-        <result property="houseId" column="house_id"/>
-        <result property="userId" column="user_id"/>
         <result property="reservationStatus" column="reservation_status"/>
         <result property="guestNum" column="guest_num"/>
         <result property="reservationDate" column="reservation_date"/>
         <result property="checkIn" column="check_in"/>
         <result property="checkOut" column="check_out"/>
+        <result property="userId" column="user_id"/>
+        <result property="houseId" column="house_id"/>
         <result property="cost" column="cost"/>
     </resultMap>
 
