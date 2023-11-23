@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.ReservationMapper">
-    <resultMap id="result" type="persistence.dto.ReservationDTO">
+    <resultMap id="result" type="airbnb.persistence.dto.ReservationDTO">
         <result property="reservationId" column="reservation_id"/>
         <result property="houseId" column="house_id"/>
         <result property="userId" column="user_id"/>
@@ -15,12 +15,20 @@
         <result property="checkOut" column="check_out"/>
     </resultMap>
 
+    <resultMap id="completedStayDTO" type="airbnb.persistence.dto.CompletedStayDTO">
+        <result property="houseName" column="house_name"/>
+        <result property="checkIn" column="check_in"/>
+        <result property="checkOut" column="check_out"/>
+        <result property="reservationStatus" column="reservation_status"/>
+
+    </resultMap>
+
     <select id="getAll" resultMap="result">
         SELECT *
         FROM RESERVATION
     </select>
 
-    <insert id="insertHouse" parameterType="result">
+    <insert id="insertHouse">
         INSERT INTO RESERVATION(house_id, user_id, reservation_status, guest_num, reservation_date, check_id, check_out)
         VALUES (#{houseId}, #{userId}, #{reservatioStatus}, #{guestNum}, #{reservationDate}, #{checkIn}, #{checkOut})
     </insert>
@@ -38,10 +46,19 @@
         WHERE house_id = #{houseId}
     </select>
     
-    <select id="getCompletedStayReservationByUserId" resultMap="result" parameterType="int">
-        SELECT house_name, check_in, check_out
+    <select id="getCompletedStayReservationByUserId" resultMap="completedStayDTO" parameterType="int">
+        SELECT house_name, check_in, check_out, reservation_status
         FROM HOUSE, RESERVATION
         WHERE RESERVATION.house_id = HOUSE.house_id
-          AND RESERVATION.user_id = #{userId}
+          AND RESERVATION.user_id = #{userId} AND RESERVATION.reservation_status = 'AFTER_STAY'
     </select>
+
+    <select id="getBeforeStayReservationByUserId" resultMap="completedStayDTO" parameterType="int">
+        SELECT house_name, check_in, check_out, reservation_status
+        FROM HOUSE, RESERVATION
+        WHERE RESERVATION.house_id = HOUSE.house_id
+          AND RESERVATION.user_id = #{userId} AND RESERVATION.reservation_status = 'BEFORE_STAY'
+    </select>
+    
+<!--    <select id="getBeforeStayReservationByUserId" resultMap=""-->
 </mapper>

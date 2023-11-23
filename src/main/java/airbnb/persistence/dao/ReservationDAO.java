@@ -50,7 +50,17 @@ public class ReservationDAO {
         List<CompletedStayDTO> list;
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            list = session.selectList("mapper.Reservation.getCompletedStayReservationByUserId", userId);
+            list = session.selectList("mapper.ReservationMapper.getCompletedStayReservationByUserId", userId);
+        }
+
+        return list;
+    }
+
+    public List<CompletedStayDTO> getBeforeStayReservationByUserId(int userId) {
+        List<CompletedStayDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.ReservationMapper.getBeforeStayReservationByUserId", userId);
         }
 
         return list;
