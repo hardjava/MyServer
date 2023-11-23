@@ -81,7 +81,7 @@ public class Handler {
                 break;
 
             case Protocol.CODE_SEND_MODIFY_REVIEW:
-                writtenReviewController.modifyReview();
+                //writtenReviewController.modifyReview();
                 break;
             default:
 

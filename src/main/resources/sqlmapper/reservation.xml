@@ -36,7 +36,7 @@
         SELECT reservation_id, house_name, check_in, check_out, reservation_status, cost
         FROM HOUSE, RESERVATION
         WHERE RESERVATION.house_id = HOUSE.house_id
-          AND RESERVATION.user_id = #{userId} AND RESERVATION.reservation_status = 'BEFORE_STAY'
+          AND RESERVATION.user_id = #{userId} AND (RESERVATION.reservation_status = 'BEFORE_STAY' OR RESERVATION.reservation_status = 'STAY' OR RESERVATION.reservation_status = 'WAIT')
     </select>
 
     <select id="getAll" resultMap="result">
@@ -62,6 +62,10 @@
         WHERE house_id = #{houseId}
     </select>
 
+    <delete id="deleteByReservationId" parameterType="int">
+        DELETE FROM RESERVATION
+        WHERE reservation_id = #{reservationId}
+    </delete>
 
 
     <select id="hasReview" resultType="java.lang.Boolean" parameterType="int">

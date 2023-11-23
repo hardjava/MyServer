@@ -1,10 +1,13 @@
 package airbnb.controller;
 
+import airbnb.exception.ImpossibleCancelException;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
+import airbnb.network.Status;
 import airbnb.persistence.MyBatisConnectionFactory;
 import airbnb.persistence.dao.ReservationDAO;
 import airbnb.persistence.dto.CompletedStayDTO;
+import airbnb.persistence.dto.ReservationDTO;
 import airbnb.persistence.dto.UserDTO;
 
 import java.io.IOException;
@@ -33,5 +36,20 @@ public class SearchGuestReservationController {
             returnProtocol = new Protocol(Protocol.CODE_SEND_RESERVATION, Protocol.CODE_ERROR, e.getMessage());
             MyIOStream.oos.writeObject(returnProtocol);
         }   // 예외 바꿔줘야함
+    }
+
+    public void requestReservationCancel() throws IOException {
+        ReservationDTO reservationDTO = (ReservationDTO) protocol.getObject();
+        ReservationDAO reservationDAO = new ReservationDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+
+        try {
+            reservationDAO.deleteByReservationId(reservationDTO);
+            returnProtocol = new Protocol(Protocol.CODE_SUCCESS);
+            MyIOStream.oos.writeObject(returnProtocol);
+        } catch (ImpossibleCancelException e) {
+            returnProtocol = new Protocol(Protocol.CODE_ERROR);
+            returnProtocol.setObject(e.getMessage());
+            MyIOStream.oos.writeObject(returnProtocol);
+        }
     }
 }

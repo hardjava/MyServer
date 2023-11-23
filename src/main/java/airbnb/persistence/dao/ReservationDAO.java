@@ -1,5 +1,7 @@
 package airbnb.persistence.dao;
 
+import airbnb.exception.ImpossibleCancelException;
+import airbnb.network.Status;
 import airbnb.persistence.dto.CompletedStayDTO;
 import airbnb.persistence.dto.ReservationDTO;
 import org.apache.ibatis.session.SqlSession;
@@ -51,9 +53,9 @@ public class ReservationDAO {
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
             list = session.selectList("mapper.ReservationMapper.getCompletedStayReservationByUserId", userId);
-//            for (CompletedStayDTO completedStayDTO : list) {
-//                completedStayDTO.setHasReviewed(session.selectOne("mapper.ReservationMapper.hasReview", completedStayDTO.getReservationId()));
-//            }
+            for (CompletedStayDTO completedStayDTO : list) {
+                completedStayDTO.setHasReview(session.selectOne("mapper.ReservationMapper.hasReview", completedStayDTO.getReservationId()));
+            }
         }
 
         return list;
@@ -67,5 +69,17 @@ public class ReservationDAO {
         }
 
         return list;
+    }
+    
+    public void deleteByReservationId(ReservationDTO reservationDTO) {
+        try(SqlSession session = sqlSessionFactory.openSession()) {
+            if (reservationDTO.getReservationStatus() == Status.BEFORE_STAY) {
+                session.delete("mapper.ReservationMapper.deleteByReservationId", reservationDTO.getReservationId());
+                session.commit();
+            }
+            else {
+                throw new ImpossibleCancelException("Cancellation not possible before approval");
+            }
+        }
     }
 }
