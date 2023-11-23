@@ -20,5 +20,6 @@
         <mapper resource="sqlmapper/user.xml"/>
         <mapper resource="sqlmapper/login.xml"/>
         <mapper resource="sqlmapper/reservation.xml"/>
+        <mapper resource="sqlmapper/review.xml"/>
     </mappers>
 </configuration>

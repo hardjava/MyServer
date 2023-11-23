@@ -7,8 +7,6 @@ import java.io.IOException;
 public class Handler {
 
 
-
-
     public void receiveLoginRequestType(Protocol protocol) throws IOException, ClassNotFoundException { // 로그인 request 를 받았을 때 실행
         LoginController loginController = new LoginController(protocol);
         switch (protocol.getProtocolCode()) {
@@ -39,7 +37,7 @@ public class Handler {
     }
 
     public void receivePersonalInfoEditType(Protocol protocol) throws IOException {
-        PersonalInfoEditController personalInfoEditController = new PersonalInfoEditController( protocol);
+        PersonalInfoEditController personalInfoEditController = new PersonalInfoEditController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_MODIFY_NAME_INFO:
                 personalInfoEditController.modifyUserNameInfo();
@@ -65,8 +63,9 @@ public class Handler {
             case Protocol.CODE_MY_RESERVATION_REQUEST:
                 searchReservationController.sendReservationList();
                 break;
-
-
+            case Protocol.CODE_REQUEST_RESERVATION_CANCELLATION:
+                searchReservationController.requestReservationCancel();
+                break;
             default:
 
                 break;
