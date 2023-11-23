@@ -3,7 +3,7 @@ package org.example;
 import java.text.ParseException;
 import java.util.Scanner;
 
-public class AccommodationReservationApp {
+public class    AccommodationReservationApp {
     /*
     Scanner sc = new Scanner(System.in);
 

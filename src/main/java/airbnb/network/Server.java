@@ -29,7 +29,6 @@ public class Server {
             Handler handler = new Handler();
 
             while (true) {
-                System.out.println("goood");
                 Protocol protocol = (Protocol) objectInputStream.readObject();
 
                 switch (protocol.getProtocolType()) {
@@ -226,12 +225,12 @@ public class Server {
                             case Protocol.CODE_ERROR:
                                 System.out.println("승인 또는 거절 정보 전송 실패 처리");
                                 break;
-                            case Protocol.CODE_REQUEST_REJECTED_ACCOMMODATION_LIST:
-                                System.out.println("거절된 숙박 목록 요청 처리");
-                                break;
-                            case Protocol.CODE_SEND_REJECTED_ACCOMMODATION_LIST:
-                                System.out.println("거절된 숙박 목록 전송 처리");
-                                break;
+//                            case Protocol.CODE_REQUEST_REJECTED_ACCOMMODATION_LIST:
+//                                System.out.println("거절된 숙박 목록 요청 처리");
+//                                break;
+//                            case Protocol.CODE_SEND_REJECTED_ACCOMMODATION_LIST:
+//                                System.out.println("거절된 숙박 목록 전송 처리");
+//                                break;
                             default:
                                 System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
                                 break;
