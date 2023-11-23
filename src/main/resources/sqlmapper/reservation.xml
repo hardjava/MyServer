@@ -13,15 +13,31 @@
         <result property="reservationDate" column="reservation_date"/>
         <result property="checkIn" column="check_in"/>
         <result property="checkOut" column="check_out"/>
+        <result property="cost" column="cost"/>
     </resultMap>
 
     <resultMap id="completedStayDTO" type="airbnb.persistence.dto.CompletedStayDTO">
+        <result property="reservationId" column="reservation_id"/>
         <result property="houseName" column="house_name"/>
         <result property="checkIn" column="check_in"/>
         <result property="checkOut" column="check_out"/>
         <result property="reservationStatus" column="reservation_status"/>
-
+        <result property="cost" column="cost"/>
     </resultMap>
+
+    <select id="getCompletedStayReservationByUserId" resultMap="completedStayDTO" parameterType="int">
+        SELECT reservation_id, house_name, check_in, check_out, reservation_status, cost
+        FROM HOUSE, RESERVATION
+        WHERE RESERVATION.house_id = HOUSE.house_id
+          AND RESERVATION.user_id = #{userId} AND RESERVATION.reservation_status = 'AFTER_STAY'
+    </select>
+
+    <select id="getBeforeStayReservationByUserId" resultMap="completedStayDTO" parameterType="int">
+        SELECT reservation_id, house_name, check_in, check_out, reservation_status, cost
+        FROM HOUSE, RESERVATION
+        WHERE RESERVATION.house_id = HOUSE.house_id
+          AND RESERVATION.user_id = #{userId} AND RESERVATION.reservation_status = 'BEFORE_STAY'
+    </select>
 
     <select id="getAll" resultMap="result">
         SELECT *
@@ -45,20 +61,14 @@
         FROM RESERVATION
         WHERE house_id = #{houseId}
     </select>
-    
-    <select id="getCompletedStayReservationByUserId" resultMap="completedStayDTO" parameterType="int">
-        SELECT house_name, check_in, check_out, reservation_status
-        FROM HOUSE, RESERVATION
-        WHERE RESERVATION.house_id = HOUSE.house_id
-          AND RESERVATION.user_id = #{userId} AND RESERVATION.reservation_status = 'AFTER_STAY'
+
+
+
+    <select id="hasReview" resultType="java.lang.Boolean" parameterType="int">
+        SELECT EXISTS(
+            SELECT 1 FROM REVIEW
+            WHERE reservation_id = #{reservationId}
+        ) AS hasReview;
     </select>
 
-    <select id="getBeforeStayReservationByUserId" resultMap="completedStayDTO" parameterType="int">
-        SELECT house_name, check_in, check_out, reservation_status
-        FROM HOUSE, RESERVATION
-        WHERE RESERVATION.house_id = HOUSE.house_id
-          AND RESERVATION.user_id = #{userId} AND RESERVATION.reservation_status = 'BEFORE_STAY'
-    </select>
-    
-<!--    <select id="getBeforeStayReservationByUserId" resultMap=""-->
 </mapper>

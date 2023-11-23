@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 
 public class ReservationDTO {
-    private int reservationId, guestNum, houseId;
+    private int reservationId, guestNum, houseId, cost;
     private Status reservationStatus;
     private LocalDateTime reservationDate, checkIn, checkOut;
     private String userId, userPwd;
 
-    public ReservationDTO(int guestNum, int houseId, Status reservationStatus, LocalDateTime reservationDate, LocalDateTime checkIn, LocalDateTime checkOut, String userId, String userPwd) {
+    public ReservationDTO(int guestNum, int houseId, int cost, Status reservationStatus, LocalDateTime reservationDate, LocalDateTime checkIn, LocalDateTime checkOut, String userId, String userPwd) {
         this.guestNum = guestNum;
         this.houseId = houseId;
         this.reservationStatus = reservationStatus;
@@ -26,5 +26,6 @@ public class ReservationDTO {
         this.checkOut = checkOut;
         this.userId = userId;
         this.userPwd = userPwd;
+        this.cost = cost;
     }
 }
