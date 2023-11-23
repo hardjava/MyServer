@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.ReviewMapper">
+    <resultMap id="result" type="airbnb.persistence.dto.ReviewDTO">
+        <result property="reviewId" column="review_id"/>
+        <result property="reservationId" column="reservation_id"/>
+        <result property="star" column="star"/>
+        <result property="review" column="review"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO REVIEW(reservation_id, star, review)
+        VALUES (#{reservationId}, #{star}, #{review})
+    </insert>
+
+    <select id="getReviewByReservationId" parameterType="int" resultMap="result">
+        SELECT *
+        FROM REVIEW
+        WHERE reservation_id = #{reservationId};
+    </select>
+
+    <select id="hasReviewByReservationId" resultType="java.lang.Boolean" parameterType="int">
+        SELECT EXISTS(
+            SELECT 1 FROM REVIEW
+            WHERE reservation_id = #{reservationId}
+        ) AS hasReview;
+    </select>
+</mapper>
