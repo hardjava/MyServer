@@ -17,11 +17,10 @@ public class UserReviewDTO implements Serializable {
     private String review, userName;
 
     public String toString() {
-        StringBuilder str = new StringBuilder();
+        StringBuilder stars = new StringBuilder();
         for (int i = 0; i < star; i++) {
-            str.append("*");
+            stars.append("*");
         }
-
-        return String.format("[%s]\n%-10s\n%s", userName, str, review);
+        return String.format("STAR: %s\nREVIEW: %s", stars.toString(), review);
     }
 }

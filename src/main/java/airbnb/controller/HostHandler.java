@@ -52,7 +52,9 @@ public class HostHandler {
     public void receiveSetDiscountPolicy(Protocol protocol) throws IOException {
            SetDiscountPolicyController setDiscountPolicyController = new SetDiscountPolicyController(protocol);
         switch (protocol.getProtocolCode()) {
-
+            case Protocol.CODE_REQUEST_MY_HOUSE_LIST:
+                setDiscountPolicyController.sendApprovedSetFeePolicyHouse();
+                break;
 
             default:
 
