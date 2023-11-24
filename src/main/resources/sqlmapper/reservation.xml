@@ -74,4 +74,9 @@
         ) AS hasReview
     </select>
 
+    <select id="getHouseIdByReservationId" parameterType="int" resultType="int">
+        SELECT house_id
+        FROM RESERVATION
+        WHERE reservation_id = #{reservationId}
+    </select>
 </mapper>

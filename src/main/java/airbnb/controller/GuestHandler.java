@@ -142,10 +142,10 @@ public class GuestHandler {
     }
 
     public void receiveRequestReservationType(Protocol protocol) throws IOException {
-        RequestReservationController reauestReservationController = new RequestReservationController(protocol);
+        RequestReservationController requestReservationController = new RequestReservationController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_RESERVATION_INFO:
-                reauestReservationController.insertReservation();
+                requestReservationController.insertReservation();
                 break;
 
             default:

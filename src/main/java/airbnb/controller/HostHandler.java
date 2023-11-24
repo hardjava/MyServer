@@ -49,7 +49,8 @@ public class HostHandler {
         }
     }
 
-    public void receiveSetDiscountPolicy(Protocol protocol) {
+    public void receiveSetDiscountPolicy(Protocol protocol) throws IOException {
+           SetDiscountPolicyController setDiscountPolicyController = new SetDiscountPolicyController(protocol);
         switch (protocol.getProtocolCode()) {
 
 

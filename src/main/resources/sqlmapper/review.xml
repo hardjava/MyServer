@@ -19,8 +19,8 @@
     </resultMap>
 
     <insert id="insert">
-        INSERT INTO REVIEW(reservation_id, star, review)
-        VALUES (#{reservationId}, #{star}, #{review})
+        INSERT INTO REVIEW(reservation_id, star, review, house_id)
+        VALUES (#{reservationId}, #{star}, #{review}, #{houseId})
     </insert>
 
     <select id="getReviewByHouseId" parameterType="int" resultMap="userReviewDTO">

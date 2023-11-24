@@ -17,6 +17,8 @@ public class ReviewDAO {
         try(SqlSession session = sqlSessionFactory.openSession()) {
             ReviewDTO check = session.selectOne("mapper.ReviewMapper.getReviewByReservationId", reviewDTO.getReservationId());
             if (check == null) {
+                int houseId = session.selectOne("mapper.ReservationMapper.getHouseIdByReservationId", reviewDTO.getReservationId());
+                reviewDTO.setHouseId(houseId);
                 session.insert("mapper.ReviewMapper.insert", reviewDTO);
                 session.commit();
             } else {
