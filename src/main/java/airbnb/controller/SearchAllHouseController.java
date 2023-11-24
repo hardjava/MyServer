@@ -22,7 +22,7 @@ public class SearchAllHouseController {
         HouseDAO houseDAO = new HouseDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         Protocol returnProtocol;
 
-        list = houseDAO.getApprovedHouse();
+        list = houseDAO.getApprovedHouseSetFeePolicy();
         returnProtocol = new Protocol(Protocol.TYPE_SEARCH_ALL_HOUSE, Protocol.CODE_SUCCESS);
         returnProtocol.setObject(list);
         MyIOStream.oos.writeObject(returnProtocol);

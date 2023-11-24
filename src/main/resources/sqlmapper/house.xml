@@ -9,9 +9,9 @@
         <result property="houseName" column="house_name"/>
         <result property="houseAddress" column="house_address"/>
         <result property="houseIntroduce" column="house_introduce"/>
-        <result property="capacity" column="capacity"/>
         <result property="bedroom" column="bedroom"/>
         <result property="bathroom" column="bathroom"/>
+        <result property="type" column="type"/>
     </resultMap>
 
 <!--    <select id="getAll" resultMap="result">-->
@@ -19,28 +19,28 @@
 <!--        FROM HOUSE-->
 <!--    </select>-->
 
-<!--    <select id="getMaxHouseId" resultType="int">-->
-<!--        SELECT MAX(house_id)-->
-<!--        FROM HOUSE-->
-<!--        LIMIT 1-->
-<!--    </select>-->
+    <select id="getMaxHouseId" resultType="int">
+        SELECT MAX(house_id)
+        FROM HOUSE
+        LIMIT 1
+    </select>
 
-<!--    <insert id="insertHouse" parameterMap="result">-->
-<!--        INSERT INTO HOUSE(house_name, house_address, house_introduce, capacity, bedroom, bathroom)-->
-<!--        VALUES (#{house_name}, #{house_address}, #{house_introduce}, #{capacity}, #{bed}, #{bathroom})-->
-<!--    </insert>-->
+    <insert id="insertHouse" parameterMap="result">
+        INSERT INTO HOUSE(house_name, house_address, house_introduce, bedroom, bathroom)
+        VALUES (#{house_name}, #{house_address}, #{house_introduce}, #{bedroom}, #{bathroom})
+    </insert>
     
-<!--    <select id="getHouseByHostId" resultMap="result">-->
-<!--        SELECT *-->
-<!--        FROM HOUSE-->
-<!--        WHERE house_id = #{houseId}-->
-<!--    </select>-->
+    <select id="getHouseByHostId" resultMap="result">
+        SELECT *
+        FROM HOUSE
+        WHERE house_id = #{houseId}
+    </select>
 
-<!--    <select id="getHouseByName" resultType="result" parameterType="string">-->
-<!--        SELECT *-->
-<!--        FROM HOUSE-->
-<!--        WHERE house_name = #{houseName}-->
-<!--    </select>-->
+    <select id="getHouseByHouseName" resultType="result" parameterType="string">
+        SELECT *
+        FROM HOUSE
+        WHERE house_name = #{houseName}
+    </select>
 
     <!--    편의 시설을 조건으로 검색한거-->
     <!--    트스테 필요-->
@@ -71,6 +71,13 @@
         SELECT *
         FROM HOUSE
         WHERE #{houseId} NOT IN (SELECT house_id
+                                    FROM FEE_POLICY)
+    </select>
+
+    <select id="getApprovedHouseSetFeePolicy" parameterType="int" resultMap="result">
+        SELECT *
+        FROM HOUSE
+        WHERE #{houseId} IN (SELECT house_id
                                     FROM FEE_POLICY)
     </select>
 

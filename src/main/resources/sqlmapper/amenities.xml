@@ -7,9 +7,9 @@
     <resultMap id="result" type="airbnb.persistence.dto.AmenitiesDTO">
         <result property="amenitiesId" column="amenities_id"/>
         <result property="houseId" column="house_id"/>
+        <result property="amenities" column="amenities"/>
         <result property="typeId" column="type_id"/>
         <result property="count" column="count"/>
-        <result property="amenities" column="amenities"/>
     </resultMap>
 
     <select id="getAll" resultMap="result">

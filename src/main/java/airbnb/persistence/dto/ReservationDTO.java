@@ -14,10 +14,10 @@ import java.sql.Date;
 
 public class ReservationDTO implements Serializable {
     private int reservationId;
+    private int houseId, userId;
     private Status reservationStatus;
     private int guestNum;
     private Date reservationDate, checkIn, checkOut;
-    private int houseId, userId;
     private int cost;
 
 

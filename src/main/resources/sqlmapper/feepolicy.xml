@@ -11,10 +11,11 @@
         <result property="weekend" column="weekend"/>
     </resultMap>
 
-    <select id="getFeePolicyByHouseId" resultMap="result" parameterType="int">
+    <select id="getFeePolicyByHouseId" parameterType="int" resultMap="result">
         SELECT *
-        FROM FEEPOLICY
+        FROM FEE_POLICY
         WHERE house_id = #{houseId}
+        LIMIT 1
     </select>
 
 </mapper>

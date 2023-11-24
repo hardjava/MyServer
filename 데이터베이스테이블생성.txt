@@ -12,8 +12,7 @@ CREATE TABLE HOUSE(
     house_id        INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
     house_name      VARCHAR(21)     NOT NULL,
     house_address   VARCHAR(52)     NOT NULL,
-    house_introduce VARCHAR(52)     NOT NULL,
-    capacity        INT             NOT NULL,
+    house_introduce VARCHAR(152)    NOT NULL,
     bedroom         INT             NOT NULL,
     bathroom        INT             NOT NULL
 );
@@ -48,7 +47,7 @@ CREATE TABLE HOUSE_AMENITIES(
 
 CREATE TABLE RESERVATION(
     reservation_id      INT             NOT NULL    AUTO_INCREMENT      PRIMARY KEY,
-    reservation_status  enum('WAIT', 'APPROVED', 'NOT_APPROVED', 'BEFORE_STAY', 'STAY', 'AFTER_STAY')      NOT NULL,
+    reservation_status  enum('WAIT', 'BEFORE_STAY', 'STAY', 'AFTER_STAY')      NOT NULL,
     guests_num          INT             NOT NULL,   # 손님 수
     reservation_date    date            NOT NULL,
     check_in            date            NOT NULL,

@@ -1,5 +1,6 @@
 package airbnb.persistence.dao;
 
+import airbnb.exception.ExistHouseException;
 import airbnb.persistence.dto.HouseDTO;
 import airbnb.persistence.dto.WaitingDTO;
 import org.apache.ibatis.session.SqlSession;
@@ -37,14 +38,14 @@ public class HouseDAO {
         return list;
     }
 
-//    // HOST -> search 등록 house list
-//    public List<HouseDTO> getHouse() {
-//        List<HouseDTO> list;
-//
-//        try(SqlSession session = sqlSessionFactory.openSession()) {
-//            list = session.selectList()
-//        }
-//    }
+    public List<HouseDTO> getApprovedHouseSetFeePolicy () {
+        List<HouseDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.HouseMapper.getApprovedHouseSetFeePolicy");
+        }
+        return list;
+    }
 
     // HOST -> 예약현황 조회하려면 일단 getHouseByHostId 받고 -> reservation 조회 getHouseByHostId
     public List<HouseDTO> getHouseByHostId(int hostId) {
@@ -60,11 +61,15 @@ public class HouseDAO {
     // 숙소 등록 -> Waiting 에 넣어줘야함
     public void insertHouse(HouseDTO insertHouseDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            WaitingDAO waitingDAO = new WaitingDAO(sqlSessionFactory);
-            session.insert("mapper.HouseMapper.insertHouse", insertHouseDTO);
-            // 숙소 등록하면 숙소 승인 큐에도 넣어줘야 한다.
-            waitingDAO.insertWaitingRecentHouse();
-            session.commit();
+            HouseDTO houseDTO = session.selectOne("mapper.HouseMapper.getHouseByHouseName", insertHouseDTO.getHouseName());
+            if (houseDTO == null) {
+                WaitingDAO waitingDAO = new WaitingDAO(sqlSessionFactory);
+                session.insert("mapper.HouseMapper.insertHouse", insertHouseDTO);
+                session.commit();
+                // 숙소 등록하면 숙소 승인 큐에도 넣어줘야 한다.
+                waitingDAO.insertWaitingRecentHouse();
+            } else
+                throw new ExistHouseException("Exist Accommodation Name !");
         }
     }
 
@@ -103,9 +108,14 @@ public class HouseDAO {
         return list;
     }
 
-
-
     // 호스트 -> 등록한 거에 대한거 승인된지 안된지 확인해야함
+    public List<HouseDTO> getNotApprovedHouseByHostId(int hostId) {
+        List <HouseDTO> list;
+        try(SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.HouseMapper.getNotApprovedHouseByHostId", hostId);
+        }
+        return list;
+    }
     // 관리자 -> 승인할지말지 선택해야하니 조회해야함
     public List<HouseDTO> getNotApprovedHouse() {
         List<HouseDTO> list;

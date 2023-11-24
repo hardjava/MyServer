@@ -7,6 +7,7 @@ import airbnb.persistence.dao.AmenitiesDAO;
 import airbnb.persistence.dao.FeePolicyDAO;
 import airbnb.persistence.dao.ReservationDAO;
 import airbnb.persistence.dao.ReviewDAO;
+import airbnb.persistence.dto.FeePolicyDTO;
 import airbnb.persistence.dto.HouseDTO;
 import airbnb.persistence.dto.MoreHouseInfoDTO;
 

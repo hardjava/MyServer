@@ -17,7 +17,7 @@ public class FeePolicyDAO {
         FeePolicyDTO feePolicyDTO;
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            feePolicyDTO = session.selectOne("mapper.FeePolicy.getFeePolicyByHouseId", houseId);
+            feePolicyDTO = session.selectOne("mapper.FeePolicyMapper.getFeePolicyByHouseId", houseId);
         }
 
         return feePolicyDTO;
