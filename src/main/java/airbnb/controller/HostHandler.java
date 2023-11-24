@@ -5,7 +5,7 @@ import airbnb.network.Protocol;
 import java.io.IOException;
 
 public class HostHandler {
-       public void receiveHouseRegistration(Protocol protocol) throws IOException {
+    public void receiveHouseRegistration(Protocol protocol) throws IOException {
         HouseRegistrationController houseRegistrationController = new HouseRegistrationController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_REGISTRATION_HOUSE_INFO:
@@ -31,7 +31,7 @@ public class HostHandler {
     }
 
     public void receiveSetCostPolicy(Protocol protocol) throws IOException {
-            SetCostPolicyController setCostPolicyController = new SetCostPolicyController(protocol);
+        SetCostPolicyController setCostPolicyController = new SetCostPolicyController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_REQUEST_DIVISION_COST_POLICY_HOUSE_LIST:
 
@@ -50,11 +50,15 @@ public class HostHandler {
     }
 
     public void receiveSetDiscountPolicy(Protocol protocol) throws IOException {
-           SetDiscountPolicyController setDiscountPolicyController = new SetDiscountPolicyController(protocol);
+        SetDiscountPolicyController setDiscountPolicyController = new SetDiscountPolicyController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_REQUEST_MY_HOUSE_LIST:
                 setDiscountPolicyController.sendApprovedSetFeePolicyHouse();
                 break;
+
+//            case Protocol.CODE_SEND_DISCOUNT_POLICY_ON_CONSECUTIVE_NIGHTS:
+//                setDiscountPolicyController.setFeePolicy();
+//                break;
 
             default:
 

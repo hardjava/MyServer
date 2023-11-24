@@ -25,6 +25,7 @@
         <mapper resource="sqlmapper/amenities.xml"/>
         <mapper resource="sqlmapper/feepolicy.xml"/>
         <mapper resource="sqlmapper/waiting.xml"/>
+        <mapper resource="sqlmapper/discountpolicymapper.xml"/>
 
     </mappers>
 </configuration>

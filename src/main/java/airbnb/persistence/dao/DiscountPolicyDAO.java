@@ -10,9 +10,17 @@ public class DiscountPolicyDAO {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
-    public void insertDiscountPolicy(DiscountPolicyDTO discountPolicyDTO) {
+    public void insert(DiscountPolicyDTO discountPolicyDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-//            session.insert()
+            DiscountPolicyDTO check = session.selectOne("mapper.DiscountPolicyMapper.getDiscountByHouseId", discountPolicyDTO.getHouseId());
+
+            if (check == null) {    // 없으면 새로 넣음
+                session.insert("mapper.DiscountPolicyMapper.insert", discountPolicyDTO);
+                session.commit();
+            } else {        // 있으면 바꿈
+                session.update("mapper.DiscountPolicyMapper.update", discountPolicyDTO);
+                session.commit();
+            }
         }
     }
 }

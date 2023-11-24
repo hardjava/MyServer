@@ -86,6 +86,16 @@
           AND A.house_id IN (SELECT house_id FROM FEE_POLICY);
     </select>
 
+    <select id="getApprovedHouseSetFeePolicyAndDiscountInfoByHostId" parameterType="int" resultType="airbnb.persistence.dto.HouseAndDiscountDTO">
+                 SELECT H.house_id, H.host_id, H.house_name, H.house_address, H.house_introduce, H.bedroom, H.bathroom, D.discount_day, D.discount_amount, D.discount_rate
+        FROM HOUSE H
+                 JOIN APPROVED A ON H.house_id = A.house_id
+                 LEFT JOIN FEE_POLICY F ON H.house_id = F.house_id
+                 LEFT JOIN DISCOUNT_POLICY D ON H.house_id = D.house_id
+        WHERE H.host_id = #{hostId}
+          AND F.house_id = H.house_id
+          AND A.isApproved = 1
+    </select>
 <!--    <select id="getApprovedHouseSetFeePolicyDiscountPolicy" parameterType="int">-->
 <!--        SELECT-->
 <!--    </select>-->
