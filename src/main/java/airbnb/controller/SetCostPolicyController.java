@@ -1,18 +1,38 @@
 package airbnb.controller;
+import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
+import airbnb.persistence.MyBatisConnectionFactory;
+import airbnb.persistence.dao.FeePolicyDAO;
+import airbnb.persistence.dao.HouseDAO;
+import airbnb.persistence.dto.FeePolicyDTO;
+import airbnb.persistence.dto.HouseDTO;
+import airbnb.persistence.dto.UserDTO;
+
+import java.io.IOException;
+import java.util.List;
+
 public class SetCostPolicyController {
     Protocol protocol;
+    Protocol returnProtocol;
 
     public SetCostPolicyController(Protocol protocol) {
         this.protocol = protocol;
     }
 
 
-    public void sendHouseList(){// 클라이언트로 가격정책이 적용된 숙소, 적용되지 않은 숙소를 구분하여 숙소 리스트를 전달하는 메소드
-
+    public void sendNotSetFeePolicyHouseList() throws IOException {// 클라이언트로 가격정책이 적용된 숙소, 적용되지 않은 숙소를 구분하여 숙소 리스트를 전달하는 메소드
+        HouseDAO houseDAO = new HouseDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+        List<HouseDTO> list;
+        UserDTO userDTO = (UserDTO)protocol.getObject();
+        list = houseDAO.getApprovedHouseNotSetFeePolicyByHostId(userDTO.getUserId());
+        returnProtocol = new Protocol(Protocol.TYPE_SET_COST_POLICY, Protocol.CODE_SUCCESS, list);
+        MyIOStream.oos.writeObject(returnProtocol);
     }
 
     public void insertCostPolicy(){// 클라이언트로 부터 받은 가격정책을 설정하는 메소드
+        FeePolicyDAO feePolicyDAO = new FeePolicyDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+        FeePolicyDTO feePolicyDTO = (FeePolicyDTO) protocol.getObject();
+
 
     }
 }

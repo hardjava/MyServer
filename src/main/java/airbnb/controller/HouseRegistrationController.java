@@ -27,9 +27,11 @@ public class HouseRegistrationController {
         try {
             houseDAO.insertHouse(requestHouseDTO.getHouseDTO());
             int houseId = houseDAO.getHouseByName(requestHouseDTO.getHouseDTO().getHouseName()).getHouseId();
-            for (AmenitiesDTO amenitiesDTO : requestHouseDTO.getAmenitiesDTOList()) {
-                amenitiesDTO.setHouseId(houseId);
-                amenitiesDAO.insertAmenities(amenitiesDTO);
+            if (requestHouseDTO.getAmenitiesDTOList() != null) {
+                for (AmenitiesDTO amenitiesDTO : requestHouseDTO.getAmenitiesDTOList()) {
+                    amenitiesDTO.setHouseId(houseId);
+                    amenitiesDAO.insertAmenities(amenitiesDTO);
+                }
             }
             returnProtocol = new Protocol(Protocol.TYPE_HOUSE_REGISTRATION, Protocol.CODE_SUCCESS);
             MyIOStream.oos.writeObject(returnProtocol);

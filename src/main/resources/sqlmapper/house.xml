@@ -6,12 +6,13 @@
 <mapper namespace="mapper.HouseMapper">
     <resultMap id="result" type="airbnb.persistence.dto.HouseDTO">
         <result property="houseId" column="house_id"/>
+        <result property="hostId" column="host_id"/>
         <result property="houseName" column="house_name"/>
         <result property="houseAddress" column="house_address"/>
         <result property="houseIntroduce" column="house_introduce"/>
         <result property="bedroom" column="bedroom"/>
         <result property="bathroom" column="bathroom"/>
-        <result property="type" column="type"/>
+        <result property="houseType" column="house_type"/>
     </resultMap>
 
 <!--    <select id="getAll" resultMap="result">-->
@@ -25,18 +26,18 @@
         LIMIT 1
     </select>
 
-    <insert id="insertHouse" parameterMap="result">
+    <insert id="insertHouse">
         INSERT INTO HOUSE(house_name, house_address, house_introduce, bedroom, bathroom)
-        VALUES (#{house_name}, #{house_address}, #{house_introduce}, #{bedroom}, #{bathroom})
+        VALUES (#{houseName}, #{houseAddress}, #{houseIntroduce}, #{bedroom}, #{bathroom})
     </insert>
     
-    <select id="getHouseByHostId" resultMap="result">
+    <select id="getHouseByHostId" resultMap="result" parameterType="int">
         SELECT *
         FROM HOUSE
-        WHERE house_id = #{houseId}
+        WHERE host_id = #{hostId}
     </select>
 
-    <select id="getHouseByHouseName" resultType="result" parameterType="string">
+    <select id="getHouseByHouseName" resultMap="result" parameterType="string">
         SELECT *
         FROM HOUSE
         WHERE house_name = #{houseName}
@@ -67,32 +68,35 @@
 <!--    </select>-->
 
     <!--    승인됐지만 요금정책 설정안한거 && host가 요금정책 정할거라 house_id 받아서 리턴-->
-    <select id="getApprovedHouseNotSetFeePolicy" parameterType="int" resultMap="result">
-        SELECT *
+    <select id="getApprovedHouseNotSetFeePolicyByHostId" parameterType="int" resultMap="result">
+        SELECT HOUSE.house_id, HOUSE.host_id, HOUSE.house_name, HOUSE.house_address, HOUSE.house_introduce, HOUSE.bedroom, HOUSE.bathroom, HOUSE.house_type
         FROM HOUSE
-        WHERE #{houseId} NOT IN (SELECT house_id
-                                    FROM FEE_POLICY)
-    </select>
+                 JOIN APPROVED A ON HOUSE.house_id = A.house_id
+        WHERE host_id = #{hostId}
+          AND A.isApproved = 1
+          AND A.house_id NOT IN (SELECT house_id FROM FEE_POLICY);
 
-    <select id="getApprovedHouseSetFeePolicy" parameterType="int" resultMap="result">
-        SELECT *
-        FROM HOUSE
-        WHERE #{houseId} IN (SELECT house_id
-                                    FROM FEE_POLICY)
     </select>
+<!--잘못된거임-->
+<!--    <select id="getApprovedHouseSetFeePolicyByHostId" parameterType="int" resultMap="result">-->
+<!--        SELECT *-->
+<!--        FROM HOUSE-->
+<!--        WHERE #{houseId} IN (SELECT house_id-->
+<!--                                FROM FEE_POLICY)-->
+<!--    </select>-->
 
-    <select id="getApprovedHouse" resultMap="result">
-        SELECT *
-        FROM HOUSE
-        WHERE HOUSE.house_id IN (SELECT APPROVED.house_id
-                            FROM APPROVED
-                            WHERE isApproved = 1)
-    </select>
+<!--    <select id="getApprovedHouse" resultMap="result">-->
+<!--        SELECT *-->
+<!--        FROM HOUSE-->
+<!--        WHERE HOUSE.house_id IN (SELECT APPROVED.house_id-->
+<!--                            FROM APPROVED-->
+<!--                            WHERE isApproved = 1)-->
+<!--    </select>-->
 
-    <select id="getNotApprovedHouse" resultMap="result">
-        SELECT *
-        FROM HOUSE
-        WHERE house_id NOT IN (SELECT house_id
-                                FROM APPROVED)
-    </select>
+<!--    <select id="getNotApprovedHouse" resultMap="result">-->
+<!--        SELECT *-->
+<!--        FROM HOUSE-->
+<!--        WHERE house_id NOT IN (SELECT house_id-->
+<!--                                FROM APPROVED)-->
+<!--    </select>-->
 </mapper>

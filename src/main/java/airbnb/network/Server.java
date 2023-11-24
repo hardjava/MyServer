@@ -1,6 +1,7 @@
 package airbnb.network;
 
-import airbnb.controller.Handler;
+import airbnb.controller.GuestHandler;
+import airbnb.controller.HostHandler;
 import airbnb.controller.ViewAccommodationRegistrationListController;
 
 import java.io.IOException;
@@ -27,49 +28,49 @@ public class Server {
             objectInputStream = new ObjectInputStream(socket.getInputStream());
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             MyIOStream myIOStream = new MyIOStream(objectOutputStream, objectInputStream);
-            Handler handler = new Handler();
-
+            GuestHandler guestHandler = new GuestHandler();
+            HostHandler hostHandler = new HostHandler();
             while (true) {
                 Protocol protocol = (Protocol) objectInputStream.readObject();
 
                 switch (protocol.getProtocolType()) {
                     case Protocol.TYPE_SIGN_UP:
-                        handler.receiveSignType(protocol);
+                        guestHandler.receiveSignType(protocol);
                         break;
 
                     case Protocol.TYPE_LOGIN: // TYPE 이 로그인 요청일 때
-                        handler.receiveLoginRequestType(protocol);
+                        guestHandler.receiveLoginRequestType(protocol);
                         break;
 
                     case Protocol.TYPE_PERSONAL_INFO_EDIT:
-                        handler.receivePersonalInfoEditType(protocol);
+                        guestHandler.receivePersonalInfoEditType(protocol);
                         break;
 
                     case Protocol.TYPE_SEARCH_RESERVATION:
-                        handler.receiveSearchReservationType(protocol);
+                        guestHandler.receiveSearchReservationType(protocol);
                         break;
 
                     case Protocol.TYPE_WRITTEN_REVIEW:
-                        handler.receiveWrittenReviewType(protocol);
+                        guestHandler.receiveWrittenReviewType(protocol);
                         break;
 
                     case Protocol.TYPE_STAYED_HOUSE:
-                        handler.receiveStayedHouseType(protocol);
+                        guestHandler.receiveStayedHouseType(protocol);
                         break;
                     case Protocol.TYPE_SEND_REVIEW:
-                        handler.receiveSendReviewType(protocol);
+                        guestHandler.receiveSendReviewType(protocol);
                         break;
 
                     case Protocol.TYPE_SEARCH_ALL_HOUSE:
-                        handler.receiveSearchAllHouseType(protocol);
+                        guestHandler.receiveSearchAllHouseType(protocol);
                         break;
 
                     case Protocol.TYPE_SELECT_HOUSE_VIEW_DETAIL:
-                        handler.receiveSelectHouseViewDetailType(protocol);
+                        guestHandler.receiveSelectHouseViewDetailType(protocol);
                         break;
 
                     case Protocol.TYPE_REQUEST_RESERVATION:
-                        handler.receiveRequestReservationType(protocol);
+                        guestHandler.receiveRequestReservationType(protocol);
                         break;
                     case Protocol.TYPE_FILTER:
                         handler.receiveFilterType(protocol);

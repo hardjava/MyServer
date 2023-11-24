@@ -1,5 +1,5 @@
 package airbnb.network;
 
-public enum Type {
+public enum HouseType {
     PRIVATE, PUBLIC
 }

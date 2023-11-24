@@ -77,7 +77,7 @@ public class HouseDAO {
     public HouseDTO getHouseByName(String name) {
         HouseDTO houseDTO;
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            houseDTO = session.selectOne("mapper.HouseMapper.getHouseByName", name);
+            houseDTO = session.selectOne("mapper.HouseMapper.getHouseByHouseName", name);
         }
         return houseDTO;
     }
@@ -98,11 +98,11 @@ public class HouseDAO {
     }
 
     // not set fee_policy
-    public List<HouseDTO> getApprovedHouseNotSetFeePolicy() {
+    public List<HouseDTO> getApprovedHouseNotSetFeePolicyByHostId(int hostId) {
         List<HouseDTO> list;
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            list = session.selectList("mapper.HouseMapper.getApprovedHouseNotSetFeePolicy");
+            list = session.selectList("mapper.HouseMapper.getApprovedHouseNotSetFeePolicyByHostId", hostId);
         }
 
         return list;
