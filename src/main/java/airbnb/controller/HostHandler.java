@@ -55,6 +55,17 @@ public class HostHandler {
             case Protocol.CODE_REQUEST_MY_HOUSE_LIST:
                 setDiscountPolicyController.sendApprovedSetFeePolicyHouse();
                 break;
+            case Protocol.CODE_SEND_DISCOUNT_POLICY_ON_CONSECUTIVE_NIGHTS:
+                setDiscountPolicyController.setDiscountPolicy();
+                break;
+
+            case Protocol.CODE_APPLY_DISCOUNT_TO_EXISTING_RESERVATIONS:
+
+                break;
+            case Protocol.CODE_SEND_DISCOUNT_ON_QUANTITY_OR_FLAT:
+
+                break;
+
 
 //            case Protocol.CODE_SEND_DISCOUNT_POLICY_ON_CONSECUTIVE_NIGHTS:
 //                setDiscountPolicyController.setFeePolicy();
@@ -66,34 +77,34 @@ public class HostHandler {
         }
     }
 
-    public void receiveSetDiscountPolicyOnConsecutiveNights(Protocol protocol) {
-        switch (protocol.getProtocolCode()) {
-            case Protocol.CODE_SEND_DISCOUNT_POLICY_ON_CONSECUTIVE_NIGHTS:
-
-                break;
-            case Protocol.CODE_APPLY_DISCOUNT_TO_EXISTING_RESERVATIONS:
-
-                break;
-
-
-            default:
-
-                break;
-        }
-    }
-
-    public void receiveSetDiscountOnQuantityOrFlat(Protocol protocol) {
-        switch (protocol.getProtocolCode()) {
-            case Protocol.CODE_SEND_DISCOUNT_ON_QUANTITY_OR_FLAT:
-
-                break;
-
-
-            default:
-
-                break;
-        }
-    }
+//    public void receiveSetDiscountPolicyOnConsecutiveNights(Protocol protocol) {
+//        switch (protocol.getProtocolCode()) {
+//            case Protocol.CODE_SEND_DISCOUNT_POLICY_ON_CONSECUTIVE_NIGHTS:
+//
+//                break;
+//            case Protocol.CODE_APPLY_DISCOUNT_TO_EXISTING_RESERVATIONS:
+//
+//                break;
+//
+//
+//            default:
+//
+//                break;
+//        }
+//    }
+//
+//    public void receiveSetDiscountOnQuantityOrFlat(Protocol protocol) {
+//        switch (protocol.getProtocolCode()) {
+//            case Protocol.CODE_SEND_DISCOUNT_ON_QUANTITY_OR_FLAT:
+//
+//                break;
+//
+//
+//            default:
+//
+//                break;
+//        }
+//    }
 
     public void receiveMyHouseInfoEdit(Protocol protocol) {
         switch (protocol.getProtocolCode()) {

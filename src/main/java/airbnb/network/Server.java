@@ -1,5 +1,6 @@
 package airbnb.network;
 
+import airbnb.controller.AdminHandler;
 import airbnb.controller.GuestHandler;
 import airbnb.controller.HostHandler;
 import airbnb.controller.ViewAccommodationRegistrationListController;
@@ -95,14 +96,14 @@ public class Server {
                         hostHandler.receiveSetDiscountPolicy(protocol);
                         break;
 
-                    case Protocol.TYPE_SET_DISCOUNT_POLICY_ON_CONSECUTIVE_NIGHTS:
-                        hostHandler.receiveSetDiscountPolicyOnConsecutiveNights(protocol);
-                        break;
-
-                    case Protocol.TYPE_SET_DISCOUNT_ON_QUANTITY_OR_FLAT:
-                        hostHandler.receiveSetDiscountOnQuantityOrFlat(protocol);
-
-                        break;
+//                    case Protocol.TYPE_SET_DISCOUNT_POLICY_ON_CONSECUTIVE_NIGHTS:
+//                        hostHandler.receiveSetDiscountPolicyOnConsecutiveNights(protocol);
+//                        break;
+//
+//                    case Protocol.TYPE_SET_DISCOUNT_ON_QUANTITY_OR_FLAT:
+//                        hostHandler.receiveSetDiscountOnQuantityOrFlat(protocol);
+//
+//                        break;
                     case Protocol.TYPE_MY_HOUSE_INFO_EDIT:
                         hostHandler.receiveMyHouseInfoEdit(protocol);
 
@@ -123,14 +124,11 @@ public class Server {
 
 //============================ 여기까지 호스트
                     case Protocol.TYPE_VIEW_ACCOMMODATION_REGISTRATION_LIST:
+                        AdminHandler adminHandler = new AdminHandler();
                         switch (protocol.getProtocolCode()) {
                             case Protocol.CODE_REQUEST_ACCOMMODATION_REGISTRATION_LIST:
-                                ViewAccommodationRegistrationListController viewAccommodationRegistrationListController = new ViewAccommodationRegistrationListController(protocol);
-                                viewAccommodationRegistrationListController.sendAccommodationRegistrationList();
+                                adminHandler.receiveViewAccommodationRegistrationList(protocol);
                                 System.out.println("숙박 등록 목록 요청 처리");
-                                break;
-                            case Protocol.CODE_SEND_ACCOMMODATION_REGISTRATION_LIST:
-                                System.out.println("숙박 등록 목록 전송 처리");
                                 break;
                             case Protocol.CODE_SEND_APPROVAL_OR_REJECT_INFORMATION:
                                 System.out.println("승인 또는 거절 정보 전송 처리");
@@ -141,12 +139,6 @@ public class Server {
                             case Protocol.CODE_ERROR:
                                 System.out.println("승인 또는 거절 정보 전송 실패 처리");
                                 break;
-//                            case Protocol.CODE_REQUEST_REJECTED_ACCOMMODATION_LIST:
-//                                System.out.println("거절된 숙박 목록 요청 처리");
-//                                break;
-//                            case Protocol.CODE_SEND_REJECTED_ACCOMMODATION_LIST:
-//                                System.out.println("거절된 숙박 목록 전송 처리");
-//                                break;
                             default:
                                 System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
                                 break;
