@@ -24,6 +24,7 @@
         <mapper resource="sqlmapper/house.xml"/>
         <mapper resource="sqlmapper/amenities.xml"/>
         <mapper resource="sqlmapper/feepolicy.xml"/>
+        <mapper resource="sqlmapper/waiting.xml"/>
 
     </mappers>
 </configuration>
