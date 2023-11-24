@@ -7,4 +7,8 @@ public class SetDiscountPolicyController {
     public SetDiscountPolicyController(Protocol protocol) {
         this.protocol = protocol;
     }
+
+    public void setDiscountPolicy() {
+
+    }
 }

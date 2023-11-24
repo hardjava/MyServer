@@ -78,12 +78,13 @@
 
     </select>
 <!--잘못된거임-->
-<!--    <select id="getApprovedHouseSetFeePolicyByHostId" parameterType="int" resultMap="result">-->
-<!--        SELECT *-->
-<!--        FROM HOUSE-->
-<!--        WHERE #{houseId} IN (SELECT house_id-->
-<!--                                FROM FEE_POLICY)-->
-<!--    </select>-->
+    <select id="getApprovedHouseSetFeePolicy" parameterType="int" resultMap="result">
+        SELECT HOUSE.house_id, HOUSE.host_id, HOUSE.house_name, HOUSE.house_address, HOUSE.house_introduce, HOUSE.bedroom, HOUSE.bathroom, HOUSE.house_type
+        FROM HOUSE
+                 JOIN APPROVED A ON HOUSE.house_id = A.house_id
+          WHERE A.isApproved = 1
+          AND A.house_id IN (SELECT house_id FROM FEE_POLICY);
+    </select>
 
 <!--    <select id="getApprovedHouse" resultMap="result">-->
 <!--        SELECT *-->

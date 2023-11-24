@@ -2,6 +2,7 @@ package airbnb.persistence.dao;
 
 import airbnb.exception.ExsistIdException;
 import airbnb.persistence.dto.ReviewDTO;
+import airbnb.persistence.dto.UserReviewDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import java.util.List;
@@ -24,8 +25,8 @@ public class ReviewDAO {
         }
     }
 
-    public List<ReviewDTO> getReviewByHouseId(int houseId) {
-        List<ReviewDTO> list;
+    public List<UserReviewDTO> getReviewByHouseId(int houseId) {
+        List<UserReviewDTO> list;
 
         try(SqlSession session = sqlSessionFactory.openSession()) {
             list = session.selectList("mapper.ReviewMapper.getReviewByHouseId", houseId);

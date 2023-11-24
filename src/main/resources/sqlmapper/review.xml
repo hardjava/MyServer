@@ -12,15 +12,25 @@
         <result property="houseId" column="house_id"/>
     </resultMap>
 
+    <resultMap id="userReviewDTO" type="airbnb.persistence.dto.UserReviewDTO">
+        <result property="star" column="star"/>
+        <result property="review" column="review"/>
+        <result property="userName" column="user_name"/>
+    </resultMap>
+
     <insert id="insert">
         INSERT INTO REVIEW(reservation_id, star, review)
         VALUES (#{reservationId}, #{star}, #{review})
     </insert>
 
-    <select id="getReviewByHouseId" parameterType="int" resultMap="result">
-        SELECT *
-        FROM REVIEW
-        WHERE house_id = #{houseId}
+    <select id="getReviewByHouseId" parameterType="int" resultMap="userReviewDTO">
+        SELECT REVIEW.star, REVIEW.review, USER.user_name
+        FROM REVIEW,
+             USER,
+             RESERVATION
+        WHERE REVIEW.house_id = #{houseId}
+          AND REVIEW.reservation_id = RESERVATION.reservation_id
+          AND RESERVATION.user_id = USER.user_id
     </select>
 
     <select id="getReviewByReservationId" parameterType="int" resultMap="result">
@@ -30,9 +40,8 @@
     </select>
 
     <select id="hasReviewByReservationId" resultType="java.lang.Boolean" parameterType="int">
-        SELECT EXISTS(
-            SELECT 1 FROM REVIEW
-            WHERE reservation_id = #{reservationId}
-        ) AS hasReview;
+        SELECT EXISTS(SELECT 1
+                      FROM REVIEW
+                      WHERE reservation_id = #{reservationId}) AS hasReview;
     </select>
 </mapper>
