@@ -30,9 +30,10 @@ public class SelectHouseViewDetailController {
         ReviewDAO reviewDAO = new ReviewDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
         moreHouseInfoDTO.setAmenitiesDTOList(amenitiesDAO.getAmenitiesByHouseId(houseDTO.getHouseId()));
+        FeePolicyDTO temp = feePolicyDAO.getFeePolicyByHouseId(houseDTO.getHouseId());
+        moreHouseInfoDTO.setFeePolicyDTO(temp);
         moreHouseInfoDTO.setReservationDTOList(reservationDAO.getReservationByHouseId(houseDTO.getHouseId()));
         moreHouseInfoDTO.setReviewDTOList(reviewDAO.getReviewByHouseId(houseDTO.getHouseId()));
-        moreHouseInfoDTO.setFeePolicyDTO(feePolicyDAO.getFeePolicyByHouseId(houseDTO.getHouseId()));
 
         Protocol returnProtocol = new Protocol(Protocol.TYPE_SELECT_HOUSE_VIEW_DETAIL, Protocol.CODE_SEND_SELECT_HOUSE_INFO, moreHouseInfoDTO);
 
