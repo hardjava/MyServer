@@ -29,10 +29,12 @@ public class SetCostPolicyController {
         MyIOStream.oos.writeObject(returnProtocol);
     }
 
-    public void insertCostPolicy(){// 클라이언트로 부터 받은 가격정책을 설정하는 메소드
+    public void insertCostPolicy() throws IOException {// 클라이언트로 부터 받은 가격정책을 설정하는 메소드
         FeePolicyDAO feePolicyDAO = new FeePolicyDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         FeePolicyDTO feePolicyDTO = (FeePolicyDTO) protocol.getObject();
 
-
+        feePolicyDAO.insertFeePolicy(feePolicyDTO);
+        returnProtocol = new Protocol(Protocol.TYPE_SET_COST_POLICY, Protocol.CODE_SUCCESS);
+        MyIOStream.oos.writeObject(returnProtocol);
     }
 }

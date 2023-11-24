@@ -37,12 +37,11 @@ public class HostHandler {
 
                 break;
             case Protocol.CODE_SEND_WEEKEND_WEEKDAYS_COST_POLICY:
-
+                setCostPolicyController.insertCostPolicy();
                 break;
             case Protocol.CODE_REQUEST_APPROVED_NOT_SET_FEE_POLICY_HOUSE_LIST:
                 setCostPolicyController.sendNotSetFeePolicyHouseList();
                 break;
-
 
             default:
 

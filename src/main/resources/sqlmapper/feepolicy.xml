@@ -10,6 +10,11 @@
         <result property="weekday" column="weekday"/>
         <result property="weekend" column="weekend"/>
     </resultMap>
+    
+    <insert id="insertFeePolicy">
+        INSERT INTO FEE_POLICY(house_id, weekday, weekend)
+        VALUES (#{houseId}, #{weekday}, #{weekend})
+    </insert>
 
     <select id="getFeePolicyByHouseId" parameterType="int" resultMap="result">
         SELECT *

@@ -4,8 +4,6 @@ import airbnb.persistence.dto.FeePolicyDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import java.util.List;
-
 public class FeePolicyDAO {
     private final SqlSessionFactory sqlSessionFactory;
 
@@ -21,5 +19,12 @@ public class FeePolicyDAO {
         }
 
         return feePolicyDTO;
+    }
+
+    public void insertFeePolicy(FeePolicyDTO feePolicyDTO) {
+        try(SqlSession session = sqlSessionFactory.openSession()) {
+            session.insert("mapper.FeePolicyMapper.insertFeePolicy", feePolicyDTO);
+            session.commit();
+        }
     }
 }
