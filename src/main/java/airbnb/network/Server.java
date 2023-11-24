@@ -73,140 +73,52 @@ public class Server {
                         guestHandler.receiveRequestReservationType(protocol);
                         break;
                     case Protocol.TYPE_FILTER:
-                        handler.receiveFilterType(protocol);
+                        guestHandler.receiveFilterType(protocol);
+                        break;
                         //=================================== 여기까지 게스트
 
                     case Protocol.TYPE_HOUSE_REGISTRATION:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_SEND_REGISTRATION_HOUSE_INFO:
-                                System.out.println("숙박 시설 등록 정보 전송 처리");
-                                break;
-                            case Protocol.CODE_SUCCESS:
-                                System.out.println("숙박 시설 등록 성공 처리");
-                                break;
-                            case Protocol.CODE_ERROR:
-                                System.out.println("숙박 시설 등록 실패 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        hostHandler.receiveHouseRegistration(protocol);
                         break;
 
                     case Protocol.TYPE_VIEW_MY_HOUSE:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_REQUEST_MY_HOUSE_LIST:
-                                System.out.println("내 숙박 시설 목록 요청 처리");
-                                break;
-                            case Protocol.CODE_SEND_MY_HOUSE_LIST:
-                                System.out.println("내 숙박 시설 목록 전송 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        hostHandler.receiveViewMyHouse(protocol);
                         break;
                     case Protocol.TYPE_SET_COST_POLICY:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_REQUEST_DIVISION_COST_POLICY_HOUSE_LIST:
-                                System.out.println("요금 정책(분할) 설정 처리");
-                                break;
-                            case Protocol.CODE_SEND_DIVISION_COST_POLICY:
-                                System.out.println("요금 정책(분할) 설정 처리");
-                                break;
-                            case Protocol.CODE_SEND_WEEKEND_WEEKDAYS_COST_POLICY:
-                                System.out.println("주말 및 평일 요금 정책 설정 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        // ---------------------------->> TYPE_SET_COST_POLICY = 12;
+                        // -> CODE_REQUEST_APPROVED_NOT_SET_FEE_POLICY_HOUSE_LIST = 4;
+                        // 승인됐지만 요금 설정이 안된 숙박 목록 요청(클라이언트 → 서버)
+                        hostHandler.receiveSetCostPolicy(protocol);
                         break;
 
                     case Protocol.TYPE_SET_DISCOUNT_POLICY:
-                        // 메서드 추가
+                        hostHandler.receiveSetDiscountPolicy(protocol);
                         break;
 
                     case Protocol.TYPE_SET_DISCOUNT_POLICY_ON_CONSECUTIVE_NIGHTS:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_SEND_DISCOUNT_POLICY_ON_CONSECUTIVE_NIGHTS:
-                                System.out.println("연속 숙박 할인 정책 설정 처리");
-                                break;
-                            case Protocol.CODE_APPLY_DISCOUNT_TO_EXISTING_RESERVATIONS:
-                                System.out.println("기존 예약에 할인 적용 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        hostHandler.receiveSetDiscountPolicyOnConsecutiveNights(protocol);
                         break;
 
                     case Protocol.TYPE_SET_DISCOUNT_ON_QUANTITY_OR_FLAT:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_SEND_DISCOUNT_ON_QUANTITY_OR_FLAT:
-                                System.out.println("정량 / 정률 할인 정책 설정 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        hostHandler.receiveSetDiscountOnQuantityOrFlat(protocol);
+
                         break;
                     case Protocol.TYPE_MY_HOUSE_INFO_EDIT:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_SEND_EDITED_HOUSE_INFO:
-                                System.out.println("수정된 숙박 시설 정보 전송 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        hostHandler.receiveMyHouseInfoEdit(protocol);
+
                         break;
 
                     case Protocol.TYPE_VIEW_HOUSE_RESERVATION:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_PRINT_HOUSE_RESERVATION:
-                                System.out.println("숙박 시설 예약 현황 출력 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        hostHandler.receiveViewHouseReservation(protocol);
+
                         break;
 
                     case Protocol.TYPE_RESERVATION_ALLOW_OR_REFUSE:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_REQUEST_WAITING_FOR_RESERVATION_APPROVAL:
-                                System.out.println("예약 승인 대기 요청 처리");
-                                break;
-                            case Protocol.CODE_SEND_WAITING_FOR_RESERVATION_APPROVAL:
-                                System.out.println("예약 승인 대기 정보 전송 처리");
-                                break;
-                            case Protocol.CODE_REQUEST_RESERVATION_REFUSE_LIST:
-                                System.out.println("거부된 예약 목록 요청 처리");
-                                break;
-                            case Protocol.CODE_SEND_RESERVATION_REFUSE_LIST:
-                                System.out.println("거부된 예약 목록 전송 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        hostHandler.receiveReservationAllowOrRefuse(protocol);
+
                         break;
                     case Protocol.TYPE_REVIEW_MANAGEMENT:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_REQUEST_MOST_RECENT_REVIEW_LIST:
-                                System.out.println("최근 리뷰 목록 요청 처리");
-                                break;
-                            case Protocol.CODE_SEND_MOST_RECENT_REVIEW_LIST:
-                                System.out.println("최근 리뷰 목록 전송 처리");
-                                break;
-                            case Protocol.CODE_SEND_REPLYING_TO_REVIEW:
-                                System.out.println("리뷰에 대한 답변 전송 처리");
-                                break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
+                        hostHandler.receiveReviewManagement(protocol);
                         break;
 
 //============================ 여기까지 호스트
