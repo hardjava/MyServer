@@ -6,7 +6,6 @@ import airbnb.persistence.dao.DiscountPolicyDAO;
 import airbnb.persistence.dao.HouseDAO;
 import airbnb.persistence.dto.DiscountPolicyDTO;
 import airbnb.persistence.dto.HouseAndDiscountDTO;
-import airbnb.persistence.dto.HouseDTO;
 import airbnb.persistence.dto.UserDTO;
 
 import java.io.IOException;
@@ -19,6 +18,7 @@ public class SetDiscountPolicyController {
         this.protocol = protocol;
     }
 
+    // 이거 set 하고 원래 예약되있던 것도 할인 적용해줘야 한다. 메소드 하나 만들어서 진행하머ㅕㄴ 될듯? DAO 에서 하자..
     public void setDiscountPolicy() throws IOException {
         DiscountPolicyDTO discountPolicyDTO = (DiscountPolicyDTO) protocol.getObject();
         DiscountPolicyDAO discountPolicyDAO = new DiscountPolicyDAO(MyBatisConnectionFactory.getSqlSessionFactory());

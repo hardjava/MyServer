@@ -16,6 +16,10 @@
         FROM WAITING
     </select>
 
+    <insert id="insert">
+        INSERT INTO WAITING(house_id)
+        VALUES (#{houseId})
+    </insert>
 <!--    숙소 대기 큐 삽입-->
     <insert id="insertWaiting">
         INSERT INTO WAITING(house_id)

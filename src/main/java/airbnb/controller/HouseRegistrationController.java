@@ -1,4 +1,5 @@
 package airbnb.controller;
+
 import airbnb.exception.ExistHouseException;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
@@ -9,6 +10,7 @@ import airbnb.persistence.dto.AmenitiesDTO;
 import airbnb.persistence.dto.RequestHouseDTO;
 
 import java.io.IOException;
+import java.util.List;
 
 public class HouseRegistrationController {
 
@@ -26,10 +28,9 @@ public class HouseRegistrationController {
 
         try {
             houseDAO.insertHouse(requestHouseDTO.getHouseDTO());
-            int houseId = houseDAO.getHouseByName(requestHouseDTO.getHouseDTO().getHouseName()).getHouseId();
             if (requestHouseDTO.getAmenitiesDTOList() != null) {
                 for (AmenitiesDTO amenitiesDTO : requestHouseDTO.getAmenitiesDTOList()) {
-                    amenitiesDTO.setHouseId(houseId);
+                    amenitiesDTO.setHouseId(requestHouseDTO.getHouseDTO().getHouseId());
                     amenitiesDAO.insertAmenities(amenitiesDTO);
                 }
             }
@@ -39,5 +40,35 @@ public class HouseRegistrationController {
             returnProtocol = new Protocol(Protocol.TYPE_HOUSE_REGISTRATION, Protocol.CODE_ERROR, e.getMessage());
             MyIOStream.oos.writeObject(returnProtocol);
         }
+    }
+
+    public void getBasicAmenities() throws IOException {
+        List<AmenitiesDTO> list;
+        AmenitiesDAO amenitiesDAO = new AmenitiesDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+
+        list = amenitiesDAO.getBasicAmenities();
+
+        returnProtocol = new Protocol(Protocol.TYPE_HOUSE_REGISTRATION, Protocol.CODE_SUCCESS, list);
+        MyIOStream.oos.writeObject(returnProtocol);
+    }
+
+    public void getSafetyAmenities() throws IOException {
+        List<AmenitiesDTO> list;
+        AmenitiesDAO amenitiesDAO = new AmenitiesDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+
+        list = amenitiesDAO.getSafetyAmenities();
+
+        returnProtocol = new Protocol(Protocol.TYPE_HOUSE_REGISTRATION, Protocol.CODE_SUCCESS, list);
+        MyIOStream.oos.writeObject(returnProtocol);
+    }
+
+    public void getAccessAmenities() throws IOException {
+        List<AmenitiesDTO> list;
+        AmenitiesDAO amenitiesDAO = new AmenitiesDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+
+        list = amenitiesDAO.getAccessAmenities();
+
+        returnProtocol = new Protocol(Protocol.TYPE_HOUSE_REGISTRATION, Protocol.CODE_SUCCESS, list);
+        MyIOStream.oos.writeObject(returnProtocol);
     }
 }

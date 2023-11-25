@@ -17,6 +17,26 @@
         FROM AMENITIES
     </select>
 
+    <select id="getBasicAmenities" resultMap="result">
+        SELECT *
+        FROM AMENITIES
+        WHERE house_id = 1
+          AND type_id = 1
+    </select>
+
+    <select id="getSafetyAmenities" resultMap="result">
+        SELECT *
+        FROM AMENITIES
+        WHERE house_id = 1
+          AND type_id = 2
+    </select>
+
+    <select id="getAccessAmenities" resultMap="result">
+        SELECT *
+        FROM AMENITIES
+        WHERE house_id = 1
+          AND type_id = 3
+    </select>
     <select id="getAmenitiesByHouseId" resultMap="result" parameterType="int">
         SELECT *
         FROM AMENITIES

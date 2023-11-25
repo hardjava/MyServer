@@ -41,6 +41,12 @@ public class WaitingDAO {
         }
     }
 
+    public void insert(int houseId) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            session.insert("mapper.WaitingMapper.insert", houseId);
+            session.commit();
+        }
+    }
     // 숙소 대기 큐 삭제
     public void deleteWaiting(int waitingId) {
         try (SqlSession session = sqlSessionFactory.openSession()) {

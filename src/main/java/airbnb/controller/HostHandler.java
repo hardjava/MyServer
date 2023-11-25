@@ -11,7 +11,13 @@ public class HostHandler {
             case Protocol.CODE_SEND_REGISTRATION_HOUSE_INFO:
                 houseRegistrationController.houseRegistration();
                 break;
-
+            case Protocol.CODE_REQUEST_BASIC_FACILITIES_LIST:
+                houseRegistrationController.getBasicAmenities();
+                break;
+            case Protocol.CODE_REQUEST_SAFETY_FACILITIES_LIST:
+                houseRegistrationController.getSafetyAmenities();
+            case Protocol.CODE_REQUEST_ACCESSIBILITY_FACILITIES_LIST:
+                houseRegistrationController.getAccessAmenities();
             default:
 
                 break;

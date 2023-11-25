@@ -23,4 +23,11 @@ public class DiscountPolicyDAO {
             }
         }
     }
+
+//    public void reservationFeeSynchronize(DiscountPolicyDTO discountPolicyDTO) {
+//        try(SqlSession session = sqlSessionFactory.openSession()) {
+//            session.update("mapper.DiscountPolicyMapper.reservationFeeSynchronize", discountPolicyDTO);
+//            session.commit();
+//        }
+//    }
 }

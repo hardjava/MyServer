@@ -20,11 +20,14 @@ public class SetCostPolicyController {
     }
 
 
+    // 승인됐지만 요금 정책 설정 안된거 리스트 보내는 메소드
     public void sendNotSetFeePolicyHouseList() throws IOException {// 클라이언트로 가격정책이 적용된 숙소, 적용되지 않은 숙소를 구분하여 숙소 리스트를 전달하는 메소드
         HouseDAO houseDAO = new HouseDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         List<HouseDTO> list;
+
         UserDTO userDTO = (UserDTO)protocol.getObject();
         list = houseDAO.getApprovedHouseNotSetFeePolicyByHostId(userDTO.getUserId());
+
         returnProtocol = new Protocol(Protocol.TYPE_SET_COST_POLICY, Protocol.CODE_SUCCESS, list);
         MyIOStream.oos.writeObject(returnProtocol);
     }

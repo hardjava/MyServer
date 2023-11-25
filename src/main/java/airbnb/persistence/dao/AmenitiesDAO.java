@@ -1,4 +1,4 @@
-package airbnb. persistence.dao;
+package airbnb.persistence.dao;
 
 import airbnb.persistence.dto.AmenitiesDTO;
 import airbnb.persistence.dto.HouseDTO;
@@ -24,10 +24,40 @@ public class AmenitiesDAO {
         return list;
     }
 
+    public List<AmenitiesDTO> getBasicAmenities() {
+        List<AmenitiesDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.AmenitiesMapper.getBasicAmenities");
+        }
+
+        return list;
+    }
+
+    public List<AmenitiesDTO> getSafetyAmenities() {
+        List<AmenitiesDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.AmenitiesMapper.getSafetyAmenities");
+        }
+
+        return list;
+    }
+
+    public List<AmenitiesDTO> getAccessAmenities() {
+        List<AmenitiesDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.AmenitiesMapper.getAccessAmenities");
+        }
+
+        return list;
+    }
+
     public List<AmenitiesDTO> getAmenitiesByHouseId(int houseId) {
         List<AmenitiesDTO> list;
 
-        try(SqlSession session = sqlSessionFactory.openSession()) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             list = session.selectList("mapper.AmenitiesMapper.getAmenitiesByHouseId", houseId);
         }
 
@@ -35,7 +65,7 @@ public class AmenitiesDAO {
     }
 
     public void insertAmenities(AmenitiesDTO amenitiesDTO) {
-        try(SqlSession session = sqlSessionFactory.openSession()) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             session.insert("mapper.AmenitiesMapper.insertAmenities", amenitiesDTO);
             session.commit();
         }

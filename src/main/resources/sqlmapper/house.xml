@@ -27,8 +27,8 @@
     </select>
 
     <insert id="insertHouse">
-        INSERT INTO HOUSE(house_name, house_address, house_introduce, bedroom, bathroom)
-        VALUES (#{houseName}, #{houseAddress}, #{houseIntroduce}, #{bedroom}, #{bathroom})
+        INSERT INTO HOUSE(house_name, host_id, house_address, house_introduce, bedroom, bathroom)
+        VALUES (#{houseName}, #{hostId}, #{houseAddress}, #{houseIntroduce}, #{bedroom}, #{bathroom})
     </insert>
     
     <select id="getHouseByHostId" resultMap="result" parameterType="int">
