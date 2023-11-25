@@ -29,14 +29,17 @@ public class HouseRegistrationController {
         try {
             houseDAO.insertHouse(requestHouseDTO.getHouseDTO());
             if (requestHouseDTO.getAmenitiesDTOList() != null) {
+                int houseId = houseDAO.getHouseByName(requestHouseDTO.getHouseDTO().getHouseName()).getHouseId();
                 for (AmenitiesDTO amenitiesDTO : requestHouseDTO.getAmenitiesDTOList()) {
-                    amenitiesDTO.setHouseId(requestHouseDTO.getHouseDTO().getHouseId());
+                    amenitiesDTO.setHouseId(houseId);
                     amenitiesDAO.insertAmenities(amenitiesDTO);
                 }
             }
+            System.out.println("숙박 등록 성공");
             returnProtocol = new Protocol(Protocol.TYPE_HOUSE_REGISTRATION, Protocol.CODE_SUCCESS);
             MyIOStream.oos.writeObject(returnProtocol);
         } catch (ExistHouseException e) {
+            System.out.println("숙박 등록 실패");
             returnProtocol = new Protocol(Protocol.TYPE_HOUSE_REGISTRATION, Protocol.CODE_ERROR, e.getMessage());
             MyIOStream.oos.writeObject(returnProtocol);
         }

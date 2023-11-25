@@ -16,20 +16,25 @@ public class HostHandler {
                 break;
             case Protocol.CODE_REQUEST_SAFETY_FACILITIES_LIST:
                 houseRegistrationController.getSafetyAmenities();
+                break;
             case Protocol.CODE_REQUEST_ACCESSIBILITY_FACILITIES_LIST:
                 houseRegistrationController.getAccessAmenities();
+                break;
             default:
 
                 break;
         }
     }
 
-    public void receiveViewMyHouse(Protocol protocol) {
+    public void receiveViewMyHouse(Protocol protocol) throws IOException {
+        SearchHostReservationController searchHostReservationController = new SearchHostReservationController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_REQUEST_MY_HOUSE_LIST:
-
+                searchHostReservationController.sendHouseByHostId();
                 break;
-
+            case Protocol.CODE_REQUEST_RESERVATION_LIST:
+                searchHostReservationController.sendReservationByHouseId();
+                break;
             default:
 
                 break;

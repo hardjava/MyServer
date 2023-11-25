@@ -39,6 +39,16 @@ public class HouseDAO {
         return list;
     }
 
+    public List<HouseDTO> getApprovedHouseSetFeePolicyByHostId(int hostId) {
+        List<HouseDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.HouseMapper.getApprovedHouseSetFeePolicyByHostId", hostId);
+        }
+
+        return list;
+    }
+
     public List<HouseAndDiscountDTO> getApprovedHouseSetFeePolicyAndDiscountInfoByHostId(int hostId) {
         List<HouseAndDiscountDTO> list;
 
@@ -48,7 +58,8 @@ public class HouseDAO {
 
         return list;
     }
-    public List<HouseDTO> getApprovedHouseSetFeePolicy () {
+
+    public List<HouseDTO> getApprovedHouseSetFeePolicy() {
         List<HouseDTO> list;
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
@@ -61,7 +72,7 @@ public class HouseDAO {
     public List<HouseDTO> getHouseByHostId(int hostId) {
         List<HouseDTO> list;
 
-        try(SqlSession session = sqlSessionFactory.openSession()) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             list = session.selectList("mapper.HouseMapper.getHouseByHostId", hostId);
         }
 
@@ -120,12 +131,13 @@ public class HouseDAO {
 
     // 호스트 -> 등록한 거에 대한거 승인된지 안된지 확인해야함
     public List<HouseDTO> getNotApprovedHouseByHostId(int hostId) {
-        List <HouseDTO> list;
-        try(SqlSession session = sqlSessionFactory.openSession()) {
+        List<HouseDTO> list;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             list = session.selectList("mapper.HouseMapper.getNotApprovedHouseByHostId", hostId);
         }
         return list;
     }
+
     // 관리자 -> 승인할지말지 선택해야하니 조회해야함
     public List<HouseDTO> getNotApprovedHouse() {
         List<HouseDTO> list;

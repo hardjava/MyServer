@@ -11,6 +11,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import static airbnb.network.Protocol.TYPE_HOUSE_REGISTRATION;
+
 public class Server {
     private final static int SERVER_PORT = 5432;
 
@@ -78,7 +80,7 @@ public class Server {
                         break;
                         //=================================== 여기까지 게스트
 
-                    case Protocol.TYPE_HOUSE_REGISTRATION:
+                    case TYPE_HOUSE_REGISTRATION:
                         hostHandler.receiveHouseRegistration(protocol);
                         break;
 
