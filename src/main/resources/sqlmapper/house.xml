@@ -23,6 +23,7 @@
     <select id="getMaxHouseId" resultType="int">
         SELECT MAX(house_id)
         FROM HOUSE
+        WHERE house_type = 'PRIVATE'
         LIMIT 1
     </select>
 
@@ -35,19 +36,23 @@
         SELECT *
         FROM HOUSE
         WHERE host_id = #{hostId}
+          AND house_type = 'PRIVATE'
     </select>
 
     <select id="getHouseByHouseName" resultMap="result" parameterType="string">
         SELECT *
         FROM HOUSE
         WHERE house_name = #{houseName}
+          AND house_type = 'PRIVATE'
     </select>
 
     <select id="getApprovedHouseSetFeePolicyByHostId" parameterType="int" resultMap="result">
         SELECT *
         FROM HOUSE
-        WHERE host_id = #{hostId} AND house_id IN (SELECT house_id
-                                                   FROM APPROVED)
+        WHERE host_id = #{hostId}
+          AND house_type = 'PRIVATE'
+          AND house_id IN (SELECT house_id
+                            FROM APPROVED)
     </select>
     <!--    편의 시설을 조건으로 검색한거-->
     <!--    트스테 필요-->
@@ -85,15 +90,32 @@
     </select>
 <!--승인되고 가격 설정된 숙소 목록-->
     <select id="getApprovedHouseSetFeePolicy" parameterType="int" resultMap="result">
-        SELECT HOUSE.house_id, HOUSE.host_id, HOUSE.house_name, HOUSE.house_address, HOUSE.house_introduce, HOUSE.bedroom, HOUSE.bathroom, HOUSE.house_type
+        SELECT HOUSE.house_id,
+               HOUSE.host_id,
+               HOUSE.house_name,
+               HOUSE.house_address,
+               HOUSE.house_introduce,
+               HOUSE.bedroom,
+               HOUSE.bathroom,
+               HOUSE.house_type
         FROM HOUSE
                  JOIN APPROVED A ON HOUSE.house_id = A.house_id
-          WHERE A.isApproved = 1
+        WHERE A.isApproved = 1
+          AND HOUSE.house_type = 'PRIVATE'
           AND A.house_id IN (SELECT house_id FROM FEE_POLICY);
     </select>
 
     <select id="getApprovedHouseSetFeePolicyAndDiscountInfoByHostId" parameterType="int" resultType="airbnb.persistence.dto.HouseAndDiscountDTO">
-                 SELECT H.house_id, H.host_id, H.house_name, H.house_address, H.house_introduce, H.bedroom, H.bathroom, D.discount_day, D.discount_amount, D.discount_rate
+        SELECT H.house_id,
+               H.host_id,
+               H.house_name,
+               H.house_address,
+               H.house_introduce,
+               H.bedroom,
+               H.bathroom,
+               D.discount_day,
+               D.discount_amount,
+               D.discount_rate
         FROM HOUSE H
                  JOIN APPROVED A ON H.house_id = A.house_id
                  LEFT JOIN FEE_POLICY F ON H.house_id = F.house_id
@@ -101,6 +123,7 @@
         WHERE H.host_id = #{hostId}
           AND F.house_id = H.house_id
           AND A.isApproved = 1
+          AND house_type = 'PRIVATE'
     </select>
 <!--    <select id="getApprovedHouseSetFeePolicyDiscountPolicy" parameterType="int">-->
 <!--        SELECT-->
