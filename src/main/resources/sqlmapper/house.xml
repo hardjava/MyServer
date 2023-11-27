@@ -54,14 +54,12 @@
           AND house_id IN (SELECT house_id
                             FROM APPROVED)
     </select>
-    <!--    편의 시설을 조건으로 검색한거-->
-    <!--    트스테 필요-->
 <!--    <select id="getHouseByAmenities" parameterType="java.util.List" resultType="result">-->
 <!--        SELECT *-->
 <!--        FROM HOUSE-->
 <!--        WHERE house_id IN (-->
 <!--        SELECT house_id-->
-<!--        FROM Amenities-->
+<!--        FROM AMENITIES-->
 <!--        WHERE amenities IN-->
 <!--        <foreach collection="list" item="amenity" open="(" separator="," close=")">-->
 <!--            #{amenity}-->
@@ -78,6 +76,13 @@
 <!--        )-->
 <!--    </select>-->
 
+    <select id="getWaitingHouse" resultMap="result">
+        SELECT *
+        FROM HOUSE
+        WHERE house_id IN (SELECT house_id
+                           FROM WAITING)
+    </select>
+
     <!--    승인됐지만 요금정책 설정안한거 && host가 요금정책 정할거라 house_id 받아서 리턴-->
     <select id="getApprovedHouseNotSetFeePolicyByHostId" parameterType="int" resultMap="result">
         SELECT HOUSE.house_id, HOUSE.host_id, HOUSE.house_name, HOUSE.house_address, HOUSE.house_introduce, HOUSE.bedroom, HOUSE.bathroom, HOUSE.house_type
@@ -86,8 +91,8 @@
         WHERE host_id = #{hostId}
           AND A.isApproved = 1
           AND A.house_id NOT IN (SELECT house_id FROM FEE_POLICY);
-
     </select>
+
 <!--승인되고 가격 설정된 숙소 목록-->
     <select id="getApprovedHouseSetFeePolicy" parameterType="int" resultMap="result">
         SELECT HOUSE.house_id,

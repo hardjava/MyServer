@@ -49,6 +49,12 @@
         VALUES (#{houseId}, #{userId}, #{reservationStatus}, #{guestNum}, #{reservationDate}, #{checkIn}, #{checkOut})
     </insert>
 
+    <update id="updateReservationStatus">
+        UPDATE RESERVATION
+        SET reservation_status = #{reservationStatus}
+        WHERE reservation_id = #{reservationId}
+    </update>
+
     <!-- 유저 id 예약 현황 조회 -->
     <select id="getReservationByUserId" resultMap="result" parameterType="int">
         SELECT *
@@ -78,5 +84,11 @@
         SELECT house_id
         FROM RESERVATION
         WHERE reservation_id = #{reservationId}
+    </select>
+    
+    <select id="getWaitingReservationStatusWAITING">
+        SELECT *
+        FROM RESERVATION
+        WHERE  reservation_status = 'WAITING'
     </select>
 </mapper>

@@ -36,7 +36,6 @@ public class LoginController {
             protocol.setProtocolCode(Protocol.CODE_ERROR);
             protocol.setObject(ipe.getMessage());
             MyIOStream.oos.writeObject(protocol);
-
         }
     }
 }

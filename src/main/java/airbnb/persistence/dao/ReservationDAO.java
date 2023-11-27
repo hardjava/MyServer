@@ -17,6 +17,16 @@ public class ReservationDAO {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
+    public List<ReservationDTO> getWaitingReservationStatusWAITING() {
+        List<ReservationDTO> list;
+
+        try(SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.ReservationMapper.getWaitingReservationStatusWAITING");
+        }
+
+        return list;
+    }
+
     public List<ReservationDTO> getAll() {
         List<ReservationDTO> list;
 
@@ -80,6 +90,13 @@ public class ReservationDAO {
             else {
                 throw new ImpossibleCancelException("Cancellation not possible before approval");
             }
+        }
+    }
+
+    public void updateReservationStatus(ReservationDTO reservationDTO) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            session.update("mapper.ReservationUpdate.updateReservationStatus", reservationDTO);
+            session.commit();
         }
     }
 }

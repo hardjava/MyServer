@@ -140,15 +140,15 @@ public class HostHandler {
         }
     }
 
-    public void receiveReservationAllowOrRefuse(Protocol protocol) {
+    public void receiveReservationAllowOrRefuse(Protocol protocol) throws IOException {
+        ReservationAllowOrRefuseController reservationAllowOrRefuseController = new ReservationAllowOrRefuseController(protocol);
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_REQUEST_WAITING_FOR_RESERVATION_APPROVAL:
-
+                reservationAllowOrRefuseController.sendWaitingForReservationApprovalList();
                 break;
-            case Protocol.CODE_REQUEST_RESERVATION_REFUSE_LIST:
-
+            case Protocol.CODE_REQUEST_APPROVE_OR_REFUSE_RESERVATION:
+                reservationAllowOrRefuseController.setReservationStatus();
                 break;
-
             default:
 
                 break;

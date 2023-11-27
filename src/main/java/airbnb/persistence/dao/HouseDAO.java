@@ -148,4 +148,14 @@ public class HouseDAO {
 
         return list;
     }
+
+    public List<HouseDTO> getWaitingHouse() {
+        List<HouseDTO> list;
+
+        try(SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.HouseMapper.getWaitingHouse");
+        }
+
+        return list;
+    }
 }
