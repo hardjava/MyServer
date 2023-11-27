@@ -7,6 +7,7 @@ import airbnb.persistence.dto.WaitingDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HouseDAO {
@@ -28,7 +29,6 @@ public class HouseDAO {
         return list;
     }
 
-    // 게스트 -> 승인된 것만 조회 가능
     public List<HouseDTO> getApprovedHouse() {
         List<HouseDTO> list;
 
@@ -59,6 +59,7 @@ public class HouseDAO {
         return list;
     }
 
+    // 게스트 -> 승인된 것만 조회 가능
     public List<HouseDTO> getApprovedHouseSetFeePolicy() {
         List<HouseDTO> list;
 

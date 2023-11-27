@@ -10,6 +10,7 @@ import airbnb.persistence.dto.ReservationDTO;
 import airbnb.persistence.dto.UserDTO;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchHostReservationController {

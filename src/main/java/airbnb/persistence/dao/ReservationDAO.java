@@ -47,6 +47,7 @@ public class ReservationDAO {
 
         return list;
     }
+
     // HOST -> 예약 현황 조회
     public List<ReservationDTO> getReservationByHouseId(int houseId) {
         List<ReservationDTO> list;
@@ -54,6 +55,16 @@ public class ReservationDAO {
         try(SqlSession session = sqlSessionFactory.openSession()) {
             list = session.selectList("mapper.ReservationMapper.getReservationByHouseId", houseId);
         }
+        return list;
+    }
+
+    public List<ReservationDTO> getReservationWithStatusAfterStayByHouseId(int houseId) {
+        List<ReservationDTO> list;
+
+        try(SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.ReservationMapper.getReservationWithStatusAfterStayByHouseId", houseId);
+        }
+
         return list;
     }
 
