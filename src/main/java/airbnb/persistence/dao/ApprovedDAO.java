@@ -14,6 +14,7 @@ public class ApprovedDAO {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
+    // 승인시키는거.. 대기 큐에서 딜리트하고 하면 될 것 같은데?
     public void insertApproved(ApprovedDTO insertApprovedDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             session.insert("mapper.ApprovedMapper.insertApproved", insertApprovedDTO);

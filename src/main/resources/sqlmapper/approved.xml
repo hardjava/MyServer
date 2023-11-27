@@ -30,7 +30,7 @@
         WHERE isApproved = false
     </select>
 
-    <insert id="insertApproved" parameterType="result">
+    <insert id="insertApproved">
         INSERT INTO APPROVED(isApproved, house_id) VALUES (#{isApproved}, #{houseId})
     </insert>
 

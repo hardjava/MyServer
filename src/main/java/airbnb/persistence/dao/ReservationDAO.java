@@ -3,11 +3,13 @@ package airbnb.persistence.dao;
 import airbnb.exception.ImpossibleCancelException;
 import airbnb.network.Status;
 import airbnb.persistence.dto.CompletedStayDTO;
+import airbnb.persistence.dto.HouseAndReservationDTO;
 import airbnb.persistence.dto.ReservationDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import javax.naming.spi.ResolveResult;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ReservationDAO {
@@ -17,11 +19,11 @@ public class ReservationDAO {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
-    public List<ReservationDTO> getWaitingReservationStatusWAITING() {
-        List<ReservationDTO> list;
+    public List<HouseAndReservationDTO> getWaitingReservationStatusWAITINGByHostId(int hostId) {
+        List<HouseAndReservationDTO> list;
 
         try(SqlSession session = sqlSessionFactory.openSession()) {
-            list = session.selectList("mapper.ReservationMapper.getWaitingReservationStatusWAITING");
+            list = session.selectList("mapper.ReservationMapper.getWaitingReservationStatusWAITINGByHostId", hostId);
         }
 
         return list;
@@ -48,6 +50,13 @@ public class ReservationDAO {
         return list;
     }
 
+    public void deleteByReservationIdByHost(ReservationDTO reservationDTO) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            session.delete("mapper.ReservationMapper.deleteByReservationIdByHost", reservationDTO);
+            session.commit();
+        }
+    }
+
     // HOST -> 예약 현황 조회
     public List<ReservationDTO> getReservationByHouseId(int houseId) {
         List<ReservationDTO> list;
@@ -57,6 +66,7 @@ public class ReservationDAO {
         }
         return list;
     }
+
 
     public List<ReservationDTO> getReservationWithStatusAfterStayByHouseId(int houseId) {
         List<ReservationDTO> list;
@@ -95,18 +105,29 @@ public class ReservationDAO {
     public void deleteByReservationId(ReservationDTO reservationDTO) {
         try(SqlSession session = sqlSessionFactory.openSession()) {
             if (reservationDTO.getReservationStatus() == Status.BEFORE_STAY) {
-                session.delete("mapper.ReservationMapper.deleteByReservationId", reservationDTO.getReservationId());
-                session.commit();
+                LocalDate current = LocalDate.now();
+                LocalDate checkIn = reservationDTO.getCheckIn().toLocalDate();
+                if (checkIn.isBefore(current.minusDays(3))) {
+                    throw new ImpossibleCancelException("Check-in is not possible more than 3 days prior to check-in !");
+                } else {
+                    session.delete("mapper.ReservationMapper.deleteByReservationId", reservationDTO.getReservationId());
+                    session.commit();
+                }
             }
             else {
-                throw new ImpossibleCancelException("Cancellation not possible before approval");
+                if (reservationDTO.getReservationStatus() == Status.AFTER_STAY)
+                    throw new ImpossibleCancelException("Cancellation not possible before approval");
+                else if (reservationDTO.getReservationStatus() == Status.WAIT)
+                    throw new ImpossibleCancelException("Cancellation is not possible while waiting for approval !");
+                else if (reservationDTO.getReservationStatus() == Status.STAY)
+                    throw new ImpossibleCancelException("Cancellation is not possible during your stay !");
             }
         }
     }
 
     public void updateReservationStatus(ReservationDTO reservationDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            session.update("mapper.ReservationUpdate.updateReservationStatus", reservationDTO);
+            session.update("mapper.ReservationMapper.updateReservationStatus", reservationDTO);
             session.commit();
         }
     }

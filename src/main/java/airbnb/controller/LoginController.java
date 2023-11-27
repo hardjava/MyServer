@@ -19,6 +19,7 @@ public class LoginController {
     }
 
     public void login() throws IOException {
+        System.out.println("로그인 요청");
         LoginDTO loginDTO = (LoginDTO) protocol.getObject();
         LoginDAO loginDAO = new LoginDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
@@ -28,14 +29,17 @@ public class LoginController {
             protocol.setProtocolCode(Protocol.CODE_SUCCESS);
             protocol.setObject(userDTO);
             MyIOStream.oos.writeObject(protocol);
+            System.out.println("로그인 승인");
         } catch (InvalidIdException iie) {
             protocol.setProtocolCode(Protocol.CODE_ERROR);
             protocol.setObject(iie.getMessage());
             MyIOStream.oos.writeObject(protocol);
+            System.out.println("로그인 거절");
         } catch (InvalidPwdException ipe) {
             protocol.setProtocolCode(Protocol.CODE_ERROR);
             protocol.setObject(ipe.getMessage());
             MyIOStream.oos.writeObject(protocol);
+            System.out.println("로그인 거절");
         }
     }
 }

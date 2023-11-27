@@ -12,7 +12,6 @@ public class GuestHandler {
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_LOGIN_REQUEST:
                 loginController.login();
-                System.out.println("로그인 요청");
                 break;
             default:
                 System.out.println("알 수 없는 코드: ");
@@ -41,15 +40,12 @@ public class GuestHandler {
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SEND_MODIFY_NAME_INFO:
                 personalInfoEditController.modifyUserNameInfo();
-                System.out.println("유저 이름 변경");
                 break;
             case Protocol.CODE_SEND_MODIFY_PHONENUMBER_INFO:
                 personalInfoEditController.modifyUserPhoneNumberInfo();
-                System.out.println("유저 핸드폰 번호 변경");
                 break;
             case Protocol.CODE_SEND_MODIFY_BIRTHDAY_INFO:
                 personalInfoEditController.modifyUserBirthdayInfo();
-                System.out.println("유저 생일 변경");
                 break;
             default:
 

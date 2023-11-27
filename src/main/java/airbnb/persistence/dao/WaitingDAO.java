@@ -47,6 +47,14 @@ public class WaitingDAO {
             session.commit();
         }
     }
+
+    public void deleteWaitingByHouseId(int houseId) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            session.delete("mapper.WaitingMapper.deleteWaitingByHouseId", houseId);
+            session.commit();
+        }
+    }
+
     // 숙소 대기 큐 삭제
     public void deleteWaiting(int waitingId) {
         try (SqlSession session = sqlSessionFactory.openSession()) {

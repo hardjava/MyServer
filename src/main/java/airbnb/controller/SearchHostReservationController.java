@@ -22,6 +22,7 @@ public class SearchHostReservationController {
     }
 
     public void sendHouseByHostId() throws IOException {
+        System.out.println("HOST - 등록한 숙소 목록 요청");
         List<HouseDTO> list;
         HouseDAO houseDAO = new HouseDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         UserDTO userDTO = (UserDTO) protocol.getObject();
@@ -30,9 +31,13 @@ public class SearchHostReservationController {
 
         returnProtocol = new Protocol(Protocol.TYPE_VIEW_MY_HOUSE, Protocol.CODE_SUCCESS, list);
         MyIOStream.oos.writeObject(returnProtocol);
+
+        System.out.println("\tHOST - 등록한 숙소 목록 전달");
     }
 
     public void sendReservationByHouseId() throws IOException {
+        System.out.println("HOST - 숙소 예약 목록 요청");
+
         List<ReservationDTO> list;
         ReservationDAO reservationDAO = new ReservationDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         HouseDTO houseDTO = (HouseDTO) protocol.getObject();
@@ -40,5 +45,6 @@ public class SearchHostReservationController {
         list = reservationDAO.getReservationByHouseId(houseDTO.getHouseId());
         returnProtocol = new Protocol(Protocol.TYPE_VIEW_MY_HOUSE, Protocol.CODE_SUCCESS, list);
         MyIOStream.oos.writeObject(returnProtocol);
+        System.out.println("\tHOST - 숙소 예약 목록 전달");
     }
 }

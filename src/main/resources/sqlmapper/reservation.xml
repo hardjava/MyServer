@@ -27,17 +27,23 @@
 
     <select id="getCompletedStayReservationByUserId" resultMap="completedStayDTO" parameterType="int">
         SELECT reservation_id, house_name, check_in, check_out, reservation_status, cost
-        FROM HOUSE, RESERVATION
+        FROM HOUSE,
+             RESERVATION
         WHERE RESERVATION.house_id = HOUSE.house_id
-          AND RESERVATION.user_id = #{userId} AND RESERVATION.reservation_status = 'AFTER_STAY'
+          AND RESERVATION.user_id = #{userId}
+          AND RESERVATION.reservation_status = 'AFTER_STAY'
     </select>
 
     <select id="getBeforeStayReservationByUserId" resultMap="completedStayDTO" parameterType="int">
         SELECT reservation_id, house_name, check_in, check_out, reservation_status, cost
-        FROM HOUSE, RESERVATION
+        FROM HOUSE,
+             RESERVATION
         WHERE RESERVATION.house_id = HOUSE.house_id
-          AND RESERVATION.user_id = #{userId} AND (RESERVATION.reservation_status = 'BEFORE_STAY' OR RESERVATION.reservation_status = 'STAY' OR RESERVATION.reservation_status = 'WAIT')
+          AND RESERVATION.user_id = #{userId}
+          AND (RESERVATION.reservation_status = 'BEFORE_STAY' OR RESERVATION.reservation_status = 'STAY' OR
+               RESERVATION.reservation_status = 'WAIT')
     </select>
+
 
     <select id="getAll" resultMap="result">
         SELECT *
@@ -69,15 +75,21 @@
     </select>
 
     <delete id="deleteByReservationId" parameterType="int">
-        DELETE FROM RESERVATION
+        DELETE
+        FROM RESERVATION
+        WHERE reservation_id = #{reservationId}
+    </delete>
+
+    <delete id="deleteByReservationIdByHost">
+        DELETE
+        FROM RESERVATION
         WHERE reservation_id = #{reservationId}
     </delete>
 
     <select id="hasReview" resultType="java.lang.Boolean" parameterType="int">
-        SELECT EXISTS(
-            SELECT 1 FROM REVIEW
-            WHERE reservation_id = #{reservationId}
-        ) AS hasReview
+        SELECT EXISTS(SELECT 1
+                      FROM REVIEW
+                      WHERE reservation_id = #{reservationId}) AS hasReview
     </select>
 
     <select id="getHouseIdByReservationId" parameterType="int" resultType="int">
@@ -85,14 +97,47 @@
         FROM RESERVATION
         WHERE reservation_id = #{reservationId}
     </select>
-    
-    <select id="getWaitingReservationStatusWAITING">
-        SELECT *
+
+    <resultMap id="temp" type="airbnb.persistence.dto.HouseAndReservationDTO">
+        <result property="houseName" column="house_name"/>
+        <result property="reservationId" column="reservation_id"/>
+        <result property="guestNum" column="guest_num"/>
+        <result property="checkIn" column="check_in"/>
+        <result property="checkOut" column="check_out"/>
+        <result property="userId" column="user_id"/>
+        <result property="loginId" column="login_id"/>
+        <result property="cost" column="cost"/>
+        <result property="loginId" column="login_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPhone" column="user_phone"/>
+
+    </resultMap>
+    <select id="getWaitingReservationStatusWAITINGByHostId" parameterType="int" resultMap="temp">
+        SELECT HOUSE.house_name,
+               RESERVATION.reservation_id,
+               RESERVATION.guest_num,
+               RESERVATION.check_in,
+               RESERVATION.check_out,
+               RESERVATION.cost,
+               USER.user_id,
+               USER.login_id,
+               USER.user_name,
+               USER.user_phone
         FROM RESERVATION
-        WHERE  reservation_status = 'WAITING'
+                 JOIN
+             HOUSE ON RESERVATION.house_id = HOUSE.house_id
+                 JOIN
+             USER ON HOUSE.host_id = USER.user_id
+        WHERE reservation_status = 'WAIT'
+          AND HOUSE.host_id = #{hostId}
+          AND HOUSE.house_id IN (SELECT RESERVATION.house_id
+                                 FROM RESERVATION
+                                 WHERE RESERVATION.reservation_status = 'WAIT');
+
+
     </select>
 
-<!--    월별 예약 현황 및 수익 조회하기 위한 예약 리스트 반환-->
+    <!--    월별 예약 현황 및 수익 조회하기 위한 예약 리스트 반환-->
     <select id="getMonthlyProfitMyHouseId" parameterType="int">
         SELECT *
         FROM RESERVATION
@@ -103,6 +148,6 @@
         SELECT *
         FROM RESERVATION
         WHERE house_id = #{houseId}
-            AND reservation_status = 'AFTER_STAY'
+          AND reservation_status = 'AFTER_STAY'
     </select>
 </mapper>

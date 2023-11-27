@@ -2,6 +2,7 @@ package airbnb.persistence.dao;
 
 import airbnb.exception.ExistHouseException;
 import airbnb.persistence.dto.HouseAndDiscountDTO;
+import airbnb.persistence.dto.HouseAndHostDTO;
 import airbnb.persistence.dto.HouseDTO;
 import airbnb.persistence.dto.WaitingDTO;
 import org.apache.ibatis.session.SqlSession;
@@ -150,11 +151,11 @@ public class HouseDAO {
         return list;
     }
 
-    public List<HouseDTO> getWaitingHouse() {
-        List<HouseDTO> list;
+    public List<HouseAndHostDTO> getWaitingHouse() {
+        List<HouseAndHostDTO> list;
 
         try(SqlSession session = sqlSessionFactory.openSession()) {
-            list = session.selectList("mapper.HouseMapper.getWaitingHouse");
+            list = session.selectList("mapper.HouseMapper.getWaitingWithHostAndHouse");
         }
 
         return list;

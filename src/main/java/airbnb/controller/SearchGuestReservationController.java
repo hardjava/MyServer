@@ -24,21 +24,20 @@ public class SearchGuestReservationController {
 
 
     public void sendReservationList() throws IOException {//클라이언트로 예약 현황 리스트 보내는 메소드
+        System.out.println("GUEST - 유저 숙소 예약 현황 목록 요청");
         List<CompletedStayDTO> list;
         ReservationDAO reservationDAO = new ReservationDAO(MyBatisConnectionFactory.getSqlSessionFactory());
-        UserDTO userDTO = (UserDTO)protocol.getObject();
+        UserDTO userDTO = (UserDTO) protocol.getObject();
 
-        try{
-            list = reservationDAO.getBeforeStayReservationByUserId(userDTO.getUserId());
-            returnProtocol = new Protocol(Protocol.TYPE_SEARCH_RESERVATION, Protocol.CODE_SUCCESS, list);
-            MyIOStream.oos.writeObject(returnProtocol);
-        } catch (IOException e) {
-            returnProtocol = new Protocol(Protocol.TYPE_SEARCH_RESERVATION, Protocol.CODE_ERROR, e.getMessage());
-            MyIOStream.oos.writeObject(returnProtocol);
-        }   // 예외 바꿔줘야함
+        list = reservationDAO.getBeforeStayReservationByUserId(userDTO.getUserId());
+        returnProtocol = new Protocol(Protocol.TYPE_SEARCH_RESERVATION, Protocol.CODE_SUCCESS, list);
+        MyIOStream.oos.writeObject(returnProtocol);
+
+        System.out.println("\tGUEST - 유저 숙소 예약 현황 목록 전달");
     }
 
     public void requestReservationCancel() throws IOException {
+        System.out.println("GUEST - 숙소 예약 취소 요청");
         ReservationDTO reservationDTO = (ReservationDTO) protocol.getObject();
         ReservationDAO reservationDAO = new ReservationDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
@@ -46,10 +45,11 @@ public class SearchGuestReservationController {
             reservationDAO.deleteByReservationId(reservationDTO);
             returnProtocol = new Protocol(Protocol.TYPE_SEARCH_RESERVATION, Protocol.CODE_SUCCESS);
             MyIOStream.oos.writeObject(returnProtocol);
+            System.out.println("GUEST - 숙소 예약 최소 승인");
         } catch (ImpossibleCancelException e) {
-            returnProtocol = new Protocol(Protocol.TYPE_SEARCH_RESERVATION, Protocol.CODE_ERROR);
-            returnProtocol.setObject(e.getMessage());
+            returnProtocol = new Protocol(Protocol.TYPE_SEARCH_RESERVATION, Protocol.CODE_ERROR, e.getMessage());
             MyIOStream.oos.writeObject(returnProtocol);
+            System.out.println("GUEST - 숙소 예약 취소 거절");
         }
     }
 }

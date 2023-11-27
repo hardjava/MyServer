@@ -1,4 +1,5 @@
 package airbnb.controller;
+
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.MyBatisConnectionFactory;
@@ -19,19 +20,14 @@ public class StayedHouseController {
     }
 
     public void sendStayedHouseList() throws IOException {//클라이언트로 묵었던 숙소리스트 보내는 메소드
+        System.out.println("GUEST - 이용한 숙소 리스트 요청");
         List<CompletedStayDTO> list;
         ReservationDAO reservationDAO = new ReservationDAO(MyBatisConnectionFactory.getSqlSessionFactory());
-        UserDTO userDTO = (UserDTO)protocol.getObject();
-        try{
-            list = reservationDAO.getCompletedStayReservationByUserId(userDTO.getUserId());
-            returnProtocol = new Protocol(Protocol.TYPE_STAYED_HOUSE, Protocol.CODE_SUCCESS);
-            returnProtocol.setObject(list);
-            MyIOStream.oos.writeObject(returnProtocol);
-        } catch (IOException e) {
-            returnProtocol = new Protocol(Protocol.TYPE_STAYED_HOUSE, Protocol.CODE_ERROR);
-            returnProtocol.setObject(e.getMessage());
-            MyIOStream.oos.writeObject(returnProtocol);
-        }
+        UserDTO userDTO = (UserDTO) protocol.getObject();
+        list = reservationDAO.getCompletedStayReservationByUserId(userDTO.getUserId());
+        returnProtocol = new Protocol(Protocol.TYPE_STAYED_HOUSE, Protocol.CODE_SUCCESS);
+        returnProtocol.setObject(list);
+        MyIOStream.oos.writeObject(returnProtocol);
+        System.out.println("\tGUEST - 이용한 숙소 리스트 전달");
     }
-
 }

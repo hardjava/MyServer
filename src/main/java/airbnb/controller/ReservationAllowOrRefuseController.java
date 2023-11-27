@@ -5,7 +5,9 @@ import airbnb.network.Protocol;
 import airbnb.network.Status;
 import airbnb.persistence.MyBatisConnectionFactory;
 import airbnb.persistence.dao.ReservationDAO;
+import airbnb.persistence.dto.HouseAndReservationDTO;
 import airbnb.persistence.dto.ReservationDTO;
+import airbnb.persistence.dto.UserDTO;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,13 +21,16 @@ public class ReservationAllowOrRefuseController {
     }
 
     // HOST -> 예약 승인 대기 승인 or 거절
-    public void sendWaitingForReservationApprovalList() {
-        System.out.println("HOST - 에약 대기 리스트 요청");
+    public void sendWaitingForReservationApprovalList() throws IOException {
+        System.out.println("HOST - 예약 대기 리스트 요청");
+        UserDTO userDTO = (UserDTO) protocol.getObject();
+
         ReservationDAO reservationDAO = new ReservationDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
-        List<ReservationDTO> list = reservationDAO.getWaitingReservationStatusWAITING();
+        List<HouseAndReservationDTO> list = reservationDAO.getWaitingReservationStatusWAITINGByHostId(userDTO.getUserId());
         returnProtocol = new Protocol(Protocol.TYPE_RESERVATION_ALLOW_OR_REFUSE, Protocol.CODE_SUCCESS, list);
-        System.out.println("\t예약 리스트 전송");
+        MyIOStream.oos.writeObject(returnProtocol);
+        System.out.println("\tHOST - 예약 리스트 전송");
     }
 
     // HOST -> 예약 승인 or 거절 set
@@ -34,18 +39,13 @@ public class ReservationAllowOrRefuseController {
         ReservationDAO reservationDAO = new ReservationDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         ReservationDTO reservationDTO = (ReservationDTO) protocol.getObject();
 
-        if (reservationDTO.getReservationStatus() == Status.REFUSE) {   // 예약 거절
-            reservationDAO.deleteByReservationId(reservationDTO);
-            returnProtocol = new Protocol(Protocol.TYPE_RESERVATION_ALLOW_OR_REFUSE, Protocol.CODE_SUCCESS);
-            MyIOStream.oos.writeObject(returnProtocol);
-            System.out.println("\t예약 승인");
-        } else if (reservationDTO.getReservationStatus() == Status.BEFORE_STAY) {    // 예약 승인
-            reservationDAO.updateReservationStatus(reservationDTO);
-            returnProtocol = new Protocol(Protocol.TYPE_RESERVATION_ALLOW_OR_REFUSE, Protocol.CODE_SUCCESS);
-            System.out.println("\t예약 승인");
-        } else {
-            returnProtocol = new Protocol(Protocol.TYPE_RESERVATION_ALLOW_OR_REFUSE, Protocol.CODE_ERROR);
-            System.out.println("\t예약 거절");
-        }
+        reservationDAO.updateReservationStatus(reservationDTO);
+        returnProtocol = new Protocol(Protocol.TYPE_RESERVATION_ALLOW_OR_REFUSE, Protocol.CODE_SUCCESS);
+        MyIOStream.oos.writeObject(returnProtocol);
+
+        if (reservationDTO.getReservationStatus() == Status.BEFORE_STAY)
+            System.out.println("\tHOST - 예약 승인");
+        else
+            System.out.println("\tHOST - 예약 거절");
     }
 }

@@ -22,42 +22,46 @@ public class PersonalInfoEditController {
     }
 
     public void modifyUserNameInfo() throws IOException {//유저이름을 수정하는 메소드
+        System.out.println("GUEST - 이름 수정 요청");
         ModifyUserNameDTO modifyUserNameDTO = (ModifyUserNameDTO) protocol.getObject();
         UserDAO userDAO = new UserDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         try {
             userDAO.updateUserName(modifyUserNameDTO);
             returnProtocol = new Protocol(Protocol.TYPE_PERSONAL_INFO_EDIT, Protocol.CODE_SUCCESS);
             MyIOStream.oos.writeObject(returnProtocol);
+            System.out.println("\tGUEST - 이름 수정 승인");
         } catch (WrongUserNameException une) {
             returnProtocol = new Protocol(Protocol.TYPE_PERSONAL_INFO_EDIT, Protocol.CODE_ERROR, une.getMessage());
             MyIOStream.oos.writeObject(returnProtocol);
+            System.out.println("\tGUEST - 이름 수정 거절");
         }
     }
 
     public void modifyUserPhoneNumberInfo() throws IOException {//유저전화번호를 수정하는 메소드
+        System.out.println("GUEST - 전화 번호 수정 요청");
         ModifyPhoneNumberDTO modifyPhoneNumberDTO = (ModifyPhoneNumberDTO) protocol.getObject();
-        UserDAO userDAO = new UserDAO(MyBatisConnectionFactory.getSqlSessionFactory());
-        try {
+        if (modifyPhoneNumberDTO.getUserPhone().length() != 11) {
+            returnProtocol = new Protocol(Protocol.TYPE_PERSONAL_INFO_EDIT, Protocol.CODE_ERROR, new WrongPhoneNumberException("Wrong Phone Number").getMessage());
+            MyIOStream.oos.writeObject(returnProtocol);
+            System.out.println("\tGUEST - 전화 번호 수정 거절 -> 잘못된 전화 번호 입력");
+        } else {
+            UserDAO userDAO = new UserDAO(MyBatisConnectionFactory.getSqlSessionFactory());
             userDAO.updateUserPhone(modifyPhoneNumberDTO);
             returnProtocol = new Protocol(Protocol.TYPE_PERSONAL_INFO_EDIT, Protocol.CODE_SUCCESS);
             MyIOStream.oos.writeObject(returnProtocol);
-        } catch (WrongPhoneNumberException wpe) {
-            returnProtocol = new Protocol(Protocol.TYPE_PERSONAL_INFO_EDIT, Protocol.CODE_ERROR, wpe.getMessage());
-            MyIOStream.oos.writeObject(returnProtocol);
+            System.out.println("\tGUEST - 전화 번호 수정 승인");
         }
     }
 
     public void modifyUserBirthdayInfo() throws IOException {//유저 생년월일을 수정하는 메소드
+        System.out.println("GUEST - 생년 월일 수정 요청");
         ModifyBirthdayDTO modifyBirthdayDTO = (ModifyBirthdayDTO) protocol.getObject();
         UserDAO userDAO = new UserDAO(MyBatisConnectionFactory.getSqlSessionFactory());
-        try {
-            userDAO.updateUserBirthday(modifyBirthdayDTO);
-            returnProtocol = new Protocol(Protocol.TYPE_PERSONAL_INFO_EDIT, Protocol.CODE_SUCCESS);
-            MyIOStream.oos.writeObject(returnProtocol);
-        } catch (WrongBirthdayException wbe) {
-            returnProtocol = new Protocol(Protocol.TYPE_PERSONAL_INFO_EDIT, Protocol.CODE_ERROR, wbe.getMessage());
-            MyIOStream.oos.writeObject(returnProtocol);
-        }
+
+        userDAO.updateUserBirthday(modifyBirthdayDTO);
+        returnProtocol = new Protocol(Protocol.TYPE_PERSONAL_INFO_EDIT, Protocol.CODE_SUCCESS);
+        MyIOStream.oos.writeObject(returnProtocol);
+        System.out.println("\tGUEST - 생년 월일 수정 승인");
     }
 
 }

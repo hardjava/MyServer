@@ -21,6 +21,7 @@ public class SelectHouseViewDetailController {
     }
 
     public void sendMoreHouseInfo() throws IOException {
+        System.out.println("GUEST - 숙소 상세 정보 요청");
         MoreHouseInfoDTO moreHouseInfoDTO = new MoreHouseInfoDTO();
         HouseDTO houseDTO = (HouseDTO) protocol.getObject();
 
@@ -39,5 +40,6 @@ public class SelectHouseViewDetailController {
 
         returnProtocol.setObject(moreHouseInfoDTO);
         MyIOStream.oos.writeObject(returnProtocol);
+        System.out.println("\tGUEST - 숙소 상세 정보 전달");
     }
 }

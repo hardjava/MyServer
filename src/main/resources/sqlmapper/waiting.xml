@@ -9,6 +9,10 @@
         <result property="houseId" column="house_id" />
     </resultMap>
 
+    <delete id="deleteWaitingByHouseId" parameterType="int">
+        DELETE FROM WAITING
+        WHERE house_id = #{houseId}
+    </delete>
 
 <!--    승인 대기 조회-->
     <select id="getAll" resultMap="result">

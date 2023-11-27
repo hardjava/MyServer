@@ -21,7 +21,10 @@ public class HouseRegistrationController {
         this.protocol = protocol;
     }
 
+    // 숙박 등록 요청
     public void houseRegistration() throws IOException {// 클라이언트로(X) HOST 로부터 받은 숙소정보를 등록 하는 메소드
+        System.out.println("HOST - 숙박 등록 요청");
+
         RequestHouseDTO requestHouseDTO = (RequestHouseDTO) protocol.getObject();
         HouseDAO houseDAO = new HouseDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         AmenitiesDAO amenitiesDAO = new AmenitiesDAO(MyBatisConnectionFactory.getSqlSessionFactory());
@@ -35,17 +38,18 @@ public class HouseRegistrationController {
                     amenitiesDAO.insertAmenities(amenitiesDTO);
                 }
             }
-            System.out.println("숙박 등록 성공");
+            System.out.println("\tHOST - 숙박 등록 성공");
             returnProtocol = new Protocol(Protocol.TYPE_HOUSE_REGISTRATION, Protocol.CODE_SUCCESS);
             MyIOStream.oos.writeObject(returnProtocol);
         } catch (ExistHouseException e) {
-            System.out.println("숙박 등록 실패");
+            System.out.println("\tHOST - 숙박 등록 실패");
             returnProtocol = new Protocol(Protocol.TYPE_HOUSE_REGISTRATION, Protocol.CODE_ERROR, e.getMessage());
             MyIOStream.oos.writeObject(returnProtocol);
         }
     }
 
     public void getBasicAmenities() throws IOException {
+        System.out.println("HOST - 숙소 기본 편의 시설 요청");
         List<AmenitiesDTO> list;
         AmenitiesDAO amenitiesDAO = new AmenitiesDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
@@ -53,9 +57,12 @@ public class HouseRegistrationController {
 
         returnProtocol = new Protocol(Protocol.TYPE_HOUSE_REGISTRATION, Protocol.CODE_SUCCESS, list);
         MyIOStream.oos.writeObject(returnProtocol);
+        System.out.println("\tHOST - 숙소 기본 편의 시설 전달");
     }
 
     public void getSafetyAmenities() throws IOException {
+        System.out.println("HOST - 숙소 안전 편의 시설 요청");
+
         List<AmenitiesDTO> list;
         AmenitiesDAO amenitiesDAO = new AmenitiesDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
@@ -63,9 +70,13 @@ public class HouseRegistrationController {
 
         returnProtocol = new Protocol(Protocol.TYPE_HOUSE_REGISTRATION, Protocol.CODE_SUCCESS, list);
         MyIOStream.oos.writeObject(returnProtocol);
+
+        System.out.println("\tHOST - 숙소 안전 편의 시설 전달");
     }
 
     public void getAccessAmenities() throws IOException {
+        System.out.println("HOST - 숙소 접근성 편의 시설 요청");
+
         List<AmenitiesDTO> list;
         AmenitiesDAO amenitiesDAO = new AmenitiesDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
@@ -73,5 +84,7 @@ public class HouseRegistrationController {
 
         returnProtocol = new Protocol(Protocol.TYPE_HOUSE_REGISTRATION, Protocol.CODE_SUCCESS, list);
         MyIOStream.oos.writeObject(returnProtocol);
+
+        System.out.println("\tHOST - 숙소 접근성 편의 시설 전달");
     }
 }

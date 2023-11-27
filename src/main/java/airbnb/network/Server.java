@@ -1,9 +1,9 @@
 package airbnb.network;
 
+import airbnb.controller.AccommodationSituationController;
 import airbnb.controller.AdminHandler;
 import airbnb.controller.GuestHandler;
 import airbnb.controller.HostHandler;
-import airbnb.controller.ViewAccommodationRegistrationListController;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -118,7 +118,6 @@ public class Server {
 
                     case Protocol.TYPE_RESERVATION_ALLOW_OR_REFUSE:
                         hostHandler.receiveReservationAllowOrRefuse(protocol);
-
                         break;
                     case Protocol.TYPE_REVIEW_MANAGEMENT:
                         hostHandler.receiveReviewManagement(protocol);
@@ -130,37 +129,40 @@ public class Server {
                         switch (protocol.getProtocolCode()) {
                             case Protocol.CODE_REQUEST_ACCOMMODATION_REGISTRATION_LIST:
                                 adminHandler.receiveViewAccommodationRegistrationList(protocol);
-                                System.out.println("숙박 등록 목록 요청 처리");
+                               // System.out.println("숙박 등록 목록 요청 처리");
                                 break;
-                            case Protocol.CODE_SEND_APPROVAL_OR_REJECT_INFORMATION:
-                                System.out.println("승인 또는 거절 정보 전송 처리");
+//                     모임?       case Protocol.CODE_SEND_APPROVAL_OR_REJECT_INFORMATION:
+                               // System.out.println("승인 또는 거절 정보 전송 처리");
+//                                break;
+                            case Protocol.CODE_REQUEST_MORE_INFO:
+                                adminHandler.receiveViewAccommodationRegistrationList(protocol);
+                                break;
+                            case Protocol.CODE_SEND_REJECT_INFORMATION:
+                                adminHandler.receiveViewAccommodationRegistrationList(protocol);
+                                break;
+                                case Protocol.CODE_SEND_APPROVAL_FORMATION:
+                                adminHandler.receiveViewAccommodationRegistrationList(protocol);
                                 break;
                             case Protocol.CODE_SUCCESS:
-                                System.out.println("승인 또는 거절 정보 전송 성공 처리");
+                               // System.out.println("승인 또는 거절 정보 전송 성공 처리");
                                 break;
                             case Protocol.CODE_ERROR:
-                                System.out.println("승인 또는 거절 정보 전송 실패 처리");
+                               // System.out.println("승인 또는 거절 정보 전송 실패 처리");
                                 break;
                             default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
+                               // System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
                                 break;
                         }
                         break;
 
                     case Protocol.TYPE_MONTHLY_RESERVATION_STATUS_FOR_ACCOMMODATION:
+                        AccommodationSituationController accommodationSituationController = new AccommodationSituationController(protocol);
                         switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_SEND_CALENDAR_WITH_RESERVATION_DETAILS:
-                                System.out.println("예약 상세 정보가 포함된 달력 전송 처리");
+                            case Protocol.CODE_REQUEST_ACCOMMODATION_LIST:
+                                accommodationSituationController.sendApprovedHouseList();
                                 break;
-                            default:
-                                System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());
-                                break;
-                        }
-                        break;
-                    case Protocol.TYPE_MONTHLY_TOTAL_REVENUE_FOR_ACCOMMODATION:
-                        switch (protocol.getProtocolCode()) {
-                            case Protocol.CODE_SEND_TOTAL_SALES_FOR_MONTH:
-                                System.out.println("월별 총 매출 정보 전송 처리");
+                            case Protocol.CODE_REQUEST_CALCULATE:
+                                accommodationSituationController.sendReservationByHouseId();
                                 break;
                             default:
                                 System.out.println("알 수 없는 코드: " + protocol.getProtocolCode());

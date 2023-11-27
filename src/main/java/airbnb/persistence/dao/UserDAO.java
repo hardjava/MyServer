@@ -38,11 +38,16 @@ public class UserDAO {
     public void insertUser(UserDTO insertUserDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             UserDTO userDTO = session.selectOne("mapper.UserMapper.searchId", insertUserDTO.getLoginId());
-            if (userDTO == null) {
+            int count = session.selectOne("mapper.UserMapper.getUserNumByUserPhone", insertUserDTO.getUserPhone());
+            if (userDTO == null && count < 3) {
                 session.insert("mapper.UserMapper.insertUser", insertUserDTO);
                 session.commit();
             } else {
-                throw new ExsistIdException("Exist Id");
+                if (count >= 3) {
+                    throw new ExsistIdException("You can create up to 3 accounts per phone number !");
+                } else {
+                    throw new ExsistIdException("Already Exist Id !");
+                }
             }
         }
     }
@@ -58,33 +63,27 @@ public class UserDAO {
 
     public void updateUserBirthday(ModifyBirthdayDTO modifyBirthdayDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            int i = session.update("mapper.UserMapper.updateUserBirthday", modifyBirthdayDTO);
-            if (i == 0) {
-                new WrongBirthdayException("Wrong Birthday");
-            } else {
-                session.commit();
-            }
+            session.update("mapper.UserMapper.updateUserBirthday", modifyBirthdayDTO);
+            session.commit();
         }
     }
 
+
     public void updateUserPhone(ModifyPhoneNumberDTO modifyPhoneNumberDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            int i = session.update("mapper.UserMapper.updateUserPhone", modifyPhoneNumberDTO);
-            if (i == 0) {
-                new WrongPhoneNumberException("Wrong Phone Number");
-            } else {
-                session.commit();
-            }
+            session.update("mapper.UserMapper.updateUserPhone", modifyPhoneNumberDTO);
+            session.commit();
         }
     }
 
     public void updateUserName(ModifyUserNameDTO modifyUserNameDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            int i = session.update("mapper.UserMapper.updateUserName", modifyUserNameDTO);
-            if (i == 0) {
-                new WrongUserNameException("Wrong User Name");
-            } else {
+            UserDTO userDTO = session.selectOne("mapper.UserMapper.getUserByUserName");
+            if (userDTO == null) {
+                session.update("mapper.UserMapper.updateUserName", modifyUserNameDTO);
                 session.commit();
+            } else {
+                throw new WrongUserNameException("Wrong User Name");
             }
         }
     }

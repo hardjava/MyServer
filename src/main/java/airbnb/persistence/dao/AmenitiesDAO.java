@@ -18,7 +18,7 @@ public class AmenitiesDAO {
         List<AmenitiesDTO> list;
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            list = session.selectList("mapper.Amenities.getAll");
+            list = session.selectList("mapper.AmenitiesMapper.getAll");
         }
 
         return list;
