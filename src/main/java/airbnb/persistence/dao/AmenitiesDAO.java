@@ -24,6 +24,15 @@ public class AmenitiesDAO {
         return list;
     }
 
+    public List<AmenitiesDTO> getOption() {
+        List<AmenitiesDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.AmenitiesMapper.getOption");
+        }
+
+        return list;
+    }
     public List<AmenitiesDTO> getBasicAmenities() {
         List<AmenitiesDTO> list;
 

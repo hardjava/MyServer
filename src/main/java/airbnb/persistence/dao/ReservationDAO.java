@@ -1,6 +1,7 @@
 package airbnb.persistence.dao;
 
 import airbnb.exception.ImpossibleCancelException;
+import airbnb.exception.InvalidReservationException;
 import airbnb.network.Status;
 import airbnb.persistence.dto.CompletedStayDTO;
 import airbnb.persistence.dto.HouseAndReservationDTO;
@@ -78,6 +79,18 @@ public class ReservationDAO {
         return list;
     }
 
+    // 숙박 가능한지 불가능한지 확인하고 reservation 테이블에 넣어야 함
+    public void insert(ReservationDTO insertReservationDTO) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            boolean check = session.selectOne("mapper.ReservationMapper.checkAvailability", insertReservationDTO);
+            if (!check) {
+                throw new InvalidReservationException("This date cannot be reserved !");
+            } else {
+                session.insert("mapper.ReservationMapper.insert", insertReservationDTO);
+                session.commit();
+            }
+        }
+    }
     // GUEST -> 숙박 완료
     public List<CompletedStayDTO> getCompletedStayReservationByUserId(int userId) {
         List<CompletedStayDTO> list;

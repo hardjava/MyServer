@@ -1,8 +1,6 @@
 package airbnb.persistence.dao;
 
-import airbnb.exception.ExsistIdException;
-import airbnb.exception.WrongBirthdayException;
-import airbnb.exception.WrongPhoneNumberException;
+import airbnb.exception.ExistIdException;
 import airbnb.exception.WrongUserNameException;
 import airbnb.persistence.dto.ModifyBirthdayDTO;
 import airbnb.persistence.dto.ModifyPhoneNumberDTO;
@@ -39,14 +37,14 @@ public class UserDAO {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             UserDTO userDTO = session.selectOne("mapper.UserMapper.searchId", insertUserDTO.getLoginId());
             int count = session.selectOne("mapper.UserMapper.getUserNumByUserPhone", insertUserDTO.getUserPhone());
-            if (userDTO == null && count < 3) {
+            if (userDTO == null && count <= 3) {
                 session.insert("mapper.UserMapper.insertUser", insertUserDTO);
                 session.commit();
             } else {
-                if (count >= 3) {
-                    throw new ExsistIdException("You can create up to 3 accounts per phone number !");
+                if (count > 3) {
+                    throw new ExistIdException("You can create up to 3 accounts per phone number !");
                 } else {
-                    throw new ExsistIdException("Already Exist Id !");
+                    throw new ExistIdException("Already Exist Id !");
                 }
             }
         }

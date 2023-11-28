@@ -16,6 +16,11 @@
         <result property="cost" column="cost"/>
     </resultMap>
 
+    <insert id="insert">
+        INSERT INTO RESERVATION(house_id, user_id, guest_num, check_in, check_out, cost)
+        VALUES (#{houseId}, #{userId}, #{guestNum}, #{checkIn}, #{checkOut}, #{cost})
+    </insert>
+
     <resultMap id="completedStayDTO" type="airbnb.persistence.dto.CompletedStayDTO">
         <result property="reservationId" column="reservation_id"/>
         <result property="houseName" column="house_name"/>
@@ -50,10 +55,6 @@
         FROM RESERVATION
     </select>
 
-    <insert id="insertHouse">
-        INSERT INTO RESERVATION(house_id, user_id, reservation_status, guest_num, reservation_date, check_in, check_out)
-        VALUES (#{houseId}, #{userId}, #{reservationStatus}, #{guestNum}, #{reservationDate}, #{checkIn}, #{checkOut})
-    </insert>
 
     <update id="updateReservationStatus">
         UPDATE RESERVATION
@@ -86,7 +87,7 @@
         WHERE reservation_id = #{reservationId}
     </delete>
 
-    <select id="hasReview" resultType="java.lang.Boolean" parameterType="int">
+    <select id="hasReview" resultType="java.lang.Boolean">
         SELECT EXISTS(SELECT 1
                       FROM REVIEW
                       WHERE reservation_id = #{reservationId}) AS hasReview
@@ -104,9 +105,8 @@
         <result property="guestNum" column="guest_num"/>
         <result property="checkIn" column="check_in"/>
         <result property="checkOut" column="check_out"/>
-        <result property="userId" column="user_id"/>
-        <result property="loginId" column="login_id"/>
         <result property="cost" column="cost"/>
+        <result property="userId" column="user_id"/>
         <result property="loginId" column="login_id"/>
         <result property="userName" column="user_name"/>
         <result property="userPhone" column="user_phone"/>
@@ -150,4 +150,36 @@
         WHERE house_id = #{houseId}
           AND reservation_status = 'AFTER_STAY'
     </select>
+
+    <!-- HouseMapper.xml -->
+
+    <!--    예약 가능한지 불가능한지 검사하는거-->
+<!--<select id="checkAvailability" resultType="java.lang.Boolean">-->
+<!--<![CDATA[-->
+<!--    SELECT HOUSE.bedroom >= COALESCE(SUM(RESERVATION.guest_num), 0) + #{guestNum}-->
+<!--    FROM HOUSE-->
+<!--             LEFT JOIN RESERVATION ON HOUSE.house_id = RESERVATION.house_id-->
+<!--    WHERE HOUSE.house_id = #{houseId}-->
+<!--      AND RESERVATION.reservation_status IN ('BEFORE_STAY', 'STAY', 'WAIT')-->
+<!--      AND (-->
+<!--            (RESERVATION.check_out BETWEEN #{checkIn} AND #{checkOut})-->
+<!--            OR (RESERVATION.check_in < #{checkIn} AND #{checkOut} < RESERVATION.check_out AND RESERVATION.check_in < #{checkOut})-->
+<!--            OR (RESERVATION.check_in < #{checkOut} AND #{checkOut} < RESERVATION.check_out)-->
+<!--        )-->
+<!--]]>-->
+<!--</select>-->
+
+<select id="checkAvailability" resultType="boolean">
+    <![CDATA[
+    SELECT house.bedroom >= IFNULL(SUM(reservation.guest_num) + #{guestNum}, 0)
+    FROM HOUSE,
+         RESERVATION
+    WHERE HOUSE.house_id = #{houseId}
+      AND (reservation_status = 'BEFORE_STAY' OR reservation_status = 'STAY' OR reservation_status = 'WAIT')
+      AND ((reservation.check_out BETWEEN #{checkIn} AND #{checkOut})
+        OR (reservation.check_in BETWEEN #{checkIn} AND #{checkOut})
+        OR (RESERVATION.check_in < #{checkIn} AND #{checkOut} < check_out));
+    ]]>
+</select>
+
 </mapper>

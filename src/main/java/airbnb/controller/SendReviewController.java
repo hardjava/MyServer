@@ -1,6 +1,7 @@
 package airbnb.controller;
 
-import airbnb.exception.ExsistIdException;
+import airbnb.exception.ExistIdException;
+import airbnb.exception.ExistReivewException;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.MyBatisConnectionFactory;
@@ -26,10 +27,9 @@ public class SendReviewController {
             returnProtocol = new Protocol(Protocol.TYPE_SEND_REVIEW, Protocol.CODE_SUCCESS);
             MyIOStream.oos.writeObject(protocol);
             System.out.println("\tGUEST - 리뷰 등록 승인");
-        } catch (ExsistIdException e) {
-            returnProtocol = new Protocol(Protocol.TYPE_SEND_REVIEW, Protocol.CODE_ERROR);
-            protocol.setObject(e.getMessage());
-            MyIOStream.oos.writeObject(protocol);
+        } catch (ExistReivewException e) {
+            returnProtocol = new Protocol(Protocol.TYPE_SEND_REVIEW, Protocol.CODE_ERROR, e.getMessage());
+            MyIOStream.oos.writeObject(returnProtocol);
             System.out.println("\tGUEST - 리뷰 등록 거절");
         }
     }

@@ -54,7 +54,8 @@ public class Protocol implements Serializable {
 
     public static final int TYPE_SEARCH_ALL_HOUSE = 7;          // 전체 숙소 목록 조회
     public static final int CODE_SEARCH_ALL_HOUSE_REQUEST = 1;  // 등록된 전체 숙소 목록 요청----
-    public static final int CODE_SEND_ALL_HOUSE = 2;            // 전체 숙소 목록 전달(서버 →클라이언트)
+    public static final int CODE_SEARCH_ALL_HOUSE_REQUEST_DESC = 2; // 내림차순 정렬
+    public static final int CODE_SEARCH_ALL_HOUSE_REQUEST_ASC = 3; // 오름차순 정렬
 
 
     public static final int TYPE_SELECT_HOUSE_VIEW_DETAIL = 8;  // 선택한 숙소 상세보기
@@ -65,6 +66,7 @@ public class Protocol implements Serializable {
     public static final int CODE_SEND_RESERVATION_INFO = 1;     // 체크인, 체크아웃, 인원수 등 정보전달(클라이언트 → 서버)----
     public static final int CODE_RESERVATION_SUCCESS = 2;       // 예약 성공 전달(서버 → 클라이언트)
     public static final int CODE_RESERVATION_FAIL = 3;          // 예약 실패 전달( 서버 → 클라이언트)
+
     //===============================================
 
 
@@ -144,10 +146,13 @@ public class Protocol implements Serializable {
     public static final int CODE_SEND_SELECT_FILTER = 1;                            // 필터 옵션을 정해서 전달(클라이언트 -> 서버)
     public static final int CODE_SEND_FILTERED_HOUSE_LIST = 2;                      // 필터가 적용된 숙소 목록 전달(서버 ->클라이언트)
 
-    public static final int TYPE_CHECK_ACCOMMODATION_APPROVED=24;            //숙소 승인여부 확인
-    public static final int CODE_REQUEST_ACCOMMODATION_STATUS=1;            //숙소 처리 상태 리스트 요청
-    public static final int CODE_SEND_ACCOMMODATION_STATUS=2;               //숙소 처리 상태 리스트 전달
+    public static final int TYPE_CHECK_ACCOMMODATION_APPROVED = 24;            //숙소 승인여부 확인
+    public static final int CODE_REQUEST_ACCOMMODATION_STATUS = 1;            //숙소 처리 상태 리스트 요청
+    public static final int CODE_SEND_ACCOMMODATION_STATUS = 2;               //숙소 처리 상태 리스트 전달
 
+    // ============================= 게스트
+    public static final int TYPE_REQUEST_SEARCH = 25;           // 숙소 검색
+    public static final int CODE_REQUEST_SEARCH_WITH_FILTER = 1;
 
     //오류 코드
 //    public static final int CODE_ERROR = -1;

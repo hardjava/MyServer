@@ -1,10 +1,7 @@
 package airbnb.persistence.dao;
 
 import airbnb.exception.ExistHouseException;
-import airbnb.persistence.dto.HouseAndDiscountDTO;
-import airbnb.persistence.dto.HouseAndHostDTO;
-import airbnb.persistence.dto.HouseDTO;
-import airbnb.persistence.dto.WaitingDTO;
+import airbnb.persistence.dto.*;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -60,6 +57,33 @@ public class HouseDAO {
         return list;
     }
 
+    public List<HouseAndFeeDTO> getApprovedSetFeePolicy() {
+        List<HouseAndFeeDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.HouseMapper.getApprovedSetFeePolicy");
+        }
+        return list;
+    }
+
+    public List<HouseAndFeeDTO> getApprovedSetFeePolicyASC() {
+        List<HouseAndFeeDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.HouseMapper.getApprovedSetFeePolicyASC");
+        }
+        return list;
+    }
+
+    public List<HouseAndFeeDTO> getApprovedSetFeePolicyDESC() {
+        List<HouseAndFeeDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.HouseMapper.getApprovedSetFeePolicyDESC");
+        }
+        return list;
+    }
+
     // 게스트 -> 승인된 것만 조회 가능
     public List<HouseDTO> getApprovedHouseSetFeePolicy() {
         List<HouseDTO> list;
@@ -105,16 +129,10 @@ public class HouseDAO {
         return houseDTO;
     }
 
-    // 숙소 검색때 쓰면 됨 & 편의시설 조건 숙소 필터링 조회
-    // String List -> 편의시설 목록
-    public List<HouseDTO> getHouseByAmenities(List<String> amenities) {
-        List<HouseDTO> list;
-
+    public List<HouseAndFeeDTO> getHouseAndFeePolicyWithFilter(FilterDTO filterDTO) {
+        List<HouseAndFeeDTO> list;
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            list = session.selectList("mapper.HouseMapper.getHouseByAmenities", amenities);
-            AmenitiesDAO amenitiesDAO = new AmenitiesDAO(sqlSessionFactory);
-            amenitiesDAO.incrementAmenitiesCount(amenities);
-            // 검색 횟수 늘려주는건데 일단 여기 적어놓고 getHouseByAmenities 호출한데서 검색 횟수 증가하는게 맞을 듯함
+            list = session.selectList("mapper.HouseMapper.getFilteredHouses", filterDTO);
         }
 
         return list;
@@ -154,7 +172,7 @@ public class HouseDAO {
     public List<HouseAndHostDTO> getWaitingHouse() {
         List<HouseAndHostDTO> list;
 
-        try(SqlSession session = sqlSessionFactory.openSession()) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             list = session.selectList("mapper.HouseMapper.getWaitingWithHostAndHouse");
         }
 

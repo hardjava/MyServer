@@ -1,6 +1,6 @@
 package airbnb.controller;
 
-import airbnb.exception.ExsistIdException;
+import airbnb.exception.ExistIdException;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.MyBatisConnectionFactory;
@@ -8,8 +8,6 @@ import airbnb.persistence.dao.UserDAO;
 import airbnb.persistence.dto.UserDTO;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class SignController {
 
@@ -30,7 +28,7 @@ public class SignController {
             MyIOStream.oos.writeObject(protocol);
             System.out.println("\t회원가입 승인");
 
-        } catch (ExsistIdException eie) {
+        } catch (ExistIdException eie) {
             protocol.setProtocolCode(Protocol.CODE_ERROR);
             protocol.setObject(eie.getMessage());
             MyIOStream.oos.writeObject(protocol);

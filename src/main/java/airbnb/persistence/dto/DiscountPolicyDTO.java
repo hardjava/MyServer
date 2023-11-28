@@ -13,6 +13,9 @@ import java.io.Serializable;
 public class DiscountPolicyDTO implements Serializable {
     private int discountId, houseId, discountDay, discount_amount, discount_rate;
 
+    public DiscountPolicyDTO() {
+    }
+
     public DiscountPolicyDTO(int discountDay, int discount_amount, int discount_rate, int houseId) {
         this.discountDay = discountDay;
         this.discount_amount = discount_amount;

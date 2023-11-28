@@ -12,6 +12,11 @@
         <result property="count" column="count"/>
     </resultMap>
 
+    <select id="getOption" resultMap="result">
+        SELECT *
+        FROM AMENITIES
+        WHERE house_id = 1
+    </select>
     <select id="getAll" resultMap="result">
         SELECT *
         FROM AMENITIES

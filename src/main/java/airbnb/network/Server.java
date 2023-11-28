@@ -75,8 +75,13 @@ public class Server {
                     case Protocol.TYPE_REQUEST_RESERVATION:
                         guestHandler.receiveRequestReservationType(protocol);
                         break;
+
                     case Protocol.TYPE_FILTER:
                         guestHandler.receiveFilterType(protocol);
+                        break;
+
+                    case Protocol.TYPE_REQUEST_SEARCH:
+                        guestHandler.receiveSearchHouse(protocol);
                         break;
                         //=================================== 여기까지 게스트
 

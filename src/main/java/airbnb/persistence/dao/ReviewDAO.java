@@ -1,6 +1,7 @@
 package airbnb.persistence.dao;
 
-import airbnb.exception.ExsistIdException;
+import airbnb.exception.ExistIdException;
+import airbnb.exception.ExistReivewException;
 import airbnb.persistence.dto.ReviewDTO;
 import airbnb.persistence.dto.UserReviewDTO;
 import org.apache.ibatis.session.SqlSession;
@@ -22,7 +23,7 @@ public class ReviewDAO {
                 session.insert("mapper.ReviewMapper.insert", reviewDTO);
                 session.commit();
             } else {
-                throw new ExsistIdException("Already exist !");
+                throw new ExistReivewException("Already exist !");
             }
         }
     }

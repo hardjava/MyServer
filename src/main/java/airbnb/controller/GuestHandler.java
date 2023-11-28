@@ -118,6 +118,14 @@ public class GuestHandler {
                 searchAllHouseController.sendAllHouseList();
                 break;
 
+            case Protocol.CODE_SEARCH_ALL_HOUSE_REQUEST_ASC:    // 오름차순
+                searchAllHouseController.sendAllHouseListASC();
+                break;
+
+            case Protocol.CODE_SEARCH_ALL_HOUSE_REQUEST_DESC:// 내림차순
+                searchAllHouseController.sendAllHouseListDESC();
+                break;
+
             default:
 
                 break;
@@ -130,9 +138,7 @@ public class GuestHandler {
             case Protocol.CODE_SELECT_HOUSE_INFO_REQUEST:
                 selectHouseViewDetailController.sendMoreHouseInfo();
                 break;
-
             default:
-
                 break;
         }
     }
@@ -143,7 +149,6 @@ public class GuestHandler {
             case Protocol.CODE_SEND_RESERVATION_INFO:
                 requestReservationController.insertReservation();
                 break;
-
             default:
 
                 break;
@@ -163,4 +168,15 @@ public class GuestHandler {
         }
     }
 
+    public void receiveSearchHouse(Protocol protocol) throws IOException {
+        SearchHouseController searchHouseController = new SearchHouseController(protocol);
+        switch (protocol.getProtocolCode()) {
+            case Protocol.CODE_REQUEST_SEARCH_WITH_FILTER:
+                searchHouseController.sendHouseAndFeePolicyWithFilter();
+                break;
+            default:
+
+                break;
+        }
+    }
 }

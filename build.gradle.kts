@@ -16,7 +16,7 @@ dependencies {
     implementation("org.projectlombok:lombok:1.18.16")
     annotationProcessor("org.projectlombok:lombok:1.18.20")
     implementation("org.apache.commons", "commons-dbcp2", "2.8.0")
-    implementation("org.mybatis:mybatis:3.5.6")
+    implementation("org.mybatis:mybatis:3.5.14")
 }
 
 tasks.test {

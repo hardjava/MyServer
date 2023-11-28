@@ -31,30 +31,38 @@
         WHERE house_id = #{houseId}
     </update>
 
+    <select id="getDiscountPolicyByHouseId" parameterType="int" resultMap="result">
+        SELECT *
+        FROM DISCOUNT_POLICY
+        WHERE house_id = #{houseId}
+    </select>
+
+
     <update id="reservationFeeSynchronize">
         UPDATE RESERVATION
-        SET cost =
-            <if test="discount_amount != 0 and discount_rate == 0">
-                cost - #{discount_amount}
-            </if>
-            <if test="discount_rate != 0 and discount_amount == 0">
-                cost * (1 - #{discount_rate} / 100)
-            </if>
-            <if test="discount_amount == 0 and discount_rate == 0">
-                cost
-            </if>
+        SET cost = CASE
+                       WHEN #{discountAmount} != 0 THEN cost - #{discountAmount}
+                       WHEN #{discountRate} != 0 THEN cost * (1 - #{discountRate} / 100)
+                       ELSE cost
+            END
         WHERE house_id = #{houseId}
-        AND reservation_status IN ('WAIT', 'BEFORE_STAY')
+          AND reservation_status IN ('WAIT', 'BEFORE_STAY')
     </update>
 
-<!--    <update id="reservationFeeSynchronize" parameterMap="result">-->
-<!--    UPDATE RESERVATION-->
-<!--    SET cost = CASE-->
-<!--                   WHEN #{discountAmount} != 0 THEN cost - #{discountAmount}-->
-<!--                   WHEN #{discountRate} != 0 THEN cost * (1 - #{discountRate} / 100)-->
-<!--                   ELSE cost-->
-<!--        END-->
-<!--    WHERE house_id = #{houseId}-->
-<!--      AND reservation_status IN ('WAIT', 'BEFORE_STAY')-->
-<!--</update>-->
+<!--    <update id="reservationFeeSynchronize">-->
+<!--        UPDATE RESERVATION-->
+<!--        SET cost =-->
+<!--        <if test="discount_amount != 0 and discount_rate == 0">-->
+<!--            cost - #{discount_amount}-->
+<!--        </if>-->
+<!--        <if test="discount_rate != 0 and discount_amount == 0">-->
+<!--            cost * (1 - #{discount_rate} / 100)-->
+<!--        </if>-->
+<!--        <if test="discount_amount == 0 and discount_rate == 0">-->
+<!--            cost-->
+<!--        </if>-->
+<!--        WHERE house_id = #{houseId}-->
+<!--        AND reservation_status IN ('WAIT', 'BEFORE_STAY')-->
+<!--    </update>-->
+
 </mapper>
