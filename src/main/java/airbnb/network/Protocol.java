@@ -144,6 +144,10 @@ public class Protocol implements Serializable {
     public static final int CODE_SEND_SELECT_FILTER = 1;                            // 필터 옵션을 정해서 전달(클라이언트 -> 서버)
     public static final int CODE_SEND_FILTERED_HOUSE_LIST = 2;                      // 필터가 적용된 숙소 목록 전달(서버 ->클라이언트)
 
+    public static final int TYPE_CHECK_ACCOMMODATION_APPROVED=24;            //숙소 승인여부 확인
+    public static final int CODE_REQUEST_ACCOMMODATION_STATUS=1;            //숙소 처리 상태 리스트 요청
+    public static final int CODE_SEND_ACCOMMODATION_STATUS=2;               //숙소 처리 상태 리스트 전달
+
 
     //오류 코드
 //    public static final int CODE_ERROR = -1;
