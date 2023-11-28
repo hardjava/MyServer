@@ -42,7 +42,7 @@ public class Protocol implements Serializable {
     public static final int CODE_WRITTEN_REVIEW_REQUEST = 1;    // 작성한 리뷰 요청----
     public static final int CODE_SEND_REVIEW_INFO = 2;          // 리뷰정보 전달(서버 → 클라이언트)
     public static final int CODE_SEND_MODIFY_REVIEW = 3;        // 수정된 리뷰정보 전달(클라이언트 → 서버)----
-//    public static final int CODE_MODIFY_REVIEW_SUCCESS = 4;     // 수정성공
+//    public static final int CODEzx_MODIFY_REVIEW_SUCCESS = 4;     // 수정성공
 //    public static final int CODE_MODIFY_REVIEW_FAIL = 5;        // 수정실패
 
     public static final int TYPE_STAYED_HOUSE = 5;              // 이용한 숙소 리스트

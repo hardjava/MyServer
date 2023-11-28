@@ -22,6 +22,4 @@ public class DiscountPolicyDTO implements Serializable {
         this.discount_rate = discount_rate;
         this.houseId = houseId;
     }
-
-
 }
