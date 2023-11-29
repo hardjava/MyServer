@@ -27,5 +27,6 @@
         <mapper resource="sqlmapper/waiting.xml"/>
         <mapper resource="sqlmapper/approved.xml"/>
         <mapper resource="sqlmapper/discountpolicymapper.xml"/>
+        <mapper resource="sqlmapper/reply.xml"/>
     </mappers>
 </configuration>

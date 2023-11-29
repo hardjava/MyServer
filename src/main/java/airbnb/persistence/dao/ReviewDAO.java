@@ -2,6 +2,8 @@ package airbnb.persistence.dao;
 
 import airbnb.exception.ExistIdException;
 import airbnb.exception.ExistReivewException;
+import airbnb.persistence.dto.ReplyDTO;
+import airbnb.persistence.dto.ReviewCheckDTO;
 import airbnb.persistence.dto.ReviewDTO;
 import airbnb.persistence.dto.UserReviewDTO;
 import org.apache.ibatis.session.SqlSession;
@@ -28,6 +30,16 @@ public class ReviewDAO {
         }
     }
 
+    // 최근 리뷰 확인 -> 7일 이내 & 대댓글 작성 안한거
+    public List<ReviewCheckDTO> getReviewNotReply(int hostId) {
+        List<ReviewCheckDTO> list;
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            list = session.selectList("mapper.ReviewMapper.getReviewNotReply", hostId);
+        }
+
+        return list;
+    }
     public List<UserReviewDTO> getReviewByHouseId(int houseId) {
         List<UserReviewDTO> list;
 

@@ -17,7 +17,7 @@ public class MyBatisConnectionFactory {
             Reader reader = Resources.getResourceAsReader(resource);
             if (sqlSessionFactory == null) {
                 sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader, "development");
-                Class[] mappers = {AmenitiesMapper.class, ApprovedMapper.class, HouseMapper.class, LoginMapper.class, ReservationMapper.class, UserMapper.class, WaitingMapper.class, ReviewMapper.class, FeePolicyMapper.class, DiscountPolicyMapper.class}; // -> 메퍼 목록들 넣으면 됨
+                Class[] mappers = {AmenitiesMapper.class, ApprovedMapper.class, HouseMapper.class, LoginMapper.class, ReservationMapper.class, UserMapper.class, WaitingMapper.class, ReviewMapper.class, FeePolicyMapper.class, DiscountPolicyMapper.class, ReplyMapper.class}; // -> 메퍼 목록들 넣으면 됨
                 for (Class mapper : mappers) {
                     sqlSessionFactory.getConfiguration().addMapper(mapper);
                 }

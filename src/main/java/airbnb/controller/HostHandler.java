@@ -155,13 +155,14 @@ public class HostHandler {
         }
     }
 
-    public void receiveReviewManagement(Protocol protocol) {
+    public void receiveReviewManagement(Protocol protocol) throws IOException {
+        RequestReplyController requestReplyController = new RequestReplyController(protocol);
         switch (protocol.getProtocolCode()) {
-            case Protocol.CODE_REQUEST_MOST_RECENT_REVIEW_LIST:
-
+            case Protocol.CODE_REQUEST_NOT_REPLY_REVIEW:
+                requestReplyController.sendReviewNotReply();
                 break;
             case Protocol.CODE_SEND_REPLYING_TO_REVIEW:
-
+                requestReplyController.requestReply();
                 break;
 
             default:

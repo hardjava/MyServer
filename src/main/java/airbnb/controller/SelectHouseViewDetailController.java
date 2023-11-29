@@ -4,12 +4,12 @@ import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.MyBatisConnectionFactory;
 import airbnb.persistence.dao.*;
-import airbnb.persistence.dto.DiscountPolicyDTO;
-import airbnb.persistence.dto.FeePolicyDTO;
-import airbnb.persistence.dto.HouseDTO;
-import airbnb.persistence.dto.MoreHouseInfoDTO;
+import airbnb.persistence.dto.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class SelectHouseViewDetailController {
     Protocol protocol;
@@ -28,6 +28,7 @@ public class SelectHouseViewDetailController {
         ReservationDAO reservationDAO = new ReservationDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         ReviewDAO reviewDAO = new ReviewDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         DiscountPolicyDAO discountPolicyDAO = new DiscountPolicyDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+        ReplyDAO replyDAO = new ReplyDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
         moreHouseInfoDTO.setDiscountPolicyDTO(discountPolicyDAO.getDiscountPolicyByHouseId(houseDTO.getHouseId()));
         moreHouseInfoDTO.setAmenitiesDTOList(amenitiesDAO.getAmenitiesByHouseId(houseDTO.getHouseId()));
@@ -36,6 +37,15 @@ public class SelectHouseViewDetailController {
         moreHouseInfoDTO.setReservationDTOList(reservationDAO.getReservationByHouseId(houseDTO.getHouseId()));
         moreHouseInfoDTO.setReviewDTOList(reviewDAO.getReviewByHouseId(houseDTO.getHouseId()));
 
+        List<ReplyDTO> replyDTOList = new ArrayList<>();
+
+        for (ReservationDTO reservationDTO : moreHouseInfoDTO.getReservationDTOList()) {
+            ReplyDTO replyDTO =  replyDAO.getReplyWithReservationId(reservationDTO.getReservationId());
+            if (replyDTO != null)
+                replyDTOList.add(replyDTO);
+        }
+
+        moreHouseInfoDTO.setReplyDTOList(replyDTOList);
         Protocol returnProtocol = new Protocol(Protocol.TYPE_SELECT_HOUSE_VIEW_DETAIL, Protocol.CODE_SEND_SELECT_HOUSE_INFO, moreHouseInfoDTO);
 
         returnProtocol.setObject(moreHouseInfoDTO);

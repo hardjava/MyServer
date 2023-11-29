@@ -13,6 +13,7 @@
     </resultMap>
 
     <resultMap id="userReviewDTO" type="airbnb.persistence.dto.UserReviewDTO">
+        <result property="reservationId" column="reservation_id"/>
         <result property="star" column="star"/>
         <result property="review" column="review"/>
         <result property="userName" column="user_name"/>
@@ -24,7 +25,7 @@
     </insert>
 
     <select id="getReviewByHouseId" parameterType="int" resultMap="userReviewDTO">
-        SELECT REVIEW.star, REVIEW.review, USER.user_name
+        SELECT REVIEW.reservation_id, REVIEW.star, REVIEW.review, USER.user_name
         FROM REVIEW,
              USER,
              RESERVATION
@@ -43,5 +44,22 @@
         SELECT EXISTS(SELECT 1
                       FROM REVIEW
                       WHERE reservation_id = #{reservationId}) AS hasReview;
+    </select>
+
+    <select id="getReviewNotReply" parameterType="int" resultType="airbnb.persistence.dto.ReviewCheckDTO">
+        SELECT REVIEW.*,
+               USER.user_name,
+               USER.login_id,
+               HOUSE.house_name
+        FROM REVIEW
+                 JOIN
+             RESERVATION ON REVIEW.reservation_id = RESERVATION.reservation_id
+                 JOIN
+             HOUSE ON HOUSE.house_id = RESERVATION.house_id
+                 JOIN
+             USER ON USER.user_id = RESERVATION.user_id
+        WHERE REVIEW.reservation_id NOT IN (SELECT reservation_id FROM REPLY)
+          AND HOUSE.host_id = #{host_id}
+          AND RESERVATION.house_id = HOUSE.house_id;
     </select>
 </mapper>

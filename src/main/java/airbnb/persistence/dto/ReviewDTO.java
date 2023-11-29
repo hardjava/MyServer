@@ -16,6 +16,9 @@ public class ReviewDTO implements Serializable {
     private String review;
     private int houseId;
 
+    public ReviewDTO() {
+    }
+
     public ReviewDTO(int reservationId, int star, String review) {
         this.reservationId = reservationId;
         this.star = star;
