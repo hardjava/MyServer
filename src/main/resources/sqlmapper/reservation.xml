@@ -169,17 +169,28 @@
 <!--]]>-->
 <!--</select>-->
 
-<select id="checkAvailability" resultType="boolean">
-    <![CDATA[
-    SELECT house.bedroom >= IFNULL(SUM(reservation.guest_num) + #{guestNum}, 0)
-    FROM HOUSE,
-         RESERVATION
-    WHERE HOUSE.house_id = #{houseId}
-      AND (reservation_status = 'BEFORE_STAY' OR reservation_status = 'STAY' OR reservation_status = 'WAIT')
-      AND ((reservation.check_out BETWEEN #{checkIn} AND #{checkOut})
-        OR (reservation.check_in BETWEEN #{checkIn} AND #{checkOut})
-        OR (RESERVATION.check_in < #{checkIn} AND #{checkOut} < check_out));
-    ]]>
-</select>
+<!--<select id="checkAvailability" resultType="boolean">-->
+<!--    <![CDATA[-->
+<!--    SELECT house.bedroom >= COALESCE(SUM(reservation.guest_num), 0) + #{guestNum}-->
+<!--    FROM HOUSE-->
+<!--         LEFT JOIN RESERVATION ON HOUSE.house_id = RESERVATION.house_id-->
+<!--    WHERE HOUSE.house_id = #{houseId}-->
+<!--      AND (reservation_status IN ('WAIT', 'BEFORE_STAY', 'STAY'))-->
+<!--      AND ((RESERVATION.check_out BETWEEN #{checkIn} AND #{checkOut})-->
+<!--        OR (RESERVATION.check_in BETWEEN #{checkIn} AND #{checkOut})-->
+<!--        OR (RESERVATION.check_in < #{checkIn} AND #{checkOut} < RESERVATION.check_out))-->
+<!--    GROUP BY HOUSE.house_id;-->
+<!--    ]]>-->
+<!--</select>-->
 
+    <select id="checkAvailability" resultType="boolean">
+        SELECT house.bedroom >= IFNULL(SUM(reservation.guest_num), 0) + #{guestNum}
+        FROM HOUSE,
+        RESERVATION
+        WHERE HOUSE.house_id = #{houseId}
+        AND (reservation.reservation_status IN ('WAIT', 'BEFORE_STAY', 'STAY'))
+        AND ((reservation.check_out BETWEEN #{checkIn} AND #{checkOut})
+        OR (reservation.check_in BETWEEN #{checkIn} AND #{checkOut})
+        OR (#{checkIn} > RESERVATION.check_in  AND check_out > #{checkOut} ));
+    </select>
 </mapper>

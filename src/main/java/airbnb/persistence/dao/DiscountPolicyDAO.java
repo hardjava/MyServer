@@ -1,8 +1,13 @@
 package airbnb.persistence.dao;
 
+import airbnb.controller.ReservationAllowOrRefuseController;
+import airbnb.controller.SaleCalculator;
 import airbnb.persistence.dto.DiscountPolicyDTO;
+import airbnb.persistence.dto.ReservationDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+
+import java.util.List;
 
 public class DiscountPolicyDAO {
     private final SqlSessionFactory sqlSessionFactory;
@@ -21,7 +26,7 @@ public class DiscountPolicyDAO {
                 session.update("mapper.DiscountPolicyMapper.update", discountPolicyDTO);
                 session.commit();
             }
-            session.update("mapper.DiscountPolicyMapper.reservationFeeSynchronize", discountPolicyDTO);
+            // 동기화 해줘야 한다....
         }
     }
 
@@ -33,11 +38,4 @@ public class DiscountPolicyDAO {
         }
         return discountPolicyDTO;
     }
-
-//    public void reservationFeeSynchronize(DiscountPolicyDTO discountPolicyDTO) {
-//        try(SqlSession session = sqlSessionFactory.openSession()) {
-//            session.update("mapper.DiscountPolicyMapper.reservationFeeSynchronize", discountPolicyDTO);
-//            session.commit();
-//        }
-//    }
 }

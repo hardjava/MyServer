@@ -82,12 +82,12 @@ public class ReservationDAO {
     // 숙박 가능한지 불가능한지 확인하고 reservation 테이블에 넣어야 함
     public void insert(ReservationDTO insertReservationDTO) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            boolean check = session.selectOne("mapper.ReservationMapper.checkAvailability", insertReservationDTO);
-            if (!check) {
-                throw new InvalidReservationException("This date cannot be reserved !");
-            } else {
+            Boolean check = session.selectOne("mapper.ReservationMapper.checkAvailability", insertReservationDTO);
+            if (check || check == null) {
                 session.insert("mapper.ReservationMapper.insert", insertReservationDTO);
                 session.commit();
+            } else {
+                throw new InvalidReservationException("This date cannot be reserved !");
             }
         }
     }
