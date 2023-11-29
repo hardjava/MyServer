@@ -38,6 +38,6 @@ public class ReviewDTO implements Serializable {
             str.append("*");
         }
 
-        return String.format("%-10s\n%s", str, review);
+        return String.format("Star : %s\nReview : %s", str, review);
     }
 }
